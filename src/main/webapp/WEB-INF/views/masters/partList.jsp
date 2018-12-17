@@ -83,14 +83,14 @@
 							</div>
 							<div class="col-md-8"></div>
 							<div class="col-md-2" align="left">
-								<a href="${pageContext.request.contextPath}/showAddCompany"><strong>Add
-										Company </strong></a>
+							<%-- 	<a href="${pageContext.request.contextPath}/showAddCompany"><strong>Add
+										Company </strong></a> --%>
 							</div>
 
 						</div>
 						<div class="card-body card-block">
 							<form
-								action="${pageContext.request.contextPath}/deleteRecordofCompany"
+								action="${pageContext.request.contextPath}/deleteRecordofPart"
 								method="post">
 
 
@@ -101,40 +101,63 @@
 											<th class="check" style="text-align: center; width: 5%;"><input
 												type="checkbox" name="selAll" id="selAll" /> Select All</th>
 											<th style="text-align: center; width: 5%;">Sr No</th>
-											<th style="text-align: center">Company Name</th>
-											<th style="text-align: center">Company Address</th>
+											<th style="text-align: center">Part Name</th>
+											<th style="text-align: center">Part No</th>
+											<th style="text-align: center">Registration No.</th>
+											<th style="text-align: center">Part UOM Name</th>
+											<th style="text-align: center">Part Specification</th>
+											<th style="text-align: center">Tax Description</th>
+											<th style="text-align: center">Part MRP</th>
+											<th style="text-align: center">Ro. No.</th>
+										
+											
+											
 
-											<th style="text-align: center">Mobile. No.</th>
+									
 
 											<th style="text-align: center; width: 5%;">Action</th>
 
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${compList}" var="comp" varStatus="count">
-											<tr>
+										<c:forEach items="${pList}" var="pList" varStatus="count">
+										<tr>
 												<td><input type="checkbox" class="chk"
-													name="companyIds" id="companyIds${count.index+1}"
-													value="${comp.companyId}" /></td>
+													name="partIds" id="partIds${count.index+1}"
+													value="${pList.partId}" /></td>
 												<td style="text-align: center">${count.index+1}</td>
 
 
 												<td style="text-align: left"><c:out
-														value="${comp.compName}" /></td>
+														value="${pList.partName}" /></td>
 
 												<td style="text-align: left"><c:out
-														value="${comp.compOfficeAdd}" /></td>
+														value="${pList.partNo}" /></td>
 
-												<td style="text-align: center">${comp.contactNo1}</td>
+												
 
+												<td style="text-align: left"><c:out
+														value="${pList.partRegisterNo}" /></td>
+														
+														<td style="text-align: left"><c:out
+														value="${pList.partUomId}" /></td>
+														<td style="text-align: left"><c:out
+														value="${pList.partSpecification}" /></td>
+												
+														<td style="text-align: left"><c:out
+														value="${pList.partTaxId}" /></td>
+														<td style="text-align: left"><c:out
+														value="${pList.partMrp}" /></td>
+														<td style="text-align: left"><c:out
+														value="${pList.partRoNo}" /></td>
+																										
 												<td style="text-align: center"><a
-													href="${pageContext.request.contextPath}/editCompany/${comp.companyId}"><i
+													href="${pageContext.request.contextPath}/editPart/${pList.partId}"><i
 														class="fa fa-edit" title="Edit"></i> <span class="text-muted"></span></a>
 													&nbsp; <a
-													href="${pageContext.request.contextPath}/deleteCompany/${comp.companyId}"
+													href="${pageContext.request.contextPath}/deletePart/${pList.partId}"
 													onClick="return confirm('Are you sure want to delete this record');"><i
 														class="fa fa-trash-o" title="Delete"></i></a></td>
-
 											</tr>
 										</c:forEach>
 									</tbody>

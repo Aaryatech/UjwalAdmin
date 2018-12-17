@@ -83,14 +83,14 @@
 							</div>
 							<div class="col-md-8"></div>
 							<div class="col-md-2" align="left">
-								<a href="${pageContext.request.contextPath}/showAddCompany"><strong>Add
-										Company </strong></a>
+								<%-- <a href="${pageContext.request.contextPath}/showAddCompany"><strong>Add
+										Company </strong></a> --%>
 							</div>
 
 						</div>
 						<div class="card-body card-block">
 							<form
-								action="${pageContext.request.contextPath}/deleteRecordofCompany"
+								action="${pageContext.request.contextPath}/deleteRecordofCustomer"
 								method="post">
 
 
@@ -101,54 +101,99 @@
 											<th class="check" style="text-align: center; width: 5%;"><input
 												type="checkbox" name="selAll" id="selAll" /> Select All</th>
 											<th style="text-align: center; width: 5%;">Sr No</th>
-											<th style="text-align: center">Company Name</th>
-											<th style="text-align: center">Company Address</th>
-
-											<th style="text-align: center">Mobile. No.</th>
-
+											<th style="text-align: center">Customer Name</th>
+											<th style="text-align: center">Mobile No.</th>
+											<th style="text-align: center">Email</th>
+											<!-- <th style="text-align: center">PAN No</th>
+											<th style="text-align: center">GST No</th> -->
+											<th style="text-align: center">Vehicle No</th>
+											<th style="text-align: center">Registration No.</th>
+											<th style="text-align: center">Chassis No.</th>
+											<th style="text-align: center">Ro. No.</th>
+											
+											<!-- <th style="text-align: center">Customer Address</th>
+											<th style="text-align: center">State</td> -->
+											
+											
 											<th style="text-align: center; width: 5%;">Action</th>
-
+											<!-- <th style="text-align: center">More Details</th> -->
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${compList}" var="comp" varStatus="count">
+										<c:forEach items="${custList}" var="cust" varStatus="count">
 											<tr>
 												<td><input type="checkbox" class="chk"
-													name="companyIds" id="companyIds${count.index+1}"
-													value="${comp.companyId}" /></td>
-												<td style="text-align: center">${count.index+1}</td>
+													name="custIds" id="custIds${count.index+1}"
+													value="${cust.custId}" /></td>
+													
+											<td style="text-align: center">${count.index+1}</td>
 
+											<td style="text-align: left"><c:out
+														value="${cust.custName}" /></td>
 
-												<td style="text-align: left"><c:out
-														value="${comp.compName}" /></td>
+												<%-- <td style="text-align: left"><c:out
+														value="${cust.custAddress}" /></td> --%>
 
-												<td style="text-align: left"><c:out
-														value="${comp.compOfficeAdd}" /></td>
-
-												<td style="text-align: center">${comp.contactNo1}</td>
-
+											<td style="text-align: left"><c:out
+														value="${cust.custPhone}" /></td>
+												
+											<td style="text-align: left"><c:out
+														value="${cust.custEmail}" /></td>
+												
+											<%-- <td style="text-align: left"><c:out
+														value="${cust.custPan}" /></td>
+														
+												
+											<td style="text-align: left"><c:out
+														value="${cust.custGstn}" /></td> --%>	
+														
+											<td style="text-align: left"><c:out
+														value="${cust.custVehNo}" /></td>
+														
+													
+											<%-- 	<td style="text-align: left"><c:out
+														value="${cust.custState}" /></td> --%>
+														
+														
+											<td style="text-align: left"><c:out
+														value="${cust.custRegisNo}" /></td>
+													
+											<td style="text-align: left"><c:out
+														value="${cust.custChasiNo}" /></td>
+														
+											<td style="text-align: left"><c:out
+														value="${cust.custRoNo}" /></td>
+														
+												
 												<td style="text-align: center"><a
-													href="${pageContext.request.contextPath}/editCompany/${comp.companyId}"><i
+													href="${pageContext.request.contextPath}/editCustomer/${cust.custId}"><i
 														class="fa fa-edit" title="Edit"></i> <span class="text-muted"></span></a>
 													&nbsp; <a
-													href="${pageContext.request.contextPath}/deleteCompany/${comp.companyId}"
+													href="${pageContext.request.contextPath}/deleteCustomer/${cust.custId}"
 													onClick="return confirm('Are you sure want to delete this record');"><i
 														class="fa fa-trash-o" title="Delete"></i></a></td>
+														
+													<%-- 	<td style="text-align: center"><a
+													href="${pageContext.request.contextPath}/moreCustomerDetails/${cust.custId}"><i
+														class="" title="Edit"></i> <span class="text-muted">Details</span></a>
+													&nbsp; </td> --%>
 
 											</tr>
 										</c:forEach>
 									</tbody>
+											
 								</table>
 								<div class="col-lg-1">
 
 									<input type="submit" class="btn btn-primary" value="Delete"
 										id="deleteId"
 										onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to delete record');}"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 
 								</div>
 							</form>
+
 
 						</div>
 					</div>

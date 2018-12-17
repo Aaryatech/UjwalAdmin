@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujwal Billing Software</title>
+<title>Ujjwal Billing Software</title>
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
 
 
@@ -115,8 +115,8 @@
 							</div>
 							<div class="col-md-8"></div>
 							<div class="col-md-2" align="left">
-								<a href="${pageContext.request.contextPath}/showCustList"><strong>Tax
-										List</strong></a>
+								<%-- <a href="${pageContext.request.contextPath}/showCustList"><strong>Tax
+										List</strong></a> --%>
 							</div>
 
 						</div>
@@ -139,7 +139,22 @@
 
 									</div>
 
-									<div class="col-md-2">Hsn Code*</div>
+									<div class="col-md-2">CGST*</div>
+									<div class="col-md-4">
+										<input type="number" id="cgst_per" name="cgst_per"
+											style="width: 100%;" class="form-control"
+											value="${taxList.cgstPer}" autocomplete="off"
+											oninvalid="setCustomValidity('Please enter cgst price')"
+											
+											onchange="try{setCustomValidity('')}catch(e){}" required />
+										<span class="error" aria-live="polite"></span>
+
+									</div>	
+								</div>
+								<div class="form-group"></div>
+								<div class="row">
+									<div class="col-md-2">HSN Code*</div>
+									
 									<div class="col-md-4">
 										<input type="text" id="hsn_code" name="hsn_code" 
 											oninvalid="setCustomValidity('Please enter correct hsn code')"
@@ -149,56 +164,42 @@
 											required>
 
 									</div>
-								</div>
-								<div class="form-group"></div>
-								<div class="row">
-
-
-
-									<div class="col-md-2">Tax Price*</div>
-
-									<div class="col-md-4">
-										<textarea id="tax_per" name="tax_per" class="form-control"
-											style="width: 100%;" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter tax price')"
-										 required>${taxList.taxPer}</textarea>
-									</div>
-
-
 									
-									<div class="col-md-2">CGST Price*</div>
-									<div class="col-md-4">
-										<input type="text" id="cgst_per" name="cgst_per"
-											style="width: 100%;" class="form-control"
-											value="${taxList.cgstPer}" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter cgst price')"
-											
-											onchange="try{setCustomValidity('')}catch(e){}" required />
-										<span class="error" aria-live="polite"></span>
-
-									</div>
-								</div>
-
-
-								<div class="form-group"></div>
-								<div class="row">
-
-
-									<div class="col-md-2">SGST Price*</div>
+									
+									
+	
+									<div class="col-md-2">SGST*</div>
 
 									<div class="col-md-4">
-										<input type="text" id="sgst_per" name="sgst_per"  class="form-control"
+										<input type="number" id="sgst_per" name="sgst_per"  class="form-control"
 											oninvalid="setCustomValidity('Please enter correct sgst price')"
-											onchange="try{setCustomValidity('')}catch(e){}"
+											onchange="try{setCustomValidity('')}catch(e){}" onblur="gstCal()"
 											value="${taxList.sgstPer}"
 											style="width: 100%;" autocomplete="off"
 											required>
 
-									</div>	
-									
-									<div class="col-md-2">Igst Price*</div>
+									</div>
+								</div>
+
+
+								<div class="form-group"></div>
+								<div class="row">
+								<div class="col-md-2">CESS* (Optional)</div>
+							
 									<div class="col-md-4">
-										<input type="text" id="igst_per" name="igst_per" required
+										<input type="text" id="cess_per" name="cess_per" 
+											onblur="getCheck()" style="width: 100%;" class="form-control"
+											autocomplete="off"
+											oninvalid="setCustomValidity('Please enter cess Price')"
+											maxlength="20" value="${taxList.cessPer}"
+											
+											onchange="try{setCustomValidity('')}catch(e){}" /> <span
+											class="error" aria-live="polite"></span>
+
+									</div>
+									<div class="col-md-2">IGST*</div>
+									<div class="col-md-4">
+										<input type="number" id="igst_per" name="igst_per" required
 											style="width: 100%;" class="form-control" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter igst price')"
 											 value="${taxList.igstPer}"
@@ -209,19 +210,15 @@
 								
 								<div class="form-group"></div>
 								<div class="row">
-									<div class="col-md-2">CESS Price*</div>
-							
-									<div class="col-md-4">
-										<input type="text" id="cess_per" name="cess_per" required
-											onblur="getCheck()" style="width: 100%;" class="form-control"
-											autocomplete="off"
-											oninvalid="setCustomValidity('Please enter cess Price')"
-											maxlength="20" value="${taxList.cessPer}"
-											
-											onchange="try{setCustomValidity('')}catch(e){}" /> <span
-											class="error" aria-live="polite"></span>
+									<div class="col-md-2">Total Tax*</div>
 
+									<div class="col-md-4">
+										<input type="number" id="tax_per" name="tax_per" class="form-control"
+											style="width: 100%;" autocomplete="off" value="${taxList.taxPer}"
+											oninvalid="setCustomValidity('Please enter tax price')"
+										 required>
 									</div>
+									
 								
 								</div>
 								
@@ -418,7 +415,14 @@
 					});
 		});
 	</script>
-
+<script type="text/javascript">
+function gstCal(){
+var cgst = document.getElementById("cgst_per").value;
+var sgst = document.getElementById("sgst_per").value;
+var gstTotal = cgst+sgst;
+alert("IGST = "+gstTotal);
+}
+</script>
 
 
 	<script type="text/javascript">

@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujwal Billing Software</title>
+<title>Ujjwal Billing Software</title>
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
 
 
@@ -56,6 +56,14 @@
 .left {
 	text-align: left;
 }
+
+<style>
+div.scrollmenu {
+  background-color: #333;
+  overflow: auto;
+  white-space: nowrap;
+}
+
 </style>
 </head>
 <body>
@@ -115,8 +123,7 @@
 							</div>
 							<div class="col-md-8"></div>
 							<div class="col-md-2" align="left">
-								<a href="${pageContext.request.contextPath}/showCustList"><strong>Customer
-										List</strong></a>
+								<a href="${pageContext.request.contextPath}/showCustList"><strong>Customers List</strong></a>
 							</div>
 
 						</div>
@@ -140,6 +147,7 @@
 											required>
 
 									</div>
+									<span id="cName"></span>
 								</div>
 								<div class="form-group"></div>
 								<div class="row">
@@ -202,7 +210,7 @@
 								
 								<div class="form-group"></div>
 								<div class="row">
-									<div class="col-md-2">GST No*</div>
+									<div class="col-md-2">GST No.*</div>
 							
 									<div class="col-md-4">
 										<input type="text" id="cust_gstn" name="cust_gstn" required
@@ -210,28 +218,26 @@
 											autocomplete="off"
 											oninvalid="setCustomValidity('Please enter GST no')"
 											maxlength="20" value="${cust.custGstn}"
-											pattern="^([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-7]{1})([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$"
+											pattern="\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d[Z]{1}[A-Z\d]{1}"
 											onkeydown="upperCaseF(this)"
 											onchange="try{setCustomValidity('')}catch(e){}" /> <span
 											class="error" aria-live="polite"></span>
 
 									</div>
-								<div class="col-md-2">Registration No*</div>
+								<div class="col-md-2">Registration No.*</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_regis_no" name="cust_regis_no" required
 											style="width: 100%;" class="form-control"
-										
-											value="${cust.custRegisNo}" autocomplete="off"
-											/> <span
-											class="error" aria-live="polite"></span>
+											value="${cust.custRegisNo}" autocomplete="off"/> 
+											<span class="error" aria-live="polite" id="reg"></span>
 									</div>
-								
+																	
 								</div>
 								
 								<div class="form-group"></div>
 
 								<div class="row">
-									<div class="col-md-2">PAN No*</div>
+									<div class="col-md-2">PAN No.*</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_pan" name="cust_pan" required
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -244,7 +250,7 @@
 
 									</div>
 
-									<div class="col-md-2">Vhicle No*</div>
+									<div class="col-md-2">Vehicle No.*</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_veh_no" name="cust_veh_no" required
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -261,7 +267,7 @@
 								<div class="row">
 
 									
-									<div class="col-md-2">Ro No*</div>
+									<div class="col-md-2">Ro No.*</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_ro_no" name="cust_ro_no" required
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -272,17 +278,17 @@
 
 									</div>							
 									
-											<div class="col-md-2">Chasi No.*</div>
+											<div class="col-md-2">Chassis No.*</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_chasi_no" name="cust_chasi_no" 
-											style="width: 100%;" class="form-control"
+											style="width: 100%;" class="form-control" maxlength="17"
 											value="${cust.custChasiNo}" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter chasi no')"
-											onchange="try{setCustomValidity('')}catch(e){}"
-											/> <span class="error"
-											aria-live="polite"></span>
+											onchange="try{setCustomValidity('')}catch(e){}" required/> 
+											<span class="error"	aria-live="polite" id="chassis"></span>
 
 									</div>
+									<span></span>
 
 
 								</div>
@@ -293,12 +299,12 @@
 								<div class="col-lg-3">
 									<input type="submit" class="btn btn-primary" value="Submit"
 										id="submitButton"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 								</div>
 								<div class="col-lg-3">
 									<input type="reset" class="btn btn-primary" value="Clear"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 								</div>
 								
@@ -306,7 +312,7 @@
 							
 						</div>
 						
-						<div class="card-body card-block">
+						<%-- <div class="card-body card-block">
 							<form
 								action="${pageContext.request.contextPath}/deleteRecordofCustomer"
 								method="post">
@@ -322,21 +328,21 @@
 											<th style="text-align: center">Customer Name</th>
 											<th style="text-align: center">Customer Address</th>
 											<th style="text-align: center">Mobile. No.</th>
-											<th style="text-align: center">State</th>
+											<th style="text-align: center">State</th> 
 											<th style="text-align: center">Email</th>
-											<th style="text-align: center">GST No</th>
+											<!-- <th style="text-align: center">GST No</th>
 											<th style="text-align: center">Regs No</th>
 											<th style="text-align: center">PAN No</th>
 											<th style="text-align: center">Vhicle No</th>
 											<th style="text-align: center">Ro No</th>
 											<th style="text-align: center">Chasi No</th>
-											
+											 -->
 											
 
 									
 
 											<th style="text-align: center; width: 5%;">Action</th>
-
+											<th style="text-align: center">More Details</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -383,6 +389,11 @@
 													href="${pageContext.request.contextPath}/deleteCustomer/${cust.custId}"
 													onClick="return confirm('Are you sure want to delete this record');"><i
 														class="fa fa-trash-o" title="Delete"></i></a></td>
+														
+														<td style="text-align: center"><a
+													href="${pageContext.request.contextPath}/moreCustomerDetails/${cust.custId}"><i
+														class="" title="Edit"></i> <span class="text-muted">Details</span></a>
+													&nbsp; </td>
 
 											</tr>
 										</c:forEach>
@@ -394,13 +405,13 @@
 									<input type="submit" class="btn btn-primary" value="Delete"
 										id="deleteId"
 										onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to delete record');}"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 
 								</div>
 							</form>
 
-						</div>
+						</div> --%>
 						
 					</div>
 				</div>
@@ -455,6 +466,76 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
+
+
+<script type="text/javascript">
+	var minLength = 10;
+	var maxLength = 50;
+	$(document).ready(function(){
+	    $('#cust_name').blur(function(){
+	        var field = $(this).val();
+	        var charLength = $(this).val().length;
+	        if(charLength < minLength){
+	            $('#cName').text('Customer Name is short, minimum '+minLength+' required.');
+	        }else if(charLength > maxLength){
+	            $('#cName').text('Customer Name is not valid, maximum '+maxLength+' allowed.');
+	            $(this).val(field.substring(0, maxLength));
+	        }else{
+	            $('#cName').text('');
+	        }
+	    });
+	});	
+	</script>
+
+<script type="text/javascript">
+	var minLength = 10;
+	var maxLength = 50;
+	$(document).ready(function(){
+	    $('#cust_regis_no').blur(function(){
+	        var field = $(this).val();
+	        var charLength = $(this).val().length;
+	        if(charLength < minLength){
+	            $('#reg').text('Registration Number is short, minimum '+minLength+' required.');
+	        }else if(charLength > maxLength){
+	            $('#reg').text('Registration Number is not valid, maximum '+maxLength+' allowed.');
+	            $(this).val(field.substring(0, maxLength));
+	        }else{
+	            $('#reg').text('');
+	        }
+	    });
+	});	
+	</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+   $('#submitButton').submit(function(){
+        if ($('#cust_chasi_no').val() == ""){
+            alert('Enter Chassis Number');
+        }
+    });
+});
+</script>
+
+<script type="text/javascript">
+	var minLength = 10;
+	var maxLength = 50;
+	$(document).ready(function(){
+	    $('#cust_chasi_no').blur(function(){
+	        var field = $(this).val();
+	        var charLength = $(this).val().length;
+	        if(charLength < minLength){
+	            $('#chassis').text('Chassis Number is short, minimum '+minLength+' required.');
+	        }else if(charLength > maxLength){
+	            $('#chassis').text('Chassis Number is not valid, maximum '+maxLength+' allowed.');
+	            $(this).val(field.substring(0, maxLength));
+	        }else{
+	            $('#chassis').text('');
+	        }
+	    });
+	});	
+	</script>
+
+
 
 
 	<script>

@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Shiv Admin</title>
+<title>Ujjwal Billing Software</title>
 
 <c:url var="getPOHeaderByCustId" value="/getPOHeaderByCustId" />
 

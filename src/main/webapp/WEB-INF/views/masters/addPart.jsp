@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujwal Billing Software</title>
+<title>Ujjwal Billing Software</title>
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
 
 
@@ -115,7 +115,7 @@
 							</div>
 							<div class="col-md-8"></div>
 							<div class="col-md-2" align="left">
-								<a href="${pageContext.request.contextPath}/showCustList"><strong>Part
+								 <a href="${pageContext.request.contextPath}/showPartList"><strong>Part
 										List</strong></a>
 							</div>
 
@@ -127,7 +127,6 @@
 									value="${partList.partId}">
 
 								<div class="row">
-
 
 
 									<div class="col-md-2">Part Name*</div>
@@ -143,11 +142,11 @@
 									<div class="col-md-2">Part No.*</div>
 
 									<div class="col-md-4">
-										<textarea id="part_no" name="part_no" class="form-control"
-											style="width: 100%;" autocomplete="off"
+										<input type="text" id="part_no" name="part_no" class="form-control"
+											style="width: 50%;" autocomplete="off" value="${partList.partNo}"
 											oninvalid="setCustomValidity('Please enter part no.')"
 											maxlength="200"
-											onchange="try{setCustomValidity('')}catch(e){}" required>${partList.partNo}</textarea>
+											onchange="try{setCustomValidity('')}catch(e){}" required>
 									</div>
 								</div>
 								<div class="form-group"></div>
@@ -164,10 +163,10 @@
 										<span class="error" aria-live="polite"></span>
 									</div>
 								
-									<div class="col-md-2">Part UOM Name.*</div>
+									<div class="col-md-2">Measurement Unit*</div>
 									<div class="col-md-4">
-										<select id="part_tax_id" name="part_tax_id" class="standardSelect">
-											<option value="">Select Part UOM Name.</option>
+										<select id="measurement_of_unit" name="measurement_of_unit" class="standardSelect">
+											<option value="">Measurement Unit</option>
 
 											<c:forEach items="${muomList}" var="muom">
 												<option value="${muom.uomId}">${muom.uomName}</option>
@@ -187,10 +186,11 @@
 											 value="${partList.partSpecification}"
 											onchange="try{setCustomValidity('')}catch(e){}" /> 
 									</div>
-									<div class="col-md-2">Tax Description*</div>
+									
+									<div class="col-md-2">Select Tax*</div>
 									<div class="col-md-4">
 										<select id="part_tax_id" name="part_tax_id" class="standardSelect">
-											<option value="">Select Tax Description</option>
+											<option value="">Select Tax</option>
 
 											<c:forEach items="${tList}" var="tax">
 												<option value="${tax.taxId}">${tax.taxDesc}</option>
@@ -206,7 +206,7 @@
 								<div class="row">
 									<div class="col-md-2">Part MRP*</div>
 									<div class="col-md-4">
-										<input type="text" id="part_mrp" name="part_mrp" required
+										<input type="number" id="part_mrp" name="part_mrp" required
 											style="width: 100%;" class="form-control"
 											oninvalid="setCustomValidity('Please enter part mrp')"
 											
@@ -275,7 +275,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${getList}" var="pList" varStatus="count">
+										<c:forEach items="${pList}" var="pList" varStatus="count">
 											<tr>
 												<td><input type="checkbox" class="chk"
 													name="partIds" id="partIds${count.index+1}"
@@ -295,12 +295,12 @@
 														value="${pList.partRegisterNo}" /></td>
 														
 														<td style="text-align: left"><c:out
-														value="${pList.uomName}" /></td>
+														value="${pList.partUomId}" /></td>
 														<td style="text-align: left"><c:out
 														value="${pList.partSpecification}" /></td>
 												
 														<td style="text-align: left"><c:out
-														value="${pList.taxDesc}" /></td>
+														value="${pList.partTaxId}" /></td>
 														<td style="text-align: left"><c:out
 														value="${pList.partMrp}" /></td>
 														<td style="text-align: left"><c:out

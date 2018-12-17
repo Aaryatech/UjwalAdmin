@@ -1,3 +1,4 @@
+
 <html>
 <head>
 <style>
@@ -26,7 +27,7 @@ html {
 					aria-expanded="false" aria-label="Toggle navigation">
 					<i class="fa fa-bars"></i>
 				</button>
-				<a class="navbar-brand" href="./getLogin"> Ujwal Admin </a> <a
+				<a class="navbar-brand" href="./getLogin"> Ujjwal Admin </a> <a
 					class="navbar-brand hidden" href="./"> </a>
 			</div>
 
@@ -46,31 +47,40 @@ html {
 					</a>
 						<ul class="sub-menu children dropdown-menu ">
 
-							<li class="active"><i class="fa fa-puzzle-piece"></i><a
+							<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddCompany">Add
 									Company</a></li>
 
 					
-							<li class="active"><i class="fa fa-puzzle-piece"></i><a
+							<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddCustomer">Add
 									Customer</a></li>
+									
+							<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showCustList">Customer
+								List</a></li>
 
-							<li class="active"><i class="fa fa-puzzle-piece"></i><a
+							<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showAddUom">Add
+									Measurement Unit</a></li>
+
+							<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showAddTax">Add
+									 Tax</a></li>
+
+							<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddPart">Add
 									Part</a></li>
+									
+							<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showPartList">Part
+									List</a></li>
 
-							<li class="active"><i class="fa fa-puzzle-piece"></i><a
-								href="${pageContext.request.contextPath}/showAddTax">
-									Add Tax</a></li>
-
-							<li class="active"><i class="fa fa-puzzle-piece"></i><a
+							<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddLocation">Add
 									Location</a></li>
 
-							<li class="active"><i class="fa fa-puzzle-piece"></i><a
-								href="${pageContext.request.contextPath}/showAddUom">Add
-									Uom</a></li>
-
+							
 							<%-- 		<li class="active"><i class="fa fa-puzzle-piece"></i><a
 								href="${pageContext.request.contextPath}/showCustList">
 									Customer List</a></li>
@@ -160,7 +170,7 @@ html {
 					<li class="menu-item-has-children dropdown"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="true"> <i
-							class="menu-icon fa fa-table"></i> Transaction
+							class="menu-icon fa fa-calculator"></i> Transaction
 					</a>
 						<ul class="sub-menu children dropdown-menu ">
 							<li class="active"><i class="fa fa-puzzle-piece"></i><a

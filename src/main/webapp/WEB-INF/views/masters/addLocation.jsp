@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Shiv Admin</title>
+<title>Ujjwal Billing Software</title>
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
 
 
@@ -115,8 +115,8 @@
 							</div>
 							<div class="col-md-8"></div>
 							<div class="col-md-2" align="left">
-								<a href="${pageContext.request.contextPath}/showCompList"><strong>Location
-										List</strong></a>
+								<%-- <a href="${pageContext.request.contextPath}/showCompList"><strong>Location
+										List</strong></a> --%>
 							</div>
 
 						</div>
@@ -129,17 +129,16 @@
 								<div class="form-group"></div>
 								<div class="row">
 
-									<div class="col-md-2">Location Name*</div>
+									<div class="col-md-2">Select Company*</div>
 
 									<div class="col-md-4">
 									
-									<input type="text" id="loc_name" name="loc_name"
-											oninvalid="setCustomValidity('Please enter correct company name')"
-											onchange="try{setCustomValidity('')}catch(e){}"
-											pattern="^[A-Za-z\s]+$" value="${editLoc.location_name}"
-										 	autocomplete="off" class="form-control"
-											required>
-									
+										 <select name="compId" id="compId" class="form-control chosen" tabindex="6" required>
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											 </c:forEach>
+										</select>
 										
 									</div>
 
@@ -154,17 +153,8 @@
 											onchange="try{setCustomValidity('')}catch(e){}" required>${editLoc.locationAddress}</textarea>
 									</div>
 								</div>
-
-
-<!--  -->
-
-
-
-<!--  -->
-
-
+								
 								<div class="form-group"></div>
-
 								<div class="row">
 									<div class="col-md-2">Email Id*</div>
 									<div class="col-md-4">
@@ -178,14 +168,15 @@
 
 									</div>
 
-									<div class="col-md-2">Company Code</div>
+									<div class="col-md-2">Location Name*</div>
 									<div class="col-md-4">
-										 <select name="compId" id="compId" class="form-control chosen" tabindex="6" required>
-											<option value="">Select Company</option>
-											<c:forEach items="${compList}" var="makeList"> 
-												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
-											 </c:forEach>
-										</select>
+									
+									<input type="text" id="loc_name" name="loc_name"
+											oninvalid="setCustomValidity('Please enter correct company name')"
+											onchange="try{setCustomValidity('')}catch(e){}"
+											pattern="^[A-Za-z\s]+$" value="${editLoc.location_name}"
+										 	autocomplete="off" class="form-control"
+											required>
 									</div>
 								</div>
 								

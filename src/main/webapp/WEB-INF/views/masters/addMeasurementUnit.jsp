@@ -8,6 +8,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Ujjwal Billing Software</title>
+
+<c:url var="getUniqueUomNameCheck" value="/getUniqueUomNameCheck" />
+
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -75,69 +78,170 @@
 
 			<div class="row">
 
+				<c:choose>
+					<c:when test="${isError==1}">
+						<div class="col-sm-12">
+							<div
+								class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+
+								<button type="button" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+								<strong>Data not submitted</strong>
+							</div>
+						</div>
+					</c:when>
+
+					<c:when test="${isError==2}">
+						<div class="col-sm-12">
+							<div
+								class="sufee-alert alert with-close alert-success alert-dismissible fade show">
+
+								<button type="button" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+								<strong>Data Submitted Successfully</strong>
+							</div>
+						</div>
+					</c:when>
+
+				</c:choose>
+
 				<div class="col-xs-12 col-sm-12">
 					<div class="card">
 						<div class="card-header">
-							<div class="col-md-2">
-								<strong>${title}</strong>
-							</div>
-							<div class="col-md-8"></div>
-							<div class="col-md-2" align="left">
-								<a href="${pageContext.request.contextPath}/showAddCompany"><strong>Add
-										Company </strong></a>
-							</div>
-
+							<strong>${title}</strong>
 						</div>
 						<div class="card-body card-block">
-							<form
-								action="${pageContext.request.contextPath}/deleteRecordofCompany"
-								method="post">
+							<form action="${pageContext.request.contextPath}/insertUom"
+								id="submitForm" method="post">
 
+
+
+								<div class="form-group"></div>
+								<div class="row">
+									<div class="col-md-2">Measurement Unit*</div>
+									<div class="col-md-4">
+										<input type="text" id="uomName" name="uomName"
+											pattern="[a-zA-Z][a-zA-Z]*" value="${editUom.uomName}"
+											class="form-control" onblur="getUomNameCheck()"
+											autocomplete="off"
+											oninvalid="setCustomValidity('Please enter correct Uom Name')"
+											onchange="try{setCustomValidity('')}catch(e){}" required
+											style="width: 100%;">
+									</div>
+
+									<%-- <div class="col-md-2">Sort No(Optional)</div>
+
+									<div class="col-md-4">
+										<input type="text" id="sortNo" name="sortNo"
+											value="${editUom.sortNo}" class="form-control"
+											style="width: 100%;" autocomplete="off" maxlength="3"
+											pattern="[0-9]+"
+											oninvalid="setCustomValidity('Please enter Sort No')"
+											onchange="try{setCustomValidity('')}catch(e){}">
+									</div>
+ --%>
+									<input type="hidden" id="uomId" name="uomId"
+										value="${editUom.uomId}">
+
+								</div>
+								<div class="form-group"></div>
+
+
+								<div class="row">
+									<%-- <div class="col-md-2">Measurement Unit Short Name*</div>
+									<div class="col-md-4">
+										<input type="text" id="uomShortName" name="uomShortName"
+											autocomplete="off" value="${editUom.uomShortName}"
+											class="form-control" pattern="[a-zA-Z][a-zA-Z]*"
+											oninvalid="setCustomValidity('Please enter Uom Short Name')"
+											onchange="try{setCustomValidity('')}catch(e){}" required
+											style="width: 100%;">
+									</div> --%>
+									<div class="col-lg-2"></div>
+
+									<div class="col-lg-2">
+
+										<input type="submit" class="btn btn-primary" value="Submit"
+											id="submitButton"
+											style="align-content: center; width: 113px; margin-left: 40px;">
+									</div>
+
+									<div class="col-lg-2">
+
+										<input type="reset" class="btn btn-primary" value="Clear"
+											style="align-content: center; width: 113px; margin-left: 40px;">
+
+
+									</div>
+
+								</div>
+
+							</form>
+						</div>
+
+
+
+						<div class="card-body card-block">
+
+							<form
+								action="${pageContext.request.contextPath}/deleteRecordofUom"
+								method="post">
 
 								<table id="bootstrap-data-table"
 									class="table table-striped table-bordered">
+
 									<thead>
 										<tr>
 											<th class="check" style="text-align: center; width: 5%;"><input
-												type="checkbox" name="selAll" id="selAll" /> Select All</th>
-											<th style="text-align: center; width: 5%;">Sr No</th>
-											<th style="text-align: center">Company Name</th>
-											<th style="text-align: center">Company Address</th>
+												type="checkbox" name="selAll" id="selAll" />Select All</th>
 
-											<th style="text-align: center">Mobile. No.</th>
+											<th style="text-align: center; width: 5%;">Sr No</th>
+											<th style="text-align: center">Measurement Unit</th>
+											<!-- <th style="text-align: center">Measurement Unit Short
+												Name</th>
+											<th style="text-align: center">Sort No</th> -->
 
 											<th style="text-align: center; width: 5%;">Action</th>
 
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${compList}" var="comp" varStatus="count">
+										<c:forEach items="${muomList}" var="uom" varStatus="count">
 											<tr>
-												<td><input type="checkbox" class="chk"
-													name="companyIds" id="companyIds${count.index+1}"
-													value="${comp.companyId}" /></td>
+
+												<td><input type="checkbox" class="chk" name="uomIds"
+													id="uomIds${count.index+1}" value="${uom.uomId}" /></td>
+
 												<td style="text-align: center">${count.index+1}</td>
 
 
 												<td style="text-align: left"><c:out
-														value="${comp.compName}" /></td>
+														value="${uom.uomName}" /></td>
 
-												<td style="text-align: left"><c:out
-														value="${comp.compOfficeAdd}" /></td>
+												<%-- <td style="text-align: left"><c:out
+														value="${uom.uomShortName}" /></td>
 
-												<td style="text-align: center">${comp.contactNo1}</td>
+
+												<td style="text-align: right"><c:out
+														value="${uom.sortNo}" /></td>
+ --%>
 
 												<td style="text-align: center"><a
-													href="${pageContext.request.contextPath}/editCompany/${comp.companyId}"><i
-														class="fa fa-edit" title="Edit"></i> <span class="text-muted"></span></a>
+													href="${pageContext.request.contextPath}/editUom/${uom.uomId}"><i
+														class="fa fa-edit"></i> <span class="text-muted"></span></a>
 													&nbsp; <a
-													href="${pageContext.request.contextPath}/deleteCompany/${comp.companyId}"
+													href="${pageContext.request.contextPath}/deleteUom/${uom.uomId}"
 													onClick="return confirm('Are you sure want to delete this record');"><i
-														class="fa fa-trash-o" title="Delete"></i></a></td>
+														class="fa fa-trash-o"></i></a></td>
 
 											</tr>
 										</c:forEach>
 									</tbody>
+
 								</table>
 								<div class="col-lg-1">
 
@@ -150,7 +254,9 @@
 								</div>
 							</form>
 
+
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -160,15 +266,13 @@
 		<!-- .animated -->
 	</div>
 	<!-- .content -->
-
-
 	<!-- .animated -->
 	<!-- .content -->
-
-
 	<!-- Footer -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- Footer -->
+
+
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/vendor/jquery-2.1.4.min.js"></script>
@@ -178,7 +282,6 @@
 		src="${pageContext.request.contextPath}/resources/assets/js/plugins.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
-
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/data-table/datatables.min.js"></script>
@@ -205,12 +308,10 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
-
-
 	<script>
 		jQuery(document).ready(function() {
 			jQuery(".standardSelect").chosen({
-				disable_search_threshold : 2,
+				disable_search_threshold : 1,
 				no_results_text : "Oops, nothing found!",
 				width : "100%"
 			});
@@ -218,56 +319,32 @@
 	</script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#bootstrap-data-table-export').DataTable();
+			$('#bootstrap-data-table').DataTable();
 		});
 	</script>
 
 
-	<!-- <script type="text/javascript">
-	
-	function editComp(compId){
-		
-		//alert(catId);
-		
-		$.getJSON('${getEditCompany}',{
-			
-			compId : compId,
-			
-			ajax : 'true',
 
-		},
-		
-		function(data){
-			//document.getElementById('addDiv').style.display = "block";
-			$("#usrname_mr").val(data.msMarName);
-			$("#usrname_eng").val(data.msEngName);
-        	
-			//hidden field msId
-			$("#ms_id").val(data.msId);
-			
-			$("#contact_no").val(data.msContactNo);
-			 document.getElementById("contact_no").readOnly = true; 
-			$("#usr_pass").val(data.msPwd); 
-			$("#conf_pass").val(data.msPwd); 
-			document.getElementById("usr_role").options.selectedIndex =data.isAdmin;
-			$("#usr_role").trigger("chosen:updated");
-			var temp=new Array();
-			
-			temp=(data.hubIds).split(",");
-			//alert(temp);
-			$("#sel_hub").val(temp); 
-			$("#sel_hub").trigger("chosen:updated");
-
-			//$('#sel_hub').formcontrol('refresh');
-	 		document.getElementById('submitButton').disabled = false;
-
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$('input[id$=enq_date]').datepicker({
+				dateFormat : 'dd-mm-yy'
+			});
 
 		});
-		
-	}
-	
 	</script>
- -->
+	<script type="text/javascript">
+		$(function() {
+			$('#submitForm').submit(
+					function() {
+						$("input[type='submit']", this).val("Please Wait...")
+								.attr('disabled', 'disabled');
+						return true;
+					});
+		});
+	</script>
+
 
 	<script type="text/javascript">
 		$(document)
@@ -284,6 +361,37 @@
 																this.checked);
 											});
 						});
+	</script>
+
+	<script type="text/javascript">
+		function getUomNameCheck() {
+
+			var uomName = $("#uomName").val();
+
+			$.getJSON('${getUniqueUomNameCheck}', {
+
+				uomName : uomName,
+
+				ajax : 'true',
+
+			}, function(data) {
+				if (data.error == true) {
+					alert("Measurement Unit Name Already Exist");
+
+					document.getElementById("uomName").value = "";
+					/* setTimeout(function() {
+						document.getElementById("#deptName").focus();
+					}, 100); */
+					document.getElementById("submitButton").disabled = true;
+				} else {
+					document.getElementById("submitButton").disabled = false;
+
+				}
+			}
+
+			);
+
+		}
 	</script>
 
 </body>
