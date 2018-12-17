@@ -7,16 +7,16 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujjwal Billing Software</title>
+<title>Ujwal Billing Software</title>
 
 <c:url var="getCustById" value="/getCustById" />
 <c:url var="addPartDetail" value="/addPartDetail" />
 
 <c:url var="getPartListById" value="/getPartListById" />
-
+<c:url var="getItemForDelete" value="/getItemForDelete" />
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
 
-
+<c:url var="getItemForEdit" value="/getItemForEdit" />
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -90,7 +90,7 @@
 
 								<button type="button" class="close" data-dismiss="alert"
 									aria-label="Close">
-									<span aria-hidden="true">×</span>
+									<span aria-hidden="true">Ã—</span>
 								</button>
 								<strong>Data not Submitted</strong>
 							</div>
@@ -104,7 +104,7 @@
 
 								<button type="button" class="close" data-dismiss="alert"
 									aria-label="Close">
-									<span aria-hidden="true">×</span>
+									<span aria-hidden="true">Ã—</span>
 								</button>
 								<strong>Data Submitted Successfully</strong>
 							</div>
@@ -127,7 +127,7 @@
 
 						</div>
 						<div class="card-body card-block">
-							<form action="${pageContext.request.contextPath}/insertCustomer"
+							<form action="${pageContext.request.contextPath}/insertBill"
 								id="submitForm" method="post">
 							
 								<div class="row">
@@ -263,7 +263,8 @@
 
 									</div>
 								</div>
-
+          <input type="hidden" id="isEdit" name="isEdit" value="0">
+           <input type="hidden" id="index" name="index" value="0">
 								<div class="form-group"></div>
 
 								<div class="row">
@@ -301,21 +302,19 @@
 
 									<div class="col-md-4">
 										<select id="part_id" name="part_id" class="form-control" style="width: 50%;"
-										required
+									
 										
 											onchange="getPartDetail()">
 											<option value="">Select Part</option>
 												<c:forEach items="${pList}" var="part">
 												<option value="${part.partId}">${part.partName}</option>
 											</c:forEach>
-
 										</select>
-										
 									</div>
 									<div class="col-md-2">Quantity</div>
 
 									<div class="col-md-4">
-										<input type="text" id="qty" name="qty" required
+										<input type="text" id="qty" name="qty" 
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 									</div>
 								</div>
@@ -328,14 +327,14 @@
 
 									<div class="col-md-4">
 									
-										<input type="text" id="part_mrp" name="part_mrp" required
+										<input type="text" id="part_mrp" name="part_mrp" 
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 								
 									</div>
 									<div class="col-md-2">Disc %</div>
 
 									<div class="col-md-4">
-										<input type="text" id="disc" name="disc" required
+										<input type="text" id="disc" name="disc" 
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 									</div>
 								</div>
@@ -346,7 +345,7 @@
 
 									<div class="col-md-4">
 									
-										<input type="text" id="remark" name="remark" required
+										<input type="text" id="remark" name="remark" 
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 								
 									</div>	</div>
@@ -370,18 +369,19 @@
 									class="table table-striped table-bordered" >
 									<thead>
 										<tr>
-										<!-- 	<th class="check" style="text-align: center; width: 5%;"><input
-												type="checkbox" name="selAll" id="selAll" /> Select All</th> -->
+										<!-- <th class="check" style="text-align: center; width: 5%;"><input
+												type="checkbox" name="selAll" id="selAll" /> Select All</th> --> 
 											<th style="text-align: center; width: 5%;">Sr No</th>
 											<th style="text-align: center">Part Name</th>
+											 <th style="text-align: center">UOM Name</th>
 											<th style="text-align: center">Quantity</th>
 											<th style="text-align: center">MRP</th>
 											<th style="text-align: center">Disc %</th>
 											<th style="text-align: center">Disc Amount</th>
 											<th style="text-align: center">Tax %</th>
-											<th style="text-align: center">Tax Amount</th>
+											<th style="text-align: center">Taxable Amount</th>
 											<th style="text-align: center">Total Tax Amount</th>
-											<th style="text-align: center">Total</th>
+											<th style="text-align: center">Total</th> 
 										
 
 									
@@ -390,49 +390,8 @@
 	
 										</tr>
 									</thead>
-									<tbody>
-										<%-- <c:forEach items="${custList}" var="cust" varStatus="count">
-											<tr>
-												
-												<td style="text-align: center">${count.index+1}</td>
-
-
-												<td style="text-align: left"><c:out
-														value="${cust.custName}" /></td>
-
-												<td style="text-align: left"><c:out
-														value="${cust.custAddress}" /></td>
-
-												
-
-												<td style="text-align: left"><c:out
-														value="${cust.custPhone}" /></td>
-														
-														<td style="text-align: left"><c:out
-														value="${cust.custState}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custEmail}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custGstn}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custRegisNo}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custPan}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custVehNo}" /></td>
-														
-												
-												<td style="text-align: center"><a
-													href="${pageContext.request.contextPath}/editCustomer/${cust.custId}"><i
-														class="fa fa-edit" title="Edit"></i> <span class="text-muted"></span></a>
-													&nbsp; <a
-													href="${pageContext.request.contextPath}/deleteCustomer/${cust.custId}"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-														class="fa fa-trash-o" title="Delete"></i></a></td>
-
-											</tr>
-										</c:forEach> --%>
-									</tbody>
+									</table>
+									<!-- <table>
 									<tr></tr>
 							<tr><th>Remark</th>
 							
@@ -447,7 +406,7 @@
 											style="width: 100%;" class="form-control"/> 
 								</td></tr>
 									
-								</table>
+								</table> -->
 					
 							<div class="form-group"></div>
 								<div class="col-lg-4"></div>
@@ -607,34 +566,73 @@
 	</script>
 <script type="text/javascript">
 function add(){
-	 alert("hii");
+	 //alert("hii1");
 	
 	 var partId= document.getElementById("part_id").value;
-	alert("hii"+partId);
+	//alert("hii"+partId);
 	var qty = document.getElementById("qty").value;
-	
+	var isEdit = document.getElementById("isEdit").value;alert(isEdit);
+	var index= document.getElementById("index").value;
 	var partMrp = document.getElementById("part_mrp").value;
 	var disc = document.getElementById("disc").value;
 	var remark = document.getElementById("remark").value;
 	 
-	alert("hii");
+//	alert("hii2");
 	 
 	$.getJSON(
 					'${addPartDetail}',
 					{
-
-					 
+						isEdit :isEdit,
+						index:index,
 						 partId :partId,
 						 qty : qty,
 						 partMrp : partMrp,
 						 disc : disc,
 						 remark : remark,
 						ajax : 'true',
-
 					},
 
 				 	function(data) {
+						
+						/* alert("Order Data " +JSON.stringify(data)); */
+						
+				 var dataTable = $('#bootstrap-data-table')
+						.DataTable();
+				dataTable.clear().draw();
+
+				$.each(data,function(i, v) {
+									var total=v.cgstPer+v.sgstPer;
+									alert(total);
+							 var acButton = '<a href="#" class="action_btn" onclick="callDelete('
+											+ v.billDetailId
+											+ ','
+											+ i
+											+ ')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callEdit('
+											+ v.billDetailId
+											+ ','
+											+ i
+											+ ')"><i class="fa fa-edit"></i></a>' 
+									dataTable.row
+											.add(
+													[
+															i + 1,
+															v.partName,
+															v.uomName,
+															v.qty,
+															v.partMrp,
+															v.baseRate.toFixed(2),
+															v.discPer.toFixed(2),
+															total,
+															v.taxableAmount,
+															v.totalTax,
+															v.grandTotal,
+															
+															acButton
+															 ])
+											.draw();
+								});  
 					
+							
 				 		 
 						} 
 					
@@ -645,7 +643,85 @@ function add(){
 	document.getElementById("disc").value = "";
 	document.getElementById("remark").value = "";    
 	}
+	
+	
 
+function callEdit(billDetailId, index) {
+	$
+			.getJSON(
+					'${getItemForEdit}',
+					{
+						index : index,
+						ajax : 'true',
+
+					},
+					function(data) {
+
+						 document.getElementById("part_id").value = data.partId;
+						$("#part_id").trigger("chosen:updated");
+						document.getElementById("qty").value = data.qty;
+						document.getElementById("remark").value = data.remark;
+						document.getElementById("isEdit").value = 1;
+						document.getElementById("part_mrp").value = data.partMrp; 
+						document.getElementById("disc").value = data.discPer; 
+					});
+
+}
+
+function callDelete(billDetailId, index) {
+	$
+			.getJSON(
+					'${getItemForDelete}',
+					{
+						index : index,
+						ajax : 'true',
+
+					},
+					function(data) {
+
+						
+						/* alert("Order Data " +JSON.stringify(data)); */
+						
+				 var dataTable = $('#bootstrap-data-table')
+						.DataTable();
+				dataTable.clear().draw();
+
+				$.each(data,function(i, v) {
+									var total=v.cgstPer+v.sgstPer;
+									alert(total);
+							 var acButton = '<a href="#" class="action_btn" onclick="callDelete('
+											+ v.billDetailId
+											+ ','
+											+ i
+											+ ')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callEdit('
+											+ v.billDetailId
+											+ ','
+											+ i
+											+ ')"><i class="fa fa-edit"></i></a>' 
+									dataTable.row
+											.add(
+													[
+															i + 1,
+															v.partName,
+															v.uomName,
+															v.qty,
+															v.partMrp,
+															v.baseRate.toFixed(2),
+															v.discPer.toFixed(2),
+															total,
+															v.taxableAmount,
+															v.totalTax,
+															v.grandTotal,
+															
+															acButton
+															 ])
+											.draw();
+								});  
+					
+							
+					});
+
+}
 </script>
 
 	<script>
