@@ -8,7 +8,7 @@ public class BillDetails {
 	private int billDetailId; 
 	private int billHeaderId; 
 	private int partId; 
-
+	private String partName;
 	
 	private float qty;
 	private float mrp;
@@ -26,7 +26,7 @@ public class BillDetails {
 	private float cessRs;
 	private float totalTax;
 	private float grandTotal;
-
+	
 	private String hsnCode;
 	private String taxDesc;
 	private String uomName;
@@ -40,6 +40,12 @@ public class BillDetails {
 	private float ex_float2;
 	
 	
+	public String getPartName() {
+		return partName;
+	}
+	public void setPartName(String partName) {
+		this.partName = partName;
+	}
 	public String getHsnCode() {
 		return hsnCode;
 	}
@@ -81,12 +87,6 @@ public class BillDetails {
 	}
 	public void setQty(float qty) {
 		this.qty = qty;
-	}
-	public float getMrp() {
-		return mrp;
-	}
-	public void setMrp(float mrp) {
-		this.mrp = mrp;
 	}
 	public float getBaseRate() {
 		return baseRate;
@@ -220,18 +220,25 @@ public class BillDetails {
 	public void setEx_float2(float ex_float2) {
 		this.ex_float2 = ex_float2;
 	}
+	
+	public float getMrp() {
+		return mrp;
+	}
+	public void setMrp(float mrp) {
+		this.mrp = mrp;
+	}
 	@Override
 	public String toString() {
 		return "BillDetails [billDetailId=" + billDetailId + ", billHeaderId=" + billHeaderId + ", partId=" + partId
-				+ ", qty=" + qty + ", mrp=" + mrp + ", baseRate=" + baseRate + ", taxableAmount=" + taxableAmount
-				+ ", sgstPer=" + sgstPer + ", sgstRs=" + sgstRs + ", cgstPer=" + cgstPer + ", cgstRs=" + cgstRs
-				+ ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", discPer=" + discPer + ", discRs=" + discRs
-				+ ", cessPer=" + cessPer + ", cessRs=" + cessRs + ", totalTax=" + totalTax + ", grandTotal="
-				+ grandTotal + ", hsnCode=" + hsnCode + ", taxDesc=" + taxDesc + ", uomName=" + uomName + ", remark="
-				+ remark + ", delStatus=" + delStatus + ", ex_int1=" + ex_int1 + ", ex_int2=" + ex_int2 + ", ex_var1="
-				+ ex_var1 + ", ex_var2=" + ex_var2 + ", ex_float1=" + ex_float1 + ", ex_float2=" + ex_float2 + "]";
+				+ ", partName=" + partName + ", qty=" + qty + ", mrp=" + mrp + ", baseRate=" + baseRate
+				+ ", taxableAmount=" + taxableAmount + ", sgstPer=" + sgstPer + ", sgstRs=" + sgstRs + ", cgstPer="
+				+ cgstPer + ", cgstRs=" + cgstRs + ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", discPer="
+				+ discPer + ", discRs=" + discRs + ", cessPer=" + cessPer + ", cessRs=" + cessRs + ", totalTax="
+				+ totalTax + ", grandTotal=" + grandTotal + ", hsnCode=" + hsnCode + ", taxDesc=" + taxDesc
+				+ ", uomName=" + uomName + ", remark=" + remark + ", delStatus=" + delStatus + ", ex_int1=" + ex_int1
+				+ ", ex_int2=" + ex_int2 + ", ex_var1=" + ex_var1 + ", ex_var2=" + ex_var2 + ", ex_float1=" + ex_float1
+				+ ", ex_float2=" + ex_float2 + "]";
 	}
-	
 	
 	
 }
