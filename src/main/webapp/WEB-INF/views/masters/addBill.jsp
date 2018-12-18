@@ -134,9 +134,9 @@
 
 
 
-									<div class="col-md-2">Customer Name*</div>
-									<div class="col-md-10">
-										<select id="cust_id" name="cust_id" class="standardSelect" 
+									<div class="col-md-2">Customer Name</div>
+									<div class="col-md-4">
+										<select id="cust_id" name="cust_id" style="width: 100%;" class="form-control"
 										
 											onchange="getData()">
 											<option value="">Select Customer</option>
@@ -148,12 +148,19 @@
 
 									</div>
 									
+									<div class="col-md-2">Date</div>
+									<div class="col-md-4">
+										<input type="date" id="date" name="date" 
+											style="width: 100%;" class="form-control" 
+											value="" autocomplete="off"/> <span class="error" aria-live="polite"></span>
+									
+								</div>
 								</div>
 								<div class="form-group"></div>
 								<div class="row">
 
 
-								<div class="col-md-2">Mobile No*</div>
+								<div class="col-md-2">Mobile No</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_phone" name="cust_phone"
 											style="width: 100%;" class="form-control"
@@ -164,7 +171,7 @@
 										<span class="error" aria-live="polite"></span>
 
 									</div>
-									<div class="col-md-2">Customer Address*</div>
+									<div class="col-md-2">Customer Address</div>
 
 									<div class="col-md-4">
 										<textarea id="cust_address" name="cust_address" class="form-control"
@@ -184,7 +191,7 @@
 								<div class="row">
 
 	
-									<div class="col-md-2">Email Id*</div>
+									<div class="col-md-2">Email Id</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_email" name="cust_email" required
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -193,7 +200,7 @@
 											maxlength="50" value=""
 											onchange="try{setCustomValidity('')}catch(e){}" /> 
 									</div>
-									<div class="col-md-2">State*</div>
+									<div class="col-md-2">State</div>
 
 									<div class="col-md-4">
 										<input type="text" id="cust_state" name="cust_state"  class="form-control"
@@ -210,7 +217,7 @@
 								
 								<div class="form-group"></div>
 								<div class="row">
-									<div class="col-md-2">GST No*</div>
+									<div class="col-md-2">GST No</div>
 							
 									<div class="col-md-4">
 										<input type="text" id="cust_gstn" name="cust_gstn" required
@@ -224,7 +231,7 @@
 											class="error" aria-live="polite"></span>
 
 									</div>
-								<div class="col-md-2">Registration No*</div>
+								<div class="col-md-2">Registration No</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_regis_no" name="cust_regis_no" required
 											style="width: 100%;" class="form-control"
@@ -239,7 +246,7 @@
 								<div class="form-group"></div>
 
 								<div class="row">
-									<div class="col-md-2">PAN No*</div>
+									<div class="col-md-2">PAN No</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_pan" name="cust_pan" required
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -252,9 +259,9 @@
 
 									</div>
 
-									<div class="col-md-2">Vhicle No*</div>
+									<div class="col-md-2">Vhicle No</div>
 									<div class="col-md-4">
-										<input type="text" id="cust_veh_no" name="cust_veh_no" required
+										<input type="text" id="cust_veh_no" name="cust_veh_no" 
 											style="width: 100%;" class="form-control" autocomplete="off"
 										maxlength="20"
 										value=""
@@ -270,9 +277,9 @@
 								<div class="row">
 
 									
-									<div class="col-md-2">Ro No*</div>
+									<div class="col-md-2">Ro No</div>
 									<div class="col-md-4">
-										<input type="text" id="cust_ro_no" name="cust_ro_no" required
+										<input type="text" id="cust_ro_no" name="cust_ro_no" 
 											style="width: 100%;" class="form-control" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter Ro No')"
 											value="" maxlength="30"
@@ -281,7 +288,7 @@
 
 									</div>							
 									
-											<div class="col-md-2">Chasi No.*</div>
+											<div class="col-md-2">Chasi No.</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_chasi_no" name="cust_chasi_no" 
 											style="width: 100%;" class="form-control"
@@ -390,37 +397,42 @@
 	
 										</tr>
 									</thead>
-									</table>
-									<!-- <table>
-									<tr></tr>
-							<tr><th>Remark</th>
-							
-							<td>
-										<input type="text" id="remark_new" name="remark_new" required
-											style="width: 100%;" class="form-control"/> 
-								</td>
-										<th>Total Amount</th>
-							
-							<td>
-										<input type="text" id="total_amt" name="total_amt" required
-											style="width: 100%;" class="form-control"/> 
-								</td></tr>
 									
-								</table> -->
+									</table>
+									
 					
 							<div class="form-group"></div>
-								<div class="col-lg-4"></div>
+								<div class="col-lg-3"></div>
 								<div class="col-lg-3">
 									<input type="submit" class="btn btn-primary" value="Submit"
 										id="submitButton"
 										style="align-content: center; width: 113px; margin-left: 40px;">
 
 								</div>
-						</div>
-						</form>
+								
+						<div class="row">
 							
+									<div class="col-md-3">Remark</div>
+									<div class="col-lg-3">
+							<input type="text" id="remark_new" name="remark_new" required
+											style="width: 100%;" class="form-control" autocomplete="off"/> 
+								</div>
+						
+							
+									<div class="col-md-3" style="font-size:bold">Total Amount</div>
+									<div class="col-lg-3">
+							<input type="text" id="total_amt" name="total_amt" value="0" 
+											style="width: 100%;" class="form-control"/> 
+								</div></div>
 						</div>
+					
+					
+						</form>
+					
 					</div>
+							
+						
+					
 				</div>
 			</div>
 
@@ -595,13 +607,15 @@ function add(){
 				 	function(data) {
 						
 						/* alert("Order Data " +JSON.stringify(data)); */
-						
+						var gtotal=0;
 				 var dataTable = $('#bootstrap-data-table')
 						.DataTable();
 				dataTable.clear().draw();
 
 				$.each(data,function(i, v) {
 									var total=v.cgstPer+v.sgstPer;
+									gtotal=gtotal+v.grandTotal;
+									
 									alert(total);
 							 var acButton = '<a href="#" class="action_btn" onclick="callDelete('
 											+ v.billDetailId
@@ -619,7 +633,7 @@ function add(){
 															v.partName,
 															v.uomName,
 															v.qty,
-															v.partMrp,
+															v.mrp,
 															v.baseRate.toFixed(2),
 															v.discPer.toFixed(2),
 															total,
@@ -632,7 +646,7 @@ function add(){
 											.draw();
 								});  
 					
-							
+				document.getElementById("total_amt").value = gtotal;
 				 		 
 						} 
 					
@@ -662,7 +676,7 @@ function callEdit(billDetailId, index) {
 						document.getElementById("qty").value = data.qty;
 						document.getElementById("remark").value = data.remark;
 						document.getElementById("isEdit").value = 1;
-						document.getElementById("part_mrp").value = data.partMrp; 
+						document.getElementById("part_mrp").value = data.mrp; 
 						document.getElementById("disc").value = data.discPer; 
 					});
 
@@ -705,7 +719,7 @@ function callDelete(billDetailId, index) {
 															v.partName,
 															v.uomName,
 															v.qty,
-															v.partMrp,
+															v.mrp,
 															v.baseRate.toFixed(2),
 															v.discPer.toFixed(2),
 															total,
