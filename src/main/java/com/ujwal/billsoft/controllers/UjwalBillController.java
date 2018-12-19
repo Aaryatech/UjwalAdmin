@@ -26,7 +26,8 @@ import com.ujwal.billsoft.models.MCompany;
 import com.ujwal.billsoft.models.MCustomer;
 import com.ujwal.billsoft.models.MGetPart;
 import com.ujwal.billsoft.models.MPart;
-
+import com.ujwal.billsoft.models.Document;
+import com.ujwal.billsoft.models.Info;
 @Controller
 public class UjwalBillController {
 	RestTemplate restTamplate = null;
@@ -52,7 +53,8 @@ public class UjwalBillController {
 	}
 @RequestMapping(value="/showOrder", method=RequestMethod.GET)
 	
-	public ModelAndView addShoworderForm() {
+	public ModelAndView addShoworderForm()
+	{
 		
 		ModelAndView mav = new ModelAndView("masters/addOrder");
 		/*try {
@@ -282,11 +284,32 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		header.setGrandTotal(roundUp(total));
 		header.setTaxableAmt(roundUp(taxableAmt));
 		header.setDiscAmt(roundUp(disc));
-		header.setBillDetailList(detailList);
+	
 
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("docCode", 1);
+
+		Document doc = restTamplate.postForObject(Constants.url + "/getDocument", map, Document.class);
+		header.setInvoiceNo(doc.getDocPrefix() + "" + doc.getSrNo());
+		
+		header.setBillDetailList(detailList);
 		BillHeader insertbillHeadRes = rest.postForObject(Constants.url + "saveBill", header,BillHeader.class);
 		
-	
+		if (insertbillHeadRes != null) {
+
+			isError = 2;
+
+			map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("srNo", doc.getSrNo() + 1);
+			map.add("docCode", doc.getDocCode());
+
+			Info updateDocSr = rest.postForObject(Constants.url + "updateDocSrNo", map, Info.class);
+
+		} else {
+
+			isError = 1;
+		}
 		/*MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("docCode", 3);
 
