@@ -1,15 +1,28 @@
 package com.ujwal.billsoft;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.ujwal.billsoft.commons.Constants;
+import com.ujwal.billsoft.models.CradentialValidator;
 
 /**
  * Handles requests for the application home page.
@@ -33,7 +46,93 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "login";
 	}
+	
+
+	
+	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
+	public ModelAndView helloWorld(HttpServletRequest request, HttpServletResponse res) throws IOException {
+
+		String name = request.getParameter("username");
+		String password = request.getParameter("password");
+
+		ModelAndView mav = new ModelAndView("login");
+
+		res.setContentType("text/html");
+		PrintWriter pw = res.getWriter();
+		HttpSession session = request.getSession();
+		try {
+			System.out.println("Login Process " + name);
+
+			if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name == null || password == null) {
+
+				mav = new ModelAndView("login");
+			} else {
+				
+						System.out.println("Ok");
+						RestTemplate restTemplate = new RestTemplate();
+
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+						map.add("usrMob", name);
+						map.add("userPass", password);
+
+						CradentialValidator	userObj = restTemplate.postForObject(Constants.url + "/ujwal/loginUser", map, CradentialValidator.class);
+
+						String loginResponseMessage = "";
+
+						if (userObj.isError() == false) {
+
+							session.setAttribute("UserDetail", userObj);
+							CradentialValidator userResponse = (CradentialValidator) session.getAttribute("UserDetail");
+							session.setAttribute("userInfo", userResponse.getMusr());
+
+							mav = new ModelAndView("home");
+							session.setAttribute("userName", name);
+
+							loginResponseMessage = "Login Successful";
+							mav.addObject("loginResponseMessage", loginResponseMessage);
+
+							map = new LinkedMultiValueMap<String, Object>();
+							int userId = userObj.getMusr().getUserId();
+							map.add("usrId", userId);
+							System.out.println("user data" + userResponse.toString());
+
+							return mav;
+						} else {
+
+							mav = new ModelAndView("login");
+							System.out.println("Invalid login credentials");
+
+						}
+
+					}
+				} catch (Exception e) {
+					System.out.println("HomeController Login API Excep:  " + e.getMessage());
+					e.printStackTrace();
+
+				}	
+	return mav;
+}
+	
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		System.out.println("User Logout");
+
+		session.invalidate();
+		return "redirect:/";
+	}
+
+	/*@ExceptionHandler(LoginFailException.class)
+	public String redirectToLogin() {
+		System.out.println("HomeController Login Fail Excep:");
+
+		return "login";
+	}*/
+	
+
+
 	
 }
