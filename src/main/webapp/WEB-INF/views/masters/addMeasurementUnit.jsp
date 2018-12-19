@@ -308,6 +308,15 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
+
+
+	<script>
+	$('#selAll').click(function(e){
+    var table= $(e.target).closest('table');
+    $('td input:checkbox',table).prop('checked',this.checked);
+		});
+	</script>
+
 	<script>
 		jQuery(document).ready(function() {
 			jQuery(".standardSelect").chosen({

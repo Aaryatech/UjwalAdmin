@@ -34,6 +34,7 @@ public class UjwalTaxController {
 		restTamplate = new RestTemplate();
 		List<MTax> taxList = restTamplate.getForObject(Constants.url + "/ujwal/getAllTaxes", List.class);
 		mav.addObject("tList", taxList);
+		mav.addObject("title", "Add Tax");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
@@ -43,13 +44,16 @@ public class UjwalTaxController {
 
 	@RequestMapping(value="/insertTax", method=RequestMethod.POST)
 	public String newCompany(HttpServletRequest req, HttpServletResponse resp) {
-		int taxId=0;
+		int taxId = 0;
+		float cessPer = 0.0f;
 		try
 		{
 			 taxId = Integer.parseInt(req.getParameter("tax_id"));
+			 cessPer = Float.parseFloat(req.getParameter("cess_per"));
 		}
 		catch(Exception e){
 			taxId=0;
+			cessPer = 0.0f;
 		}
 		try {
 		
@@ -59,8 +63,9 @@ public class UjwalTaxController {
 		float cgstPer = Float.parseFloat(req.getParameter("cgst_per"));
 		float sgstPer = Float.parseFloat(req.getParameter("sgst_per"));
 		float igstPer = Float.parseFloat(req.getParameter("igst_per"));
-		float cessPer = Float.parseFloat(req.getParameter("cess_per"));
-	
+		
+		
+		System.out.println(hsnCode+" "+taxDesc+" "+taxPer+" "+cgstPer+" "+sgstPer+" "+igstPer+" "+cessPer);
 		
 		
 		MTax mTax = new MTax();

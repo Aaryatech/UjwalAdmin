@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ujwal.billsoft.commons.Constants;
 import com.ujwal.billsoft.models.Info;
 import com.ujwal.billsoft.models.MCompany;
+import com.ujwal.billsoft.models.MLocComp;
 import com.ujwal.billsoft.models.MLocation;
 
 @Controller
@@ -33,8 +34,11 @@ public ModelAndView addShowCompanyForm() {
 		
 		List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		List<MLocComp> locCompList = restTamplate.getForObject(Constants.url + "/ujwal/getCompLoc", List.class);
+		
 		mav.addObject("compList", compList);
 		mav.addObject("locList", locList);
+		mav.addObject("locComp", locCompList);
 		mav.addObject("title", "Add Location");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -98,6 +102,8 @@ public ModelAndView addShowCompanyForm() {
 		map.add("id", id);
 		List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
 		MLocation loc = restTamplate.postForObject(Constants.url + "/ujwal/getLocationById", map, MLocation.class);
+		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		mav.addObject("compList", compList);
 		mav.addObject("editLoc", loc);
 		mav.addObject("locList", locList);
 		mav.addObject("title", "Edit Location");

@@ -139,7 +139,7 @@
 
 									</div>
 
-									<div class="col-md-2">CGST*</div>
+									<div class="col-md-2">CGST % *</div>
 									<div class="col-md-4">
 										<input type="number" id="cgst_per" name="cgst_per"
 											style="width: 100%;" class="form-control"
@@ -168,7 +168,7 @@
 									
 									
 	
-									<div class="col-md-2">SGST*</div>
+									<div class="col-md-2">SGST % *</div>
 
 									<div class="col-md-4">
 										<input type="number" id="sgst_per" name="sgst_per"  class="form-control"
@@ -197,7 +197,7 @@
 											class="error" aria-live="polite"></span>
 
 									</div>
-									<div class="col-md-2">IGST*</div>
+									<div class="col-md-2">IGST % *</div>
 									<div class="col-md-4">
 										<input type="number" id="igst_per" name="igst_per" required
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -210,7 +210,7 @@
 								
 								<div class="form-group"></div>
 								<div class="row">
-									<div class="col-md-2">Total Tax*</div>
+									<div class="col-md-2">Total Tax % *</div>
 
 									<div class="col-md-4">
 										<input type="number" id="tax_per" name="tax_per" class="form-control"
@@ -377,7 +377,13 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
-
+	
+	<script>
+	$('#selAll').click(function(e){
+    var table= $(e.target).closest('table');
+    $('td input:checkbox',table).prop('checked',this.checked);
+	});
+	</script>
 
 	<script>
 		jQuery(document).ready(function() {
@@ -417,10 +423,12 @@
 	</script>
 <script type="text/javascript">
 function gstCal(){
-var cgst = document.getElementById("cgst_per").value;
-var sgst = document.getElementById("sgst_per").value;
+var cgst = parseFloat(document.getElementById("cgst_per").value);
+var sgst = parseFloat(document.getElementById("sgst_per").value);
 var gstTotal = cgst+sgst;
-alert("IGST = "+gstTotal);
+//alert("IGST = "+gstTotal);
+document.getElementById("igst_per").value = gstTotal;
+document.getElementById("tax_per").value = gstTotal;
 }
 </script>
 

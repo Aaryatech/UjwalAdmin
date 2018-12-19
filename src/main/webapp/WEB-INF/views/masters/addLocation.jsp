@@ -254,7 +254,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${locList}" var="comp" varStatus="count">
+										<c:forEach items="${locComp}" var="comp" varStatus="count">
 											<tr>
 												<td><input type="checkbox" class="chk"
 													name="LocIds" id="LocIds${count.index+1}"
@@ -274,7 +274,7 @@
 												
 												<td style="text-align: center">${comp.faxNo}</td>
 												
-												<td style="text-align: center">${comp.compId}</td>
+												<td style="text-align: center">${comp.compName}</td>
 												
 											
 												<td style="text-align: center"><a
@@ -357,6 +357,12 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
 
+	<script>
+	$('#selAll').click(function(e){
+    var table= $(e.target).closest('table');
+    $('td input:checkbox',table).prop('checked',this.checked);
+	});
+	</script>
 
 	<script>
 		jQuery(document).ready(function() {

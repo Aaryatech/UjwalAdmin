@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujwal Billing Software</title>
+<title>Ujjwal Billing Software</title>
 
 <c:url var="getCustById" value="/getCustById" />
 <c:url var="addPartDetail" value="/addPartDetail" />
@@ -308,9 +308,7 @@
 									<div class="col-md-2">Part Name</div>
 
 									<div class="col-md-4">
-										<select id="part_id" name="part_id" class="form-control" style="width: 50%;"
-									
-										
+										<select id="part_id" name="part_id" class="form-control" style="width: 50%;"										
 											onchange="getPartDetail()">
 											<option value="">Select Part</option>
 												<c:forEach items="${pList}" var="part">
@@ -389,9 +387,7 @@
 											<th style="text-align: center">Taxable Amount</th>
 											<th style="text-align: center">Total Tax Amount</th>
 											<th style="text-align: center">Total</th> 
-										
-
-									
+																	
 
 											<th style="text-align: center; width: 5%;">Action</th>
 	
@@ -445,11 +441,11 @@
 	<!-- .animated -->
 	<!-- .content -->
 
-
+</div>
 	<!-- Footer -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- Footer -->
-
+	
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/vendor/jquery-2.1.4.min.js"></script>
 	<script

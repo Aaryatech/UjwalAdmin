@@ -27,7 +27,7 @@ public class UjwalUomController {
 	@RequestMapping(value = "/showAddUom", method=RequestMethod.GET)
 	public @ResponseBody ModelAndView uomForm() {
 		
-		ModelAndView mav = new ModelAndView("masters/addUom");
+		ModelAndView mav = new ModelAndView("masters/addMeasurementUnit");
 	
 		restTamplate = new RestTemplate();
 		List<MUom> muom = restTamplate.getForObject(Constants.url + "/ujwal/getAllMUom", List.class);
@@ -72,7 +72,7 @@ public class UjwalUomController {
 	@RequestMapping(value = "/editUom/{uomId}", method=RequestMethod.GET)
 	public @ResponseBody ModelAndView edituomForm(@PathVariable("uomId") int id) {
 		
-		ModelAndView mav = new ModelAndView("masters/addUom");
+		ModelAndView mav = new ModelAndView("masters/addMeasurementUnit");
 		
 		restTamplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -85,6 +85,24 @@ public class UjwalUomController {
 		return mav;
 		
 	}
+	
+	
+	@RequestMapping(value="/deleteUom/{uomId}", method=RequestMethod.GET)
+	public String deleteCompany(@PathVariable("uomId") int id) {
+		
+		
+		try {
+		restTamplate = new RestTemplate();
+		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
+		map.add("id", id);
+		Info info = restTamplate.postForObject(Constants.url + "/ujwal/deleteUMom", map, Info.class);
+		//mav.addObject("editComp", compList);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+
+		return "redirect:/showAddUom";
+		}
 	
 	
 	@RequestMapping(value = "/deleteRecordofUom", method = RequestMethod.POST)

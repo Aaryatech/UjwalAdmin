@@ -32,6 +32,7 @@ public class UjwalCustomerController {
 		restTamplate = new RestTemplate();
 		List<MCustomer> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
 		mav.addObject("custList", compList);
+		mav.addObject("title", "Add Customer");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
@@ -169,4 +170,43 @@ public String deleteRecordofCustomer(HttpServletRequest request, HttpServletResp
 	}
 return "redirect:/showAddCustomer";
 }
+
+@RequestMapping(value="/moreCustomerDetails/{custId}", method=RequestMethod.GET)
+
+public ModelAndView CustomerDetails(@PathVariable("custId") int id ) {
+	
+	ModelAndView mav = new ModelAndView("masters/customerDetails");
+	try {
+	restTamplate = new RestTemplate();
+	MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
+	map.add("id", id);
+	MCustomer custList = restTamplate.postForObject(Constants.url + "/ujwal/getCustomerById", map, MCustomer.class);
+	mav.addObject("cust", custList);
+	mav.addObject("title", "Customer Details");
+	}catch(Exception e){
+		System.out.println(e.getMessage());
+	}
+
+	return mav;		
+}
+
+
+//showCustList
+@RequestMapping(value="/showCustList", method=RequestMethod.GET)
+
+public ModelAndView showCustList() {
+	
+	ModelAndView mav = new ModelAndView("masters/customerList");
+	try {
+	restTamplate = new RestTemplate();
+	List<MCustomer> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
+	mav.addObject("custList", compList);
+	mav.addObject("title", "Customers List");
+	}catch(Exception e){
+		System.out.println(e.getMessage());
+	}
+
+	return mav;		
+}
+
 }

@@ -42,6 +42,7 @@ public class UjwalPartController {
 		mav.addObject("muomList", muom);
 		List<MGetPart> getpartList = restTamplate.getForObject(Constants.url + "/getAllPartList", List.class);
 		mav.addObject("getList", getpartList);
+		mav.addObject("title", "Add Part");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
@@ -63,14 +64,14 @@ public class UjwalPartController {
 		
 		String partName = req.getParameter("part_name");
 		String partRegisterNo = req.getParameter("part_register_no");
-		int partUomId = Integer.parseInt(req.getParameter("part_uom_id"));
+		int partUomId = Integer.parseInt(req.getParameter("measurement_of_unit"));
 		int partTaxId = Integer.parseInt(req.getParameter("part_tax_id"));
 		String partRoNo = req.getParameter("part_ro_no");
 		String partMrp = req.getParameter("part_mrp");
 		String partSpecification = req.getParameter("part_specification");
 		String partNo = req.getParameter("part_no");
 		
-		
+		System.out.println(partName+" "+partRegisterNo+" "+partUomId+" "+partTaxId+" "+partRoNo+" "+partMrp+" "+partSpecification+" "+partNo);
 		
 		MPart mPart = new MPart();
 		mPart.setPartId(partId);
@@ -112,7 +113,8 @@ public class UjwalPartController {
 		map.add("id", id);
 		MPart partList = restTamplate.postForObject(Constants.url + "/ujwal/getPartById", map, MPart.class);
 		mav.addObject("partList", partList);
-		
+		List<MUom> muom = restTamplate.getForObject(Constants.url + "/ujwal/getAllMUom", List.class);
+		mav.addObject("muomList", muom);
 		List<MPart> pList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
 		mav.addObject("pList", pList);
 		List<MTax> taxList = restTamplate.getForObject(Constants.url + "/ujwal/getAllTaxes", List.class);
@@ -172,4 +174,28 @@ public String deleteRecordofPart(HttpServletRequest request, HttpServletResponse
 	}
 return "redirect:/showAddPart";
 }
+
+@RequestMapping(value="/showPartList", method=RequestMethod.GET)
+
+public ModelAndView showPartList() {
+	
+	ModelAndView mav = new ModelAndView("masters/partList");
+	try {
+	restTamplate = new RestTemplate();
+	List<MPart> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
+	mav.addObject("pList", partList);
+	List<MTax> taxList = restTamplate.getForObject(Constants.url + "/ujwal/getAllTaxes", List.class);
+	mav.addObject("tList", taxList);
+	List<MUom> muom = restTamplate.getForObject(Constants.url + "/ujwal/getAllMUom", List.class);
+	mav.addObject("muomList", muom);
+	List<MGetPart> getpartList = restTamplate.getForObject(Constants.url + "/getAllPartList", List.class);
+	mav.addObject("getList", getpartList);
+	
+	mav.addObject("title", "Parts List");
+	}catch(Exception e){
+		System.out.println(e.getMessage());
+	}
+	return mav;		
+}
+
 }

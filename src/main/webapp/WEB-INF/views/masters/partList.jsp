@@ -105,7 +105,7 @@
 											<th style="text-align: center">Part No</th>
 											<th style="text-align: center">Registration No.</th>
 											<th style="text-align: center">Part UOM Name</th>
-											<th style="text-align: center">Part Specification</th>
+											<!-- <th style="text-align: center">Part Specification</th> -->
 											<th style="text-align: center">Tax Description</th>
 											<th style="text-align: center">Part MRP</th>
 											<th style="text-align: center">Ro. No.</th>
@@ -134,21 +134,22 @@
 												<td style="text-align: left"><c:out
 														value="${pList.partNo}" /></td>
 
-												
-
 												<td style="text-align: left"><c:out
 														value="${pList.partRegisterNo}" /></td>
 														
-														<td style="text-align: left"><c:out
+												<td style="text-align: left"><c:out
 														value="${pList.partUomId}" /></td>
-														<td style="text-align: left"><c:out
-														value="${pList.partSpecification}" /></td>
-												
-														<td style="text-align: left"><c:out
+														
+												<%-- <td style="text-align: left"><c:out
+														value="${pList.partSpecification}" /></td> --%>
+											
+												<td style="text-align: left"><c:out
 														value="${pList.partTaxId}" /></td>
-														<td style="text-align: left"><c:out
+														
+												<td style="text-align: left"><c:out
 														value="${pList.partMrp}" /></td>
-														<td style="text-align: left"><c:out
+													
+												<td style="text-align: left"><c:out
 														value="${pList.partRoNo}" /></td>
 																										
 												<td style="text-align: center"><a
@@ -229,6 +230,12 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
 
+	<script>
+	$('#selAll').click(function(e){
+    var table= $(e.target).closest('table');
+    $('td input:checkbox',table).prop('checked',this.checked);
+	});
+	</script>
 
 	<script>
 		jQuery(document).ready(function() {
