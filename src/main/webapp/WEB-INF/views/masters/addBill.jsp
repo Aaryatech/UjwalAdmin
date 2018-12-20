@@ -524,7 +524,7 @@
 					document.getElementById("cust_address").value=data.custAddress
 					document.getElementById("cust_phone").value=data.custPhone
 					document.getElementById("cust_state").value=data.custState
-					document.getElementById("cust_gstn").value=data.custGst
+					document.getElementById("cust_gstn").value=data.custGstn
 					document.getElementById("cust_regis_no").value=data.custRegisNo
 					document.getElementById("cust_pan").value=data.custPan
 					document.getElementById("cust_veh_no").value=data.custVehNo
