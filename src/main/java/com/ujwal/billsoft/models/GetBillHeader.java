@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GetBillHeader implements Serializable{
 
-	private int billHeaderId; 
+	private int billHeaderId;  
 	private String invoiceNo;
 	private String billDate;
 	private String billDateTime;

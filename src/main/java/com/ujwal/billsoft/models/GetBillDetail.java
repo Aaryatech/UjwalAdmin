@@ -7,7 +7,7 @@ public class GetBillDetail implements Serializable{
 	private int billDetailId; 
 	private int billHeaderId; 
 	private int partId; 
-	private String partName;
+	private String partName; 
 	private String uomName;
 	private String hsnCode;
 	private float qty;
