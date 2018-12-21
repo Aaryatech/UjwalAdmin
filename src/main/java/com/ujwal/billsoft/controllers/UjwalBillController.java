@@ -224,7 +224,7 @@ public @ResponseBody List<BillDetails> addPartDetail(HttpServletRequest request,
 			grandTotal=roundUp(grandTotal);	System.out.println("grandTotal: "+grandTotal);	
 			grandTotal=(float) Math.ceil((double)grandTotal);
 			if(isEdit==1)
-			{/*
+			{/*  
 				detailList.get(index).setBillDetailId(0);
 				detailList.get(index).setBillHeaderId(0);
 				*/
