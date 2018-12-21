@@ -275,7 +275,7 @@ public @ResponseBody List<BillDetails> addPartDetail(HttpServletRequest request,
 			bill.setRemark(remark);
 			bill.setMrp(partMrp);
 			
-			bill.setBaseRate(mrpBaseRate);
+			bill.setBaseRate(mrpBaseRate); 
 		
 			bill.setUomName(parttax.getUomName());
 			
