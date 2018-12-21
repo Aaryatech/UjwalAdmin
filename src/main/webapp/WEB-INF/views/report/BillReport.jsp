@@ -135,6 +135,25 @@
 							</div>
 
 
+							<div class="form-group"></div>
+
+							<div class="row">
+
+								<div class="col-md-2">Select Company</div>
+
+								<div class="col-md-4">
+									<select id="compId" name="compId" class="standardSelect"
+										multiple tabindex="1" required
+										oninvalid="setCustomValidity('Please select company')"
+										onchange="getData()">
+										<option value="">Select</option>
+										<option value="0">All</option>
+										<c:forEach items="${compList}" var="comp">
+											<option value="${comp.compId}">${comp.compName}</option>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
 
 							<div class="form-group"></div>
 							<div class="row">
@@ -146,8 +165,7 @@
 							</div>
 
 
-							<div class="form-group"></div>
-
+							
 						</div>
 
 						<%-- <input type="checkbox" value="${item.itemId}" name="selectItem"> --%>
@@ -159,12 +177,17 @@
 									<tr>
 										<th style="text-align: center">Sr.No.</th>
 
-										<th style="text-align: center">Company Id</th>
+										<th style="text-align: center">Invoice No.</th>
 
 
-										<th style="text-align: center">Total Consumption</th>
-										<th style="text-align: center">Total Qty</th>
-										<th style="text-align: center">Total Weighing Qty</th>
+										<th style="text-align: center">Bill Date</th>
+										<th style="text-align: center">Customer Name</th>
+										<th style="text-align: center">CGst Amount</th>
+										<th style="text-align: center">SGST Amount</th>
+										<th style="text-align: center">IGST Amount</th>
+										<th style="text-align: center">Tax Amount</th>
+										<th style="text-align: center">Taxable Amount</th>
+										<th style="text-align: center">Grand Total </th>
 										
 									</tr>
 								</thead>
@@ -290,12 +313,20 @@
 		function showReport() {
 
 			//alert("Hi View Report  ");
+				var compId = document.getElementById("compId").value;
+				alert(compId);
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
+			
 			var valid = true;
 
-			if (fromDate == null || fromDate == "") {
+			if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select company");
+			}
+
+			else if (fromDate == null || fromDate == "") {
 				valid = false;
 				alert("Please select from date");
 			}
@@ -315,7 +346,7 @@
 						.getJSON(
 								'${getBillReportBetDate}',
 								{
-
+									compId : compId,
 									fromDate : fromDate,
 									toDate : toDate,
 									ajax : 'true',
@@ -356,9 +387,14 @@
 																.add(
 																		[
 																				i + 1,
-																				v.companyId,
-																				v.remark,
-																				v.custId,
+																				v.invoiceNo,
+																				v.billDate,
+																				v.custName,
+																				v.cgstAmt,
+																				v.igstAmt,
+																				v.sgstAmt,
+																				v.totaTax,
+																				v.taxableAmt,
 																				v.grandTotal,
 																				 ])
 																.draw();

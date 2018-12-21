@@ -20,6 +20,8 @@ public class MGetPart {
 	private float igstPer;
 	private float cessPer;
 	private String uomName;
+	//private float qty;
+	
 	
 	public String getUomName() {
 		return uomName;

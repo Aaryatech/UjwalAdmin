@@ -165,15 +165,17 @@
 									<thead>
 										<tr>
 											<th style="text-align: center; width: 5%;">Sr No.</th>
-											<!-- 	<th style="text-align: center">Bill Date</th>
-											<th style="text-align: center">Bill No</th> -->
+										
+											<th style="text-align: center">Bill Date</th> 
 											<th style="text-align: center">Customer Name</th>
-											<th style="text-align: center">Mobile No</th>
+											<th style="text-align: center">Customer GST No.</th>
 
-											<th style="text-align: center">Group By Customer</th>
-												<th style="text-align: center">GST No.</th>
-											<th style="text-align: center">Taxable Amount</th>
-											<th style="text-align: center">Total Amount</th>
+											<th style="text-align: center">CGST Amt</th>
+												<th style="text-align: center">SGST Amount</th>
+												<th style="text-align: center">IGST Amount</th>
+										<th style="text-align: center">Tax Amount</th>
+										<th style="text-align: center">Taxable Amount</th>
+										<th style="text-align: center">Grand Total </th>
 											<th style="text-align: center">Action</th>
 
 										</tr>
@@ -370,12 +372,15 @@
 																.add(
 																		[
 																				i + 1,
+																				v.billDate,
 																				v.custName,
-																				v.custMobNo,
-
-																				v.taxAmt,
+																				v.custGstn,
+																				v.cgstAmt,
+																				v.igstAmt,
+																				v.sgstAmt,
+																				v.totaTax,
 																				v.taxableAmt,
-																				v.totalAmt,
+																				v.grandTotal,
 																				acButton
 
 																		])
