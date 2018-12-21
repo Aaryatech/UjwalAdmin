@@ -85,8 +85,8 @@ public class HomeController {
 						if (userObj.isError() == false) {
 
 							session.setAttribute("UserDetail", userObj);
-							CradentialValidator userResponse = (CradentialValidator) session.getAttribute("UserDetail");
-							session.setAttribute("userInfo", userResponse.getMusr());
+							//CradentialValidator userResponse = (CradentialValidator) session.getAttribute("UserDetail");
+							session.setAttribute("userInfo", userObj.getMusr());
 
 							mav = new ModelAndView("home");
 							session.setAttribute("userName", name);
@@ -97,7 +97,7 @@ public class HomeController {
 							map = new LinkedMultiValueMap<String, Object>();
 							int userId = userObj.getMusr().getUserId();
 							map.add("usrId", userId);
-							System.out.println("user data" + userResponse.toString());
+							System.out.println("user data" + userObj.toString());
 
 							return mav;
 						} else {

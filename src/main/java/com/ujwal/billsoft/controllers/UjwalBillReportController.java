@@ -44,21 +44,7 @@ public class UjwalBillReportController {
 	int isError = 0;
 	List<BillHeader> getList = new ArrayList<>();
 
-@RequestMapping(value="/showBillList", method=RequestMethod.GET)
-	
-	public ModelAndView addShoworderForm() {
-		
-		ModelAndView mav = new ModelAndView("report/BillReport");
-		/*try {
-		restTamplate = new RestTemplate();
-		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
-		mav.addObject("compList", compList);
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-		}*/
 
-		return mav;		
-	} 
 	@RequestMapping(value = "/getBillReportBetDate", method = RequestMethod.GET)
 	public @ResponseBody List<BillHeader> getBillReportBetDate(HttpServletRequest request,
 			HttpServletResponse response) {

@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujjwal Billing Software</title>
+<title>Ujwal Billing Software</title>
 
 <c:url var="getCustById" value="/getCustById" />
 <c:url var="addPartDetail" value="/addPartDetail" />
@@ -64,7 +64,7 @@
 }
 </style>
 </head>
-<body>
+<body onload="isEdit(${isEditBill})">
 
 
 	<!-- Left Panel -->
@@ -118,18 +118,25 @@
 						<div class="card-header">
 							<div class="col-md-2">
 								<strong>${title}</strong>
+								
 							</div>
-							<div class="col-md-8"></div>
+							<div class="col-md-8">
+							<div class="col-md-3">Invoice No:</div>
+									<div class="col-md-3">
+									<c:if test="${isEditBill==1}"> ${bill.invoiceNo} </c:if><c:if test="${isEditBill==0}">	${doc.srNo}</c:if>
+									
+								</div>
+							</div>
 							<div class="col-md-2" align="left">
-								<a href="${pageContext.request.contextPath}/showCustList"><strong>Customer
-										List</strong></a>
+								<a href="${pageContext.request.contextPath}/showBillList"><strong>Bill List</strong></a>
 							</div>
 
 						</div>
+						
 						<div class="card-body card-block">
 							<form action="${pageContext.request.contextPath}/insertBill"
 								id="submitForm" method="post">
-							
+							<input type="hidden" name="isEditBill" id="isEditBill" value="${isEditBill}"/>
 								<div class="row">
 
 
@@ -142,19 +149,28 @@
 											<option value="">Select Customer</option>
 
 											<c:forEach items="${custList}" var="cust">
-												<option value="${cust.custId}">${cust.custName}</option>
+											<c:choose>
+											<c:when test="${cust.custId==bill.custId}">
+												<option value="${cust.custId}" selected>${cust.custName}</option>
+											</c:when>
+											<c:otherwise>
+											    <option value="${cust.custId}">${cust.custName}</option>
+											</c:otherwise>
+											</c:choose>
+												
 											</c:forEach>
 										</select>
 
 									</div>
 									
 									<div class="col-md-2">Date</div>
-									<div class="col-md-4">
-										<input type="date" id="date" name="date" 
+									<div class="col-md-2">
+										<input type="text" id="date" name="date" 
 											style="width: 100%;" class="form-control" 
-											value="" autocomplete="off"/> <span class="error" aria-live="polite"></span>
+											value="${date}" autocomplete="off" /> <span class="error" aria-live="polite"></span>
 									
 								</div>
+								
 								</div>
 								<div class="form-group"></div>
 								<div class="row">
@@ -259,7 +275,7 @@
 
 									</div>
 
-									<div class="col-md-2">Vhicle No</div>
+									<div class="col-md-2">Vehicle No</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_veh_no" name="cust_veh_no" 
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -277,7 +293,7 @@
 								<div class="row">
 
 									
-									<div class="col-md-2">Ro No</div>
+									<div class="col-md-2">RO No</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_ro_no" name="cust_ro_no" 
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -288,7 +304,7 @@
 
 									</div>							
 									
-											<div class="col-md-2">Chasi No.</div>
+											<div class="col-md-2">Chassi No.</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_chasi_no" name="cust_chasi_no" 
 											style="width: 100%;" class="form-control"
@@ -305,10 +321,10 @@
 							
 								<div class="row">
 							
-									<div class="col-md-2">Part Name</div>
+									<div class="col-md-2">Part</div>
 
 									<div class="col-md-4">
-										<select id="part_id" name="part_id" class="form-control" style="width: 50%;"										
+										<select id="part_id" name="part_id" class="form-control" style="width:90%;"										
 											onchange="getPartDetail()">
 											<option value="">Select Part</option>
 												<c:forEach items="${pList}" var="part">
@@ -316,10 +332,18 @@
 											</c:forEach>
 										</select>
 									</div>
-									<div class="col-md-2">Quantity</div>
+									<div class="col-md-1">MRP</div>
 
-									<div class="col-md-4">
-										<input type="text" id="qty" name="qty" 
+									<div class="col-md-2">
+									
+										<input type="text" id="part_mrp" name="part_mrp"   value="0.0"
+											style="width: 50%;" class="form-control" autocomplete="off"/> 
+								
+									</div>
+									<div class="col-md-1">Qty</div>
+
+									<div class="col-md-2">
+										<input type="number" id="qty" name="qty"  value="0" min="0"
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 									</div>
 								</div>
@@ -328,39 +352,31 @@
 								<div class="form-group"></div>
 							
 								<div class="row">
-								<div class="col-md-2">MRP</div>
-
-									<div class="col-md-4">
-									
-										<input type="text" id="part_mrp" name="part_mrp" 
-											style="width: 50%;" class="form-control" autocomplete="off"/> 
 								
-									</div>
 									<div class="col-md-2">Disc %</div>
 
 									<div class="col-md-4">
-										<input type="text" id="disc" name="disc" 
+										<input type="text" id="disc" name="disc"  value="0.0"
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 									</div>
-								</div>
-									<div class="form-group"></div>
+								
 							
-								<div class="row">
+								
 								<div class="col-md-2">Remark</div>
 
 									<div class="col-md-4">
 									
-										<input type="text" id="remark" name="remark" 
-											style="width: 50%;" class="form-control" autocomplete="off"/> 
+										<input type="text" id="remark" name="remark"  value="NA"
+											style="width: 80%;" class="form-control" autocomplete="off"/> 
 								
-									</div>	</div>
-											<div class="form-group"></div>
-									<div class="col-lg-3">
-									<input type="button" class="btn btn-primary" value="Add"
-										id="AddButton"
-										style="align-content: center; width: 113px; margin-left: 40px;" onclick="add()">
+									</div>	
+									<div class="col-lg-2">
+	<input type="button" class="btn btn-primary" value="Add" id="AddButton"
+		style="align-content: center; width: 113px; margin-left: 380px;" onclick="add()">
 
 								</div>
+									</div>
+									
 							
 						
 							
@@ -370,55 +386,88 @@
 						<div class="card-body card-block">
 							
 
-								<table id="bootstrap-data-table"
+								<table id="billTable"
 									class="table table-striped table-bordered" >
 									<thead>
 										<tr>
 										<!-- <th class="check" style="text-align: center; width: 5%;"><input
 												type="checkbox" name="selAll" id="selAll" /> Select All</th> --> 
-											<th style="text-align: center; width: 5%;">Sr No</th>
-											<th style="text-align: center">Part Name</th>
-											 <th style="text-align: center">UOM Name</th>
-											<th style="text-align: center">Quantity</th>
+											<th style="text-align: center; width: 5%;">Sr</th>
+											<th style="text-align: center">Part_Name</th>
+											 <th style="text-align: center">UOM</th>
+											<th style="text-align: center">Qty</th>
 											<th style="text-align: center">MRP</th>
 											<th style="text-align: center">Disc %</th>
-											<th style="text-align: center">Disc Amount</th>
+											<th style="text-align: center">Disc Amt</th>
 											<th style="text-align: center">Tax %</th>
-											<th style="text-align: center">Taxable Amount</th>
-											<th style="text-align: center">Total Tax Amount</th>
+											<th style="text-align: center">Total Tax</th>
+											<th style="text-align: center">Taxable Amt</th>
 											<th style="text-align: center">Total</th> 
-																	
-
 											<th style="text-align: center; width: 5%;">Action</th>
 	
 										</tr>
 									</thead>
-									
+									<tbody>
+									<c:forEach items="${bill.billDetailList}" var="detail" varStatus="count">
+											<tr>
+											 	<td style="text-align: center">${count.index+1}</td>
+
+
+												<td style="text-align: left"><c:out
+														value="${detail.partName}" /></td>
+
+												<td style="text-align: left"><c:out
+														value="${detail.uomName}" /></td>
+
+												<td style="text-align: center">${detail.qty}</td>
+												
+												<td style="text-align: center">${detail.mrp}</td>
+												
+												<td style="text-align: center">${detail.discPer}</td>
+												
+												<td style="text-align: center">${detail.discRs}</td>
+											    <td style="text-align: center">${detail.cgstPer+detail.sgstPer}</td>
+												
+												<td style="text-align: center">${detail.totalTax}</td>
+										    	<td style="text-align: center">${detail.taxableAmount}</td>
+											    <td style="text-align: center">${detail.grandTotal}</td>
+
+												<td style="text-align: center"><a
+													href="#" onclick="callEdit(${detail.billDetailId},${count.index})"><i
+														class="fa fa-edit" title="Edit"></i> 
+														<span class="text-muted"></span></a>
+													&nbsp;&nbsp; <a
+													href="#"
+													 onclick="callDelete(${detail.billDetailId},${count.index})"><i
+														class="fa fa-trash-o" title="Delete"></i></a></td>
+
+
+											</tr>
+										</c:forEach>
+									</tbody>
 									</table>
 									
-					
-							<div class="form-group"></div>
-								<div class="col-lg-3"></div>
-								<div class="col-lg-3">
-									<input type="submit" class="btn btn-primary" value="Submit"
-										id="submitButton"
-										style="align-content: center; width: 113px; margin-left: 40px;">
-
-								</div>
-								
-						<div class="row">
-							
+					<div class="row">
+				
 									<div class="col-md-3">Remark</div>
 									<div class="col-lg-3">
-							<input type="text" id="remark_new" name="remark_new" required
+							<input type="text" id="remark_new" name="remark_new" required value="NA"
 											style="width: 100%;" class="form-control" autocomplete="off"/> 
 								</div>
 						
 							
-									<div class="col-md-3" style="font-size:bold">Total Amount</div>
+									<div class="col-md-3" style="font-size:bold">Grand Total</div>
 									<div class="col-lg-3">
-							<input type="text" id="total_amt" name="total_amt" value="0" 
+							<input type="text" id="total_amt" readonly name="total_amt" value="${bill.grandTotal}" 
 											style="width: 100%;" class="form-control"/> 
+								</div>
+								
+								</div><div class="form-group"></div>
+								<div class="row"><div class="col-lg-3"></div><div class="col-lg-3"></div>	<div class="col-lg-3"></div>	<div class="col-lg-3">
+									<input type="submit" class="btn btn-primary" value="Submit"
+										id="submitButton"
+										style="align-content: center; width: 113px; margin-left: 40px;">
+
 								</div></div>
 						</div>
 					
@@ -426,7 +475,7 @@
 						</form>
 					
 					</div>
-							
+						
 						
 					
 				</div>
@@ -499,7 +548,12 @@
 	</script>
 
 	<script type="text/javascript">
-	
+	function isEdit(isEditBill) { 
+		if(isEditBill==1)
+			{
+			getData();
+			}
+	}
 	// on plant change function 
 		function getData() { 
 		
@@ -541,12 +595,9 @@
 		}
 	</script>
 <script type="text/javascript">
-	
-	// on plant change function 
-		function getPartDetail() { 
+			function getPartDetail() { 
 		
 			var partId = document.getElementById("part_id").value;
-			//alert(custId);
 			var valid = true;
 
 			if (partId == null || partId == "") {
@@ -564,9 +615,6 @@
 				function(data) {
 					document.getElementById("part_mrp").value=data.partMrp
 				
-		
-					
-				
 				});
 			}//end of if
 
@@ -574,54 +622,46 @@
 	</script>
 <script type="text/javascript">
 function add(){
-	 //alert("hii1");
 	
-	 var partId= document.getElementById("part_id").value;
-	//alert("hii"+partId);
+	var partId= document.getElementById("part_id").value;
 	var qty = document.getElementById("qty").value;
-	var isEdit = document.getElementById("isEdit").value;alert(isEdit);
+	var isEdit = document.getElementById("isEdit").value;
 	var index= document.getElementById("index").value;
 	var partMrp = document.getElementById("part_mrp").value;
 	var disc = document.getElementById("disc").value;
 	var remark = document.getElementById("remark").value;
 	 
-//	alert("hii2");
-	 
-	$.getJSON(
-					'${addPartDetail}',
+	$.getJSON('${addPartDetail}',
 					{
-						isEdit :isEdit,
-						index:index,
-						 partId :partId,
-						 qty : qty,
-						 partMrp : partMrp,
-						 disc : disc,
-						 remark : remark,
-						ajax : 'true',
+						 isEdit:isEdit,
+						 index:index,
+						 partId:partId,
+						 qty:qty,
+						 partMrp:partMrp,
+						 disc:disc,
+						 remark:remark,
+						 ajax:'true',
 					},
-
 				 	function(data) {
 						
-						/* alert("Order Data " +JSON.stringify(data)); */
-						var gtotal=0;
-				 var dataTable = $('#bootstrap-data-table')
-						.DataTable();
-				dataTable.clear().draw();
+				 var gtotal=0;
+				 var dataTable = $('#billTable').DataTable();
+			     dataTable.clear().draw();
 
 				$.each(data,function(i, v) {
-									var total=v.cgstPer+v.sgstPer;
+					if(v.delStatus==0){	
+					                var total=v.cgstPer+v.sgstPer;
 									gtotal=gtotal+v.grandTotal;
 									
-									alert(total);
-							 var acButton = '<a href="#" class="action_btn" onclick="callDelete('
+							 var acButton = '<a href="#" class="action_btn" onclick="callEdit('
 											+ v.billDetailId
 											+ ','
 											+ i
-											+ ')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callEdit('
-											+ v.billDetailId
-											+ ','
-											+ i
-											+ ')"><i class="fa fa-edit"></i></a>' 
+											+ ')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callDelete('
+												+ v.billDetailId
+												+ ','
+												+ i
+												+ ')"><i class="fa fa-trash"></i></a>' 
 									dataTable.row
 											.add(
 													[
@@ -630,16 +670,17 @@ function add(){
 															v.uomName,
 															v.qty,
 															v.mrp,
-															v.baseRate.toFixed(2),
 															v.discPer.toFixed(2),
-															total,
-															v.taxableAmount,
+															v.discRs.toFixed(2),
+															v.sgstPer+v.cgstPer,
 															v.totalTax,
+															v.taxableAmount,
 															v.grandTotal,
 															
 															acButton
 															 ])
 											.draw();
+					}
 								});  
 					
 				document.getElementById("total_amt").value = gtotal;
@@ -648,19 +689,24 @@ function add(){
 					
 	);
 	document.getElementById("part_id").value = "";
-	document.getElementById("qty").value = "";
-	document.getElementById("part_mrp").value = "";
-	document.getElementById("disc").value = "";
-	document.getElementById("remark").value = "";    
+	document.getElementById("qty").value = "0";
+	document.getElementById("part_mrp").value = "0.0";
+	document.getElementById("disc").value = "0.0";
+	document.getElementById("remark").value = "NA";   
+	document.getElementById("isEdit").value = 0;
 	}
 	
 	
+</script>
+<script type="text/javascript">
 
-function callEdit(billDetailId, index) {
+function callEdit(billDetailId, index) { 
+	
 	$
 			.getJSON(
 					'${getItemForEdit}',
 					{
+						billDetailId:billDetailId,
 						index : index,
 						ajax : 'true',
 
@@ -677,61 +723,63 @@ function callEdit(billDetailId, index) {
 					});
 
 }
+</script>
+<script type="text/javascript">
 
 function callDelete(billDetailId, index) {
+	var status=confirm("Do you want to delete Part?");
+	if(status==true){
 	$
 			.getJSON(
 					'${getItemForDelete}',
 					{
 						index : index,
+						billDetailId:billDetailId,
 						ajax : 'true',
 
 					},
 					function(data) {
 
-						
-						/* alert("Order Data " +JSON.stringify(data)); */
-						
-				 var dataTable = $('#bootstrap-data-table')
+				 var dataTable = $('#billTable')
 						.DataTable();
 				dataTable.clear().draw();
 
 				$.each(data,function(i, v) {
-									var total=v.cgstPer+v.sgstPer;
-									alert(total);
-							 var acButton = '<a href="#" class="action_btn" onclick="callDelete('
-											+ v.billDetailId
-											+ ','
-											+ i
-											+ ')"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callEdit('
-											+ v.billDetailId
-											+ ','
-											+ i
-											+ ')"><i class="fa fa-edit"></i></a>' 
+									
+							if(v.delStatus==0){		
+					 var acButton = '<a href="#" class="action_btn" onclick="callEdit('
+							+ v.billDetailId
+							+ ','
+							+ i
+							+ ')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callDelete('
+								+ v.billDetailId
+								+ ','
+								+ i
+								+ ')"><i class="fa fa-trash"></i></a>' 
 									dataTable.row
 											.add(
 													[
-															i + 1,
-															v.partName,
-															v.uomName,
-															v.qty,
-															v.mrp,
-															v.baseRate.toFixed(2),
-															v.discPer.toFixed(2),
-															total,
-															v.taxableAmount,
-															v.totalTax,
-															v.grandTotal,
-															
-															acButton
+														i + 1,
+														v.partName,
+														v.uomName,
+														v.qty,
+														v.mrp,
+														v.discPer.toFixed(2),
+														v.discRs.toFixed(2),
+														v.sgstPer+v.cgstPer,
+														v.totalTax,
+														v.taxableAmount,
+														v.grandTotal,
+														
+														acButton
 															 ])
 											.draw();
+							}
 								});  
 					
-							
-					});
-
-}
+				});
+					}
+	}
 </script>
 
 	<script>
@@ -825,6 +873,16 @@ function getData() {
 					);
 
 		}
+	</script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$('input[id$=date]').datepicker({
+				dateFormat : 'dd-mm-yy'
+			});
+			
+			
+		});
 	</script>
 </body>
 </html>
