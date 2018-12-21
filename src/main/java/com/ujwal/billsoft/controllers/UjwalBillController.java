@@ -415,13 +415,16 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		header.setTaxableAmt(roundUp(taxableAmt));
 		header.setDiscAmt(roundUp(discAmt));
 	
-
+		Document doc=null;
+		if(isEditBill==1) {
+			header.setInvoiceNo(billHeader.getInvoiceNo());
+		}else {
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("docCode", 1);
 
-		Document doc = rest.postForObject(Constants.url + "/getDocument", map, Document.class);
+		 doc = rest.postForObject(Constants.url + "/getDocument", map, Document.class);
 		header.setInvoiceNo(doc.getDocPrefix() + "" + doc.getSrNo());
-		
+		}
 		header.setBillDetailList(detailList);
 		BillHeader insertbillHeadRes = rest.postForObject(Constants.url + "saveBill", header,BillHeader.class);
 		
@@ -429,13 +432,16 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 
 			isError = 2;
 
-			map = new LinkedMultiValueMap<String, Object>();
+			if(isEditBill!=1) {
+			
+			MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("srNo", doc.getSrNo() + 1);
 			map.add("docCode", doc.getDocCode());
 
 			Info updateDocSr = rest.postForObject(Constants.url + "updateDocSrNo", map, Info.class);
-
+			 
+			}
 		} else {
 
 			isError = 1;
