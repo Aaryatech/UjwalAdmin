@@ -309,7 +309,7 @@
 
 			if (custId == null || custId == "") {
 				valid = false;
-				alert("Please select company");
+				alert("Please select customer");
 			}
 
 			//alert("plantId" + plantId);

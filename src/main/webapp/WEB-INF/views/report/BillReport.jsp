@@ -314,7 +314,7 @@
 
 			//alert("Hi View Report  ");
 				var compId = document.getElementById("compId").value;
-				alert(compId);
+			
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
