@@ -19,9 +19,16 @@ public class CompReport {
 	private float roundOff;
 	private float disc_amt;
 	private String user_name;
+	private String compName;
 	private int del_status;
 	
 	
+	public String getCompName() {
+		return compName;
+	}
+	public void setCompName(String compName) {
+		this.compName = compName;
+	}
 	public float getDisc_amt() {
 		return disc_amt;
 	}
@@ -143,7 +150,7 @@ public class CompReport {
 				+ taxableAmt + ", sgstAmt=" + sgstAmt + ", cgstAmt=" + cgstAmt + ", igstAmt=" + igstAmt + ", totaTax="
 				+ totaTax + ", grandTotal=" + grandTotal + ", custName=" + custName + ", locId=" + locId + ", userId="
 				+ userId + ", roundOff=" + roundOff + ", disc_amt=" + disc_amt + ", user_name=" + user_name
-				+ ", del_status=" + del_status + "]";
+				+ ", compName=" + compName + ", del_status=" + del_status + "]";
 	}
 	
 	
