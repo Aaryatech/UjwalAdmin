@@ -7,14 +7,24 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Shiv Admin</title>
+<title>Ujwal Billing Software</title>
 
-<c:url var="getRawItemByCatId" value="/getRawItemByCatId" />
 
-<c:url var="editInAddMatIssueDetail" value="/editInAddMatIssueDetail" />
+<c:url var="getBillReportBetDate" value="/getBillReportBetDate" />
 
-<c:url var="getMatIssueForEditMatHeader"
-	value="/getMatIssueForEditMatHeader" />
+
+<c:url var="getMonthlyReportBetDate" value="/getMonthlyReportBetDate" />
+<%-- 
+<c:url var="getProjectByCustId" value="/getProjectByCustId" />
+
+
+<c:url var="getPoDetailForOrderByPoId"
+	value="/getPoDetailForOrderByPoId" />
+	
+	
+<c:url var="getTempOrderHeader"
+	value="/getTempOrderHeader" /> --%>
+
 
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,6 +73,9 @@
 }
 </style>
 
+
+
+
 </head>
 <body>
 
@@ -82,36 +95,8 @@
 		<div class="animated fadeIn">
 
 			<div class="row">
-				<c:choose>
-					<c:when test="${isError==1}">
-						<div class="col-sm-12">
-							<div
-								class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
 
-								<button type="button" class="close" data-dismiss="alert"
-									aria-label="Close">
-									<span aria-hidden="true">×</span>
-								</button>
-								<strong>Data not submitted</strong>
-							</div>
-						</div>
-					</c:when>
-
-					<c:when test="${isError==2}">
-						<div class="col-sm-12">
-							<div
-								class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-
-								<button type="button" class="close" data-dismiss="alert"
-									aria-label="Close">
-									<span aria-hidden="true">×</span>
-								</button>
-								<strong>Data Submitted Successfully</strong>
-							</div>
-						</div>
-					</c:when>
-
-				</c:choose>
+			
 
 				<div class="col-xs-12 col-sm-12">
 					<div class="card">
@@ -119,240 +104,136 @@
 							<div class="col-md-4">
 								<strong>${title}</strong>
 							</div>
-							<div class="col-md-4"></div>
-							<%-- <div class="col-md-4" align="left">
-								<a
-									href="${pageContext.request.contextPath}/showMatIssueContractorList"><strong>Material
-										Issue Contractor List</strong></a>
-							</div>
- --%>
+							<%-- <div class="col-md-8"></div>
+							<div class="col-md-2" align="left">
+								<a href="${pageContext.request.contextPath}/showAddCustomer"><strong>Add
+										Customer</strong></a>
+							</div> --%>
+
+
 						</div>
 						<div class="card-body card-block">
-							<form
-								action="${pageContext.request.contextPath}/updateMaterialContr"
-								id="submitForm" method="post">
 
+							<div class="form-group"></div>
 
-								<div class="row">
-
-									<div class="col-md-2">From Date</div>
-
-
-									<div class="col-md-4">
-										<input type="text" id="fromDate" name="fromDate"
-											value="${fromDate}" class="form-control" style="width: 100%;"
-											autocomplete="off" readonly
-											oninvalid="setCustomValidity('Please enter Issue No')"
-											onchange="try{setCustomValidity('')}catch(e){}" required>
-									</div>
-
-
-									<div class="col-md-2">To Date</div>
-									<div class="col-md-4">
-										<input type="text" id="toDate" name="toDate"
-											autocomplete="off" value="${toDate}" required
-											class="form-control" readonly required style="width: 100%;">
-									</div>
+							<div class="row">
+								<div class="col-md-2">From Date</div>
+								<div class="col-md-4">
+									<input type="text" autocomplete="off" id="from_date"
+										name="from_date" required style="width: 100%;"
+										class="form-control" value="${fromDate}"> <span
+										class="error" aria-live="polite"></span>
+								</div>
+								<div class="col-md-2">To Date</div>
+								<div class="col-md-4">
+									<input type="text" autocomplete="off" id="to_date"
+										name="to_date" style="width: 100%;" class="form-control"
+										value="${toDate}"> <span class="error"
+										aria-live="polite"></span>
 								</div>
 
-								<%--  <div class="row">
-
-									<div class="col-md-2">Contractor Name*</div>
+							</div>
 
 
-									<div class="col-md-4">
-										<input type="text" id="contr_id" name="contr_id"
-											value="${editMat.contrName}" class="form-control"
-											style="width: 100%;" autocomplete="off" readonly
-											oninvalid="setCustomValidity('Please enter Issue No')"
-											onchange="try{setCustomValidity('')}catch(e){}" required>
-									</div>
+							<div class="form-group"></div>
 
+							<div class="row">
 
-									<div class="col-md-2">Date*</div>
-									<div class="col-md-4">
-										<input type="text" id="date" name="date" autocomplete="off"
-											value="${editMat.date}" required class="form-control"
-											readonly required style="width: 100%;">
-									</div>
-								</div>  --%>
-								<div class="form-group"></div>
-								<div class="row">
+								<div class="col-md-2">Select Company</div>
 
-
-									<%-- 	<div class="col-md-2">Issue No*</div> <div class="col-md-4">
-										<input type="text" id="issueNo" name="issueNo" maxlength="10"
-											value="${editMat.issueNo}" class="form-control"
-											style="width: 100%;" autocomplete="off" readonly
-											oninvalid="setCustomValidity('Please enter Issue No')"
-											onchange="try{setCustomValidity('')}catch(e){}" required
-											pattern="[0-9]+">
-									</div> --%>
-
-									<input type="hidden" value="${editMat.matHeaderId}"
-										name="matHeaderId" id="matHeaderId">
+								<div class="col-md-4">
+									<select id="compId" name="compId" class="standardSelect"
+										multiple tabindex="1" required
+										oninvalid="setCustomValidity('Please select company')"
+										onchange="getData()">
+										<option value="">Select</option>
+										<option value="0">All</option>
+										<c:forEach items="${compList}" var="comp">
+											<option value="${comp.compId}">${comp.compName}</option>
+										</c:forEach>
+									</select>
 								</div>
+							</div>
 
-
-								<div class="card-body card-block">
-
-									<table class="table table-striped table-bordered">
-										<thead>
-											<tr>
-
-												<th style="text-align: center; width: 5%;">Sr No</th>
-												<th style="text-align: center">Date</th>
-												<th style="text-align: center">Item Name</th>
-												<th style="text-align: center">Measurement of Unit</th>
-												<th style="text-align: center">Item Rate</th>
-												<th style="text-align: center">Item Quantity</th>
-												<th style="text-align: center">Value</th>
-
-											</tr>
-										</thead>
-
-										<tbody>
-											<c:forEach items="${editMatDetail}" var="matDetail"
-												varStatus="count">
-												<tr>
-
-													<td style="text-align: center">${count.index+1}</td>
-
-													<td style="text-align: left"><c:out
-															value="${editMat.date}" /></td>
-
-
-													<td style="text-align: left"><c:out
-															value="${matDetail.itemDesc}" /></td>
-
-
-													<td style="text-align: left"><c:out
-															value="${matDetail.uomName}" /></td>
-
-
-
-													<td style="text-align: left"><c:out
-															value="${matDetail.itemRate}" /></td>
-
-
-													<td style="text-align: left"><c:out
-															value="${matDetail.quantity}" /></td>
-
-
-													<td style="text-align: left"><c:out
-															value="${matDetail.value}" /></td>
-
-
-												</tr>
-
-											</c:forEach>
-
-										</tbody>
-									</table>
-
-
-									<div class="form-group"></div>
-									<div class="row">
-
-										<div class="col-md-8"></div>
-										<div class="col-md-1">Total</div>
-										<div class="col-md-3">
-											<input type="text" value="${editMat.total}"
-												class="form-control" style="width: 100%;" autocomplete="off"
-												readonly>
-										</div>
-									</div>
-									&nbsp;&nbsp;
-
-									<div class="col-md-3">
-
-										<button type="button" class="btn btn-primary"
-											onclick="exportToExcel();" id="expExcel"
-											style="align-content: center; width: 200px; margin-left: 80px;">
-											Export To Excel</button>
-										&nbsp;
-									</div>
-
-
-									<table class="table table-striped table-bordered">
-										<thead>
-											<tr>
-
-												<th style="text-align: center; width: 5%;">Sr No</th>
-												<th style="text-align: center">Date</th>
-												<th style="text-align: center">Quantity</th>
-												<th style="text-align: center">Vehicle Name</th>
-												<th style="text-align: center">Vehicle No</th>
-												<th style="text-align: center">Poklen Name</th>
-												<th style="text-align: center">Poklen No</th>
-
-
-											</tr>
-										</thead>
-
-										<tbody>
-											<c:forEach items="${weighing}" var="weighing"
-												varStatus="count">
-												<tr>
-
-													<td style="text-align: center">${count.index+1}</td>
-													<td style="text-align: left"><c:out
-															value="${editMat.date}" /></td>
-
-													<td style="text-align: left"><c:out
-															value="${weighing.quantity}" /></td>
-
-
-													<td style="text-align: left"><c:out
-															value="${weighing.vehicleName}" /></td>
-
-													<td style="text-align: left"><c:out
-															value="${weighing.vehicleNo}" /></td>
-
-													<td style="text-align: left"><c:out
-															value="${weighing.pokeName}" /></td>
-
-													<td style="text-align: left"><c:out
-															value="${weighing.pokeNo}" /></td>
-
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
-
-
-									<div class="col-md-2"></div>
-
-									<div class="col-md-3">
-
-										<button type="button" class="btn btn-primary"
-											onclick="exportToExcel1();" id="expExcel1"
-											style="align-content: center; width: 200px; margin-left: 80px;">
-											Export To Excel</button>
-
-									</div>
-									<div class="col-md-3">
-
-										<button type="button" class="btn btn-primary"
-											onclick="genPdf()" id="PDFButton"
-											style="align-content: center; width: 100px; margin-left: 80px;">
-											PDF</button>
-									</div>
-									&nbsp;
+							<div class="form-group"></div>
+							<div class="row">
+								<div class="col-md-6"></div>
+								<div class="col-md-2">
+									<input type="button" class="btn btn-primary"
+										onclick="showReport()" value="Submit">
 								</div>
-							</form>
+							</div>
+
+
+							
 						</div>
+
+						<%-- <input type="checkbox" value="${item.itemId}" name="selectItem"> --%>
+
+						<div class="card-body card-block">
+							<table id="bootstrap-data-table"
+								class="table table-striped table-bordered">
+								<thead>
+									<tr>
+										<th style="text-align: center">Sr.No.</th>
+
+										<th style="text-align: center">Month</th>
+
+
+										<th style="text-align: center">Basic Value</th>
+									
+										<th style="text-align: center">CGst Amount</th>
+										<th style="text-align: center">SGST Amount</th>
+										<th style="text-align: center">IGST Amount</th>
+										<th style="text-align: center">Tax Amount</th>
+										<th style="text-align: center">Grand Total </th>
+										<th style="text-align: center">Action</th>
+									
+									</tr>
+								</thead>
+
+							</table>
+							<div class="col-md-2"></div>
+
+							<div class="col-md-3">
+
+								<button type="button" class="btn btn-primary"
+									onclick="exportToExcel();" disabled="disabled" id="expExcel"
+									style="align-content: center; width: 200px; margin-left: 80px;">
+									Export To Excel</button>
+							</div>
+
+
+							<div class="col-md-3">
+
+								<button type="button" class="btn btn-primary" onclick="genPdf()"
+									disabled="disabled" id="PDFButton"
+									style="align-content: center; width: 100px; margin-left: 80px;">
+									PDF</button>
+							</div>
+							&nbsp;
+
+
+
+						</div>
+
+
+
 					</div>
 				</div>
 			</div>
-
-
 		</div>
-		<!-- .animated -->
+
+
 	</div>
-	<!-- .content -->
 	<!-- .animated -->
 	<!-- .content -->
+
+
+	<!-- .animated -->
+	<!-- .content -->
+
+
 	<!-- Footer -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- Footer -->
@@ -393,19 +274,6 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
-
-
-	<script type="text/javascript">
-		$(function() {
-			$('#submitForm').submit(
-					function() {
-						$("input[type='submit']", this).val("Please Wait...")
-								.attr('disabled', 'disabled');
-						return true;
-					});
-		});
-	</script>
-
 	<script>
 		jQuery(document).ready(function() {
 			jQuery(".standardSelect").chosen({
@@ -421,25 +289,137 @@
 		});
 	</script>
 
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#bootstrap-data-table1').DataTable();
+
+
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$('input[id$=from_date]').datepicker({
+				dateFormat : 'dd-mm-yy'
+			});
+
+			$('input[id$=to_date]').datepicker({
+				dateFormat : 'dd-mm-yy'
+			});
+
 		});
 	</script>
 
 
 
 
+	<script type="text/javascript">
+		// onclick of submit to search order 
+		function showReport() {
 
+			//alert("Hi View Report  ");
+				var compId = document.getElementById("compId").value;
+			
+			var fromDate = document.getElementById("from_date").value;
+			var toDate = document.getElementById("to_date").value;
 
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script>
-		$(function() {
-			$('input[id$=date]').datepicker({
-				dateFormat : 'dd-mm-yy'
-			});
+			
+			var valid = true;
 
-		});
+			if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select company");
+			}
+
+			else if (fromDate == null || fromDate == "") {
+				valid = false;
+				alert("Please select from date");
+			}
+
+			else if (toDate == null || toDate == "") {
+				valid = false;
+				alert("Please select to date");
+			}
+
+			if (fromDate > toDate) {
+				valid = false;
+				alert("from date greater than todate ");
+			}
+			if (valid == true) {
+
+				$
+						.getJSON(
+								'${getMonthlyReportBetDate}',
+								{
+									compId : compId,
+									fromDate : fromDate,
+									toDate : toDate,
+									ajax : 'true',
+								},
+
+								function(data) {
+
+									document.getElementById("expExcel").disabled = false;
+									document.getElementById("PDFButton").disabled = false;
+
+									if (data == "") {
+										alert("No records found !!");
+										document.getElementById("expExcel").disabled = true;
+										document.getElementById("PDFButton").disabled = true;
+
+									}
+
+									//alert("Order Data " +JSON.stringify(data));
+
+									var dataTable = $('#bootstrap-data-table')
+											.DataTable();
+									dataTable.clear().draw();
+
+									$
+											.each(
+													data,
+													function(i, v) {
+
+													 	var acButton = '<a href="#" class="action_btn" onclick="callEdit('
+																+ v.matHeaderId
+																+ ','
+																+ v.contrId
+																+ ','
+																+ i
+																+ ')"><i class="fa fa-list"></i></a>' 
+
+														dataTable.row
+																.add(
+																		[
+																				i + 1,
+																				v.month,
+																				v.taxableAmt,
+																				v.cgstAmt,
+																				v.igstAmt,
+																				v.sgstAmt,
+																				v.roundOff,
+																				v.totaTax,
+																			
+																				v.grandTotal,
+																				acButton,
+																				 ])
+																.draw();
+													});
+
+								});
+
+			}
+
+		}
+		/* function callEdit(matHeaderId, contrId) {
+			var fromDate = document.getElementById("from_date").value;
+			var toDate = document.getElementById("to_date").value;
+
+			window
+					.open("${pageContext.request.contextPath}/contractorDetailReport/"
+							+ matHeaderId
+							+ '/'
+							+ contrId
+							+ '/'
+							+ fromDate
+							+ '/' + toDate);
+
+		} */
 	</script>
 
 
@@ -449,25 +429,22 @@
 			window.open("${pageContext.request.contextPath}/exportToExcel");
 			document.getElementById("expExcel").disabled = true;
 		}
-		function exportToExcel1() {
-
-			window.open("${pageContext.request.contextPath}/exportToExcel1");
-			document.getElementById("expExcel1").disabled = true;
-		}
 	</script>
 
 	<script type="text/javascript">
 		function genPdf() {
 			//alert("hiii");
-			var fromDate = document.getElementById("fromDate").value;
-			var toDate = document.getElementById("toDate").value;
+			var fromDate = document.getElementById("from_date").value;
+			var toDate = document.getElementById("to_date").value;
+			var compId = document.getElementById("compId").value;
 			window
-					.open('${pageContext.request.contextPath}/showContraDetailPdf/'
-							+ fromDate + '/' + toDate);
+					.open('${pageContext.request.contextPath}/showMonthlywisePdf/'
+							+ fromDate + '/' + toDate + '/' + compId);
 			document.getElementById("expExcel").disabled = true;
 
 		}
 	</script>
+
 
 </body>
 </html>
