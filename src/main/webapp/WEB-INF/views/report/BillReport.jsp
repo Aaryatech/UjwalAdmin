@@ -102,7 +102,7 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="col-md-4">
-								<strong>${title}</strong>
+								<strong>Billwise Report</strong>
 							</div>
 							<%-- <div class="col-md-8"></div>
 							<div class="col-md-2" align="left">

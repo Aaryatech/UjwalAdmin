@@ -87,7 +87,7 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="col-md-4">
-								<strong>${title}</strong>
+								<strong>Customer wise Report</strong>
 							</div>
 						</div>
 
@@ -176,7 +176,6 @@
 										<th style="text-align: center">Tax Amount</th>
 										<th style="text-align: center">Taxable Amount</th>
 										<th style="text-align: center">Grand Total </th>
-											<th style="text-align: center">Action</th>
 
 										</tr>
 									</thead>
@@ -380,8 +379,8 @@
 																				v.sgstAmt,
 																				v.totaTax,
 																				v.taxableAmt,
-																				v.grandTotal,
-																				acButton
+																				v.grandTotal
+																				
 
 																		])
 																.draw();

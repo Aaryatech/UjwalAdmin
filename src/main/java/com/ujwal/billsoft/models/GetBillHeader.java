@@ -12,6 +12,15 @@ public class GetBillHeader implements Serializable{
 	private String billDateTime;
 	private int custId;
 	private String custName;
+	private String custAddress;
+	private String custPhone;
+	private String custGstn;
+	private String custPan;
+	private String custEmail;
+	private String custVehNo;
+	private String custChasiNo;
+	private String custRegisNo;
+	private String custRoNo;
 	private int companyId;
 	private String compName;
 	private int locId;
@@ -41,6 +50,60 @@ public class GetBillHeader implements Serializable{
 	
 	
 	
+	public String getCustAddress() {
+		return custAddress;
+	}
+	public void setCustAddress(String custAddress) {
+		this.custAddress = custAddress;
+	}
+	public String getCustPhone() {
+		return custPhone;
+	}
+	public void setCustPhone(String custPhone) {
+		this.custPhone = custPhone;
+	}
+	public String getCustGstn() {
+		return custGstn;
+	}
+	public void setCustGstn(String custGstn) {
+		this.custGstn = custGstn;
+	}
+	public String getCustPan() {
+		return custPan;
+	}
+	public void setCustPan(String custPan) {
+		this.custPan = custPan;
+	}
+	public String getCustEmail() {
+		return custEmail;
+	}
+	public void setCustEmail(String custEmail) {
+		this.custEmail = custEmail;
+	}
+	public String getCustVehNo() {
+		return custVehNo;
+	}
+	public void setCustVehNo(String custVehNo) {
+		this.custVehNo = custVehNo;
+	}
+	public String getCustChasiNo() {
+		return custChasiNo;
+	}
+	public void setCustChasiNo(String custChasiNo) {
+		this.custChasiNo = custChasiNo;
+	}
+	public String getCustRegisNo() {
+		return custRegisNo;
+	}
+	public void setCustRegisNo(String custRegisNo) {
+		this.custRegisNo = custRegisNo;
+	}
+	public String getCustRoNo() {
+		return custRoNo;
+	}
+	public void setCustRoNo(String custRoNo) {
+		this.custRoNo = custRoNo;
+	}
 	public int getExInt1() {
 		return exInt1;
 	}

@@ -10,7 +10,7 @@
 <title>Ujjwal Billing Software</title>
 
 
-<c:url var="getItemListBetweenDate" value="/getItemListBetweenDate" />
+<c:url var="getTaxWiseBill" value="/getTaxWiseBill" />
 <c:url var="getBillListBetweenDate" value="/getBillListBetweenDate" />
 
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
@@ -119,14 +119,14 @@
 							<div class="row">
 
 
-								<div class="col-md-2">Item Name</div>
+								<div class="col-md-2">Company Name</div>
 								<div class="col-md-4">
-									<select id="item_id" name="item_id" class="standardSelect"
+									<select id="comp_id" name="comp_id" class="standardSelect"
 										tabindex="1" required
 										oninvalid="setCustomValidity('Please select item')">
 										<option value="0">All</option>
-										<c:forEach items="${partList}" var="item">
-											<option value="${item.partId}">${item.partName}</option>
+										<c:forEach items="${compList}" var="item">
+											<option value="${item.compId}">${item.compName}</option>
 										</c:forEach>
 
 									</select>
@@ -153,12 +153,10 @@
 									<thead>
 										<tr>
 											<th style="text-align: center; width: 5%;">Sr No</th>
-											<th style="text-align: center">Item Code</th>
-											<th style="text-align: center">Item Name</th>
-											<th style="text-align: center">HSN Code</th>
-											<th style="text-align: center">CGST</th>
-											<th style="text-align: center">IGST</th>
-											<th style="text-align: center">SGST</th>
+											<th style="text-align: center">Bill No.</th>
+											<th style="text-align: center">Bill Date </th>
+											<th style="text-align: center">Customer Name</th>
+											<th style="text-align: center">GST No.</th>
 											<th style="text-align: center">Tax %</th>
 											<th style="text-align: center">Total Taxable Amount</th>
 											<!-- <th style="text-align: center">Total Amount</th> -->
@@ -286,7 +284,7 @@
 
 			//alert("Hi View Orders  ");
 
-			var itemId = document.getElementById("item_id").value;
+			var comp_id = document.getElementById("comp_id").value;
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
@@ -294,9 +292,9 @@
 
 			var valid = true;
 
-			if (itemId == null || itemId == "") {
+			if (comp_id == null || comp_id == "") {
 				valid = false;
-				alert("Please select item");
+				alert("Please select Company");
 			}
 
 		
@@ -319,8 +317,8 @@
 			}
 			if (valid == true) {
 
-				$.getJSON('${getItemListBetweenDate}', {
-					itemId : itemId,
+				$.getJSON('${getTaxWiseBill}', {
+					comp_id : comp_id,
 				
 					fromDate : fromDate,
 					toDate : toDate,
@@ -346,9 +344,9 @@
 					$.each(data, function(i, v) {
 					
 						dataTable.row.add(
-								[ i + 1, v.partId, v.partName, v.hsnCode,
-										 v.cgstRs, v.sgstRs,v.igstRs,
-										 v.partTaxId,v.taxableAmount
+								[ i + 1, v.billDetailId, v.billDate, v.custName,
+										 v.custGstn, v.igstPer,v.taxableAmount
+										
 
 								]).draw();
 					});

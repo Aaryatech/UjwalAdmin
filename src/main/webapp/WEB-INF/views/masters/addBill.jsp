@@ -701,7 +701,7 @@ function add(){
 <script type="text/javascript">
 
 function callEdit(billDetailId, index) { 
-	
+	document.getElementById("index").value =index;
 	$
 			.getJSON(
 					'${getItemForEdit}',

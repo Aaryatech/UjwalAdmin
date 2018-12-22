@@ -63,7 +63,7 @@ public class UjwalBillReportController {
 	List<CompReport> getList = new ArrayList<>();
 	List<CustReport> getListnew = new ArrayList<>();
 	
-@RequestMapping(value="/showBillReport", method=RequestMethod.GET)
+@RequestMapping(value="/showBillwiseReport", method=RequestMethod.GET)
 	
 	public ModelAndView addShoworderForm1() {
 		
@@ -401,7 +401,7 @@ public class UjwalBillReportController {
 
 		return billList;
 	}*/
-@RequestMapping(value="/showCustomerBill", method=RequestMethod.GET)
+@RequestMapping(value="/showCustomerReport", method=RequestMethod.GET)
 	
 	public ModelAndView showCustomerBill() {
 		

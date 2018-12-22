@@ -243,7 +243,7 @@
 										<thead>
 											<tr>
 											
-												<th style="text-align: center"><input type="checkbox" id="selectAll" /> Sr.No.</th>
+												<th style="text-align: center"><!-- <input type="checkbox" id="selectAll" />  -->Sr.No.</th>
 												<th style="text-align: center">Bill No</th>
 												<th style="text-align: center">Bill Date</th>
 												<th style="text-align: center">Customer Name</th>
@@ -258,7 +258,7 @@
 				<center>
 										<input type="button" margin-right: 5px;" id="btn_submit"
 											class="btn btn-primary" onclick="billPdf()" 
-											value="Bill Pdf" disabled/>
+											value="Bill Pdf" />
 							</center>
 								
 
@@ -409,7 +409,7 @@
 							$.each(data,function(i, v) {
 												//alert("hdjfh");
 										
-var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v.billHeaderId+' class="chk"  value='+v.billHeadId+'/>'
+var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v.billHeaderId+' class="chk"  value='+v.billHeaderId+' >'
 //var ordQty = '<input  type="text"  class="form-control"  id="ordQty'+v.itemId+'" name="ordQty'+v.itemId+'" onchange="calTotal('+v.itemId+','+v.poRate+','+v.poDetailId+','+v.poRemainingQty+')"/>'
 //var itemTotal = '<input  type="text" readonly  class="form-control"  id="itemTotal'+v.itemId+'" name='+v.itemId+'/>'
 										 var acButton = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callEdit('
