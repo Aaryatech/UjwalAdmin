@@ -23,18 +23,36 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.ujwal.billsoft.commons.Constants;
+import com.ujwal.billsoft.commons.DateConvertor;
 import com.ujwal.billsoft.commons.ExportToExcel;
 import com.ujwal.billsoft.models.BillHeader;
+import com.ujwal.billsoft.models.CompReport;
+import com.ujwal.billsoft.models.CustReport;
+import com.ujwal.billsoft.models.MCompany;
+import com.ujwal.billsoft.models.MCustomer;
 
 @Controller
 @Scope("session")
@@ -42,11 +60,28 @@ public class UjwalBillReportController {
 	
 	RestTemplate rest = new RestTemplate();
 	int isError = 0;
-	List<BillHeader> getList = new ArrayList<>();
+	List<CompReport> getList = new ArrayList<>();
+	List<CustReport> getListnew = new ArrayList<>();
+	
+@RequestMapping(value="/showBillReport", method=RequestMethod.GET)
+	
+	public ModelAndView addShoworderForm1() {
+		
+		ModelAndView mav = new ModelAndView("report/BillReport");
+		try {
+			rest = new RestTemplate();
+		List<MCompany> compList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		
+		System.out.println(compList);
+		mav.addObject("compList", compList);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 
-
+		return mav;		
+	} 
 	@RequestMapping(value = "/getBillReportBetDate", method = RequestMethod.GET)
-	public @ResponseBody List<BillHeader> getBillReportBetDate(HttpServletRequest request,
+	public @ResponseBody List<CompReport> getBillReportBetDate(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		System.err.println(" in getContraReportBetDate");
@@ -54,23 +89,36 @@ public class UjwalBillReportController {
 
 		String fromDate = request.getParameter("fromDate");
 		String toDate = request.getParameter("toDate");
+		int compId =Integer.parseInt(request.getParameter("compId"));
+		
 
 		System.out.println(fromDate +"  "+toDate);
-		map.add("fromDate", fromDate);
-		map.add("toDate", toDate);
 
-		BillHeader[] ordHeadArray = rest.postForObject(Constants.url + "/getContractorBetweenDate", map,BillHeader[].class);
-		getList = new ArrayList<BillHeader>(Arrays.asList(ordHeadArray));
-		List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+		map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+		map.add("compId", compId);
+
+		
+		
+		CompReport[] ordHeadArray = rest.postForObject(Constants.url + "/getContractorBetweenDate", map,CompReport[].class);
+		getList = new ArrayList<CompReport>(Arrays.asList(ordHeadArray));
+		System.out.println("SDF: "+getList);
+		
+	/*	List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 		ExportToExcel expoExcel = new ExportToExcel();
 		List<String> rowData = new ArrayList<String>();
 
 		rowData.add("Sr. No");
-		rowData.add("Compant Id");
-		rowData.add("Remark");
-		rowData.add("Customer Id");
-
+		rowData.add("Invoice No.");
+		rowData.add("Bill Date");
+		rowData.add("Customer Name");
+		rowData.add("CGst Amount");
+		rowData.add("SGST Amount");
+		rowData.add("IGST Amount");
+		rowData.add("Tax Amount");
+		rowData.add("Taxable Amount");
 		rowData.add("Total");
 
 		expoExcel.setRowData(rowData);
@@ -82,7 +130,7 @@ public class UjwalBillReportController {
 			cnt = cnt + i;
 			rowData.add("" + (i + 1));
 
-			rowData.add("" + getList.get(i).getCompanyId());
+			rowData.add("" + getList.get(i).getCompName());
 			rowData.add("" + getList.get(i).getRemark());
 			rowData.add("" + getList.get(i).getCustId());
 			rowData.add("" + getList.get(i).getGrandTotal());
@@ -94,11 +142,11 @@ public class UjwalBillReportController {
 
 		HttpSession session = request.getSession();
 		session.setAttribute("exportExcelList", exportToExcelList);
-		session.setAttribute("excelName", "GetMatIssueHeader");
+		session.setAttribute("excelName", "GetMatIssueHeader");*/
 
 		return getList;
 	}
-	/*
+/*
 	@RequestMapping(value = "/showContractorwisePdf/{fromDate}/{toDate}", method = RequestMethod.GET)
 	public void showContractorwisePdf(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate,
 			HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException {
@@ -166,7 +214,7 @@ public class UjwalBillReportController {
 
 			table.addCell(hcell);
 			int index = 0;
-			for (GetMatIssueReport work : getList) {
+			for (BillHeader work : getList) {
 				index++;
 				PdfPCell cell;
 
@@ -177,28 +225,28 @@ public class UjwalBillReportController {
 				cell.setPaddingRight(2);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + work.getContrName(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getCompanyId(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + work.getTotal(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getRemark(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + work.getQtyTotal(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getGrandTotal(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + work.getWeighContrQty(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getCustId(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
@@ -353,6 +401,91 @@ public class UjwalBillReportController {
 
 		return billList;
 	}*/
+@RequestMapping(value="/showCustomerBill", method=RequestMethod.GET)
+	
+	public ModelAndView showCustomerBill() {
+		
+		ModelAndView mav = new ModelAndView("report/CustomerReport");
+		try {
+			rest = new RestTemplate();
+			List<MCustomer> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
+			mav.addObject("custList", custList);	
+		System.out.println(custList);
 
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+
+		return mav;		
+	} 
+
+
+
+	@RequestMapping(value = "/getCustListBetweenDate", method = RequestMethod.GET)
+	public @ResponseBody List<CustReport> getCustListBetweenDate(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		System.err.println(" in getCustListBetweenDate");
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		String fromDate = request.getParameter("fromDate");
+		String toDate = request.getParameter("toDate");
+		int custId =Integer.parseInt(request.getParameter("custId"));
+		
+
+		System.out.println(fromDate +"  "+toDate);
+
+		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+		map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+		map.add("custId", custId);
+
+		
+		
+		CustReport[] ordHeadArray = rest.postForObject(Constants.url + "/getCustomerBetweenDate", map,CustReport[].class);
+		getListnew = new ArrayList<CustReport>(Arrays.asList(ordHeadArray));
+		System.out.println("Customer List: "+getListnew);
+		
+	/*	List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+		ExportToExcel expoExcel = new ExportToExcel();
+		List<String> rowData = new ArrayList<String>();
+
+		rowData.add("Sr. No");
+		rowData.add("Invoice No.");
+		rowData.add("Bill Date");
+		rowData.add("Customer Name");
+		rowData.add("CGst Amount");
+		rowData.add("SGST Amount");
+		rowData.add("IGST Amount");
+		rowData.add("Tax Amount");
+		rowData.add("Taxable Amount");
+		rowData.add("Total");
+
+		expoExcel.setRowData(rowData);
+		exportToExcelList.add(expoExcel);
+		int cnt = 1;
+		for (int i = 0; i < getList.size(); i++) {
+			expoExcel = new ExportToExcel();
+			rowData = new ArrayList<String>();
+			cnt = cnt + i;
+			rowData.add("" + (i + 1));
+
+			rowData.add("" + getList.get(i).getCompName());
+			rowData.add("" + getList.get(i).getRemark());
+			rowData.add("" + getList.get(i).getCustId());
+			rowData.add("" + getList.get(i).getGrandTotal());
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+
+		}
+
+		HttpSession session = request.getSession();
+		session.setAttribute("exportExcelList", exportToExcelList);
+		session.setAttribute("excelName", "GetMatIssueHeader");*/
+
+		return getListnew;
+	}
 
 }

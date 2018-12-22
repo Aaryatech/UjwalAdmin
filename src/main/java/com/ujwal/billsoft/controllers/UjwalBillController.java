@@ -353,10 +353,12 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 	try {
 
 		int isEditBill=0;
-		try {
+		try 
+		{
 			isEditBill= Integer.parseInt(request.getParameter("isEditBill"));
 		}
-		catch (Exception e) {
+		catch (Exception e) 
+		{
 			isEditBill=0;
 		}
 			
@@ -463,12 +465,12 @@ public ModelAndView showBillList(HttpServletRequest request, HttpServletResponse
 	ModelAndView model = null;
 	try {
 
-		model = new ModelAndView("bill/billList");
+		model = new ModelAndView("report/BillReport");
 
 		model.addObject("title", "Bill List");
 
-		List<MCompany> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
-		model.addObject("custList", custList);
+		List<MCompany> custList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		model.addObject("compList", custList);
 
 		String fromDate = null, toDate = null;
 
