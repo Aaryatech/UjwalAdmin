@@ -181,7 +181,7 @@
 
 
 										<th style="text-align: center">Bill Date</th>
-										<th style="text-align: center">Customer Name</th>
+										<th style="text-align: center">Company Name</th>
 										<th style="text-align: center">CGst Amount</th>
 										<th style="text-align: center">SGST Amount</th>
 										<th style="text-align: center">IGST Amount</th>
@@ -389,7 +389,7 @@
 																				i + 1,
 																				v.invoiceNo,
 																				v.billDate,
-																				v.custName,
+																				v.compName,
 																				v.cgstAmt,
 																				v.igstAmt,
 																				v.sgstAmt,
@@ -433,12 +433,14 @@
 	<script type="text/javascript">
 		function genPdf() {
 			//alert("hiii");
+				var compId = document.getElementById("compId").value;
+		
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
 			window
-					.open('${pageContext.request.contextPath}/showContractorwisePdf/'
-							+ fromDate + '/' + toDate);
+					.open('${pageContext.request.contextPath}/showCompanywisePdf/'
+							+ fromDate + '/' + toDate + '/' + compId);
 			document.getElementById("expExcel").disabled = true;
 
 		}
