@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujwal Billing Software</title>
+<title>Ujjwal Billing Software</title>
 
 
 <c:url var="getBillReportBetDate" value="/getBillReportBetDate" />
@@ -143,7 +143,7 @@
 
 								<div class="col-md-4">
 									<select id="compId" name="compId" class="standardSelect"
-										multiple tabindex="1" required
+									tabindex="1" required
 										oninvalid="setCustomValidity('Please select company')"
 										onchange="getData()">
 										<option value="">Select</option>
@@ -175,19 +175,17 @@
 								class="table table-striped table-bordered">
 								<thead>
 									<tr>
-										<th style="text-align: center">Sr.No.</th>
-
+										<th style="text-align: center">Sr.</th>
 										<th style="text-align: center">Invoice No.</th>
-
-
-										<th style="text-align: center">Bill Date</th>
-										<th style="text-align: center">Company Name</th>
-										<th style="text-align: center">CGst Amount</th>
-										<th style="text-align: center">SGST Amount</th>
-										<th style="text-align: center">IGST Amount</th>
-										<th style="text-align: center">Tax Amount</th>
-										<th style="text-align: center">Taxable Amount</th>
-										<th style="text-align: center">Grand Total </th>
+										<th style="text-align: center">Invoice Date</th>
+										<th style="text-align: center">Company</th>
+										<th style="text-align: center">Discount</th>
+										<th style="text-align: center">Taxable Amt</th>
+										<th style="text-align: center">CGST</th>
+										<th style="text-align: center">SGST</th>
+										<th style="text-align: center">IGST</th>
+										<th style="text-align: center">Tax Amt</th>
+										<th style="text-align: center">Grand Total</th>
 										
 									</tr>
 								</thead>
@@ -390,11 +388,12 @@
 																				v.invoiceNo,
 																				v.billDate,
 																				v.compName,
-																				v.cgstAmt,
-																				v.igstAmt,
-																				v.sgstAmt,
-																				v.totaTax,
+																				v.discAmt,
 																				v.taxableAmt,
+																				v.cgstAmt,
+																				v.sgstAmt,
+																				v.igstAmt,
+        																		v.totaTax,
 																				v.grandTotal,
 																				 ])
 																.draw();
@@ -432,16 +431,12 @@
 
 	<script type="text/javascript">
 		function genPdf() {
-			//alert("hiii");
 				var compId = document.getElementById("compId").value;
-		
-			var fromDate = document.getElementById("from_date").value;
-			var toDate = document.getElementById("to_date").value;
-
-			window
-					.open('${pageContext.request.contextPath}/showCompanywisePdf/'
+			    var fromDate = document.getElementById("from_date").value;
+			    var toDate = document.getElementById("to_date").value;
+			    window.open('${pageContext.request.contextPath}/showCompanywisePdf/'
 							+ fromDate + '/' + toDate + '/' + compId);
-			document.getElementById("expExcel").disabled = true;
+			    document.getElementById("expExcel").disabled = true;
 
 		}
 	</script>

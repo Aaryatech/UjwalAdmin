@@ -17,10 +17,10 @@ public class CompReport {
 	private int locId;
 	private int userId;
 	private float roundOff;
-	private float disc_amt;
+	private float discAmt;
 	private String user_name;
 	private String compName;
-	private int del_status;
+	private int delStatus;
 	
 	
 	public String getCompName() {
@@ -29,23 +29,25 @@ public class CompReport {
 	public void setCompName(String compName) {
 		this.compName = compName;
 	}
-	public float getDisc_amt() {
-		return disc_amt;
-	}
-	public void setDisc_amt(float disc_amt) {
-		this.disc_amt = disc_amt;
-	}
+	
 	public String getUser_name() {
 		return user_name;
 	}
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
-	public int getDel_status() {
-		return del_status;
+	
+	public float getDiscAmt() {
+		return discAmt;
 	}
-	public void setDel_status(int del_status) {
-		this.del_status = del_status;
+	public void setDiscAmt(float discAmt) {
+		this.discAmt = discAmt;
+	}
+	public int getDelStatus() {
+		return delStatus;
+	}
+	public void setDelStatus(int delStatus) {
+		this.delStatus = delStatus;
 	}
 	public int getLocId() {
 		return locId;
@@ -149,8 +151,8 @@ public class CompReport {
 				+ ", custId=" + custId + ", companyId=" + companyId + ", taxPer=" + taxPer + ", taxableAmt="
 				+ taxableAmt + ", sgstAmt=" + sgstAmt + ", cgstAmt=" + cgstAmt + ", igstAmt=" + igstAmt + ", totaTax="
 				+ totaTax + ", grandTotal=" + grandTotal + ", custName=" + custName + ", locId=" + locId + ", userId="
-				+ userId + ", roundOff=" + roundOff + ", disc_amt=" + disc_amt + ", user_name=" + user_name
-				+ ", compName=" + compName + ", del_status=" + del_status + "]";
+				+ userId + ", roundOff=" + roundOff + ", disc_amt=" + discAmt + ", user_name=" + user_name
+				+ ", compName=" + compName + ", del_status=" + delStatus + "]";
 	}
 	
 	
