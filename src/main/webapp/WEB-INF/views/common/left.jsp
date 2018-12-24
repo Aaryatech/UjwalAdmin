@@ -33,7 +33,7 @@ html {
 
 			<div id="main-menu" class="main-menu collapse navbar-collapse">
 				<ul class="nav navbar-nav"
-					style="max-height: calc(100vh - 9rem); overflow-y: auto;">
+					>
 					<li><a href="${pageContext.request.contextPath}/home"> <i
 							class="menu-icon fa fa-dashboard"></i> Dashboard
 					</a></li>
@@ -47,6 +47,10 @@ html {
 					</a>
 						<ul class="sub-menu children dropdown-menu ">
 
+                       	<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/addNewUser">Add
+									User</a></li>
+								
 							<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddCompany">Add
 									Company</a></li>
@@ -178,8 +182,10 @@ html {
 						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddBill">Add
 									Bill</a></li>
-
-							<li class="active"><i class="fa fa-puzzle-piece"></i><a
+<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showBillList">
+									Bill List</a></li>
+							<%-- <li class="active"><i class="fa fa-puzzle-piece"></i><a
 								href="${pageContext.request.contextPath}/showOrder">View
 									order</a></li>
 
@@ -198,7 +204,7 @@ html {
 								href="${pageContext.request.contextPath}/showChalanList">
 									Chalan List</a></li>
 
-
+ --%>
 
 
 						</ul></li>
@@ -254,13 +260,19 @@ html {
 					</a>
 						<ul class="sub-menu children dropdown-menu ">
 						<li class="active"><i class="fa fa-plus"></i><a
-								href="${pageContext.request.contextPath}/showItemReport">Items
+								href="${pageContext.request.contextPath}/showItemsReport">ItemWise
 									Report</a></li>
-								
+							
 						<li class="active"><i class="fa fa-plus"></i><a
-								href="${pageContext.request.contextPath}/showCustomerReport">Customer
+								href="${pageContext.request.contextPath}/showCustomerReport">Customer Wise
 									Report</a></li>
 
+								<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/billTaxreport">Bill
+								Tax Report</a></li>
+							
+								<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showBillwiseReport">Billwise Report</a></li>
 							
 
 						</ul></li>
