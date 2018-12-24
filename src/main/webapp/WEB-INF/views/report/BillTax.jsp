@@ -157,8 +157,13 @@
 											<th style="text-align: center">Bill Date </th>
 											<th style="text-align: center">Customer Name</th>
 											<th style="text-align: center">GST No.</th>
+											<th style="text-align: center">CGST</th>
+											<th style="text-align: center">SGST</th>
+											<th style="text-align: center">IGST</th>												
 											<th style="text-align: center">Tax %</th>
 											<th style="text-align: center">Total Taxable Amount</th>
+											<th style="text-align: center">Bill Amount</th>
+											
 											<!-- <th style="text-align: center">Total Amount</th> -->
 											
 
@@ -344,8 +349,8 @@
 					$.each(data, function(i, v) {
 					
 						dataTable.row.add(
-								[ i + 1, v.billDetailId, v.billDate, v.custName,
-										 v.custGstn, v.igstPer,v.taxableAmount
+								[ i + 1, v.invoiceNo, v.billDate, v.custName,
+										 v.custGstn, v.cgst,v.sgst,v.igst,v.taxPer,v.taxableAmount,v.billAmount
 										
 
 								]).draw();

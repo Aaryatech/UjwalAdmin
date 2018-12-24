@@ -476,7 +476,7 @@ public class UjwalBillReportController {
 
 	}
 
-	@RequestMapping(value = "/showCustomerwisePdf/{fromDate}/{toDate}/{custId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/showCustwisePdf/{fromDate}/{toDate}/{custId}", method = RequestMethod.GET)
 	public void showCustomerwisePdf(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate,@PathVariable("custId") int custId,
 			HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
@@ -798,16 +798,17 @@ public class UjwalBillReportController {
 
 		return billList;
 	}*/
-@RequestMapping(value="/showCustomerBill", method=RequestMethod.GET)
+@RequestMapping(value="/showCustomerReport", method=RequestMethod.GET)
 	
 	public ModelAndView showCustomerBill() {
 		
 		ModelAndView mav = new ModelAndView("report/CustomerReport");
-		try {
+		try 
+		{
 			rest = new RestTemplate();
 			List<MCustomer> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
 			mav.addObject("custList", custList);	
-		System.out.println(custList);
+			System.out.println(custList);
 
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -875,12 +876,10 @@ public class UjwalBillReportController {
 			rowData.add("" + getListnew.get(i).getCustGstn());
 			rowData.add("" + getListnew.get(i).getCustName());
 			rowData.add("" + getListnew.get(i).getCgstAmt());
-			
 			rowData.add("" + getListnew.get(i).getSgstAmt());
 			rowData.add("" + getListnew.get(i).getIgstAmt());
 			rowData.add("" + getListnew.get(i).getTotaTax());
 			rowData.add("" + getListnew.get(i).getTaxableAmt());
-			
 			rowData.add("" + getListnew.get(i).getGrandTotal());
 
 			expoExcel.setRowData(rowData);

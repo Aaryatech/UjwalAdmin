@@ -11,8 +11,66 @@ public class TaxBillBean {
 	private String custGstn; 
 	private String billDate;
 	private String custName;
+	private float cgstPer;
+	private float sgstPer;
+	private float cgst;
+	private float sgst;
+	private float igst;
 	private float igstPer;
 	private float taxableAmount;
+	private float taxPer;
+	private String invoiceNo;
+	private float billAmount;
+	
+	
+	public float getCgstPer() {
+		return cgstPer;
+	}
+	public void setCgstPer(float cgstPer) {
+		this.cgstPer = cgstPer;
+	}
+	public float getSgstPer() {
+		return sgstPer;
+	}
+	public void setSgstPer(float sgstPer) {
+		this.sgstPer = sgstPer;
+	}
+	public float getCgst() {
+		return cgst;
+	}
+	public void setCgst(float cgst) {
+		this.cgst = cgst;
+	}
+	public float getSgst() {
+		return sgst;
+	}
+	public void setSgst(float sgst) {
+		this.sgst = sgst;
+	}
+	public float getIgst() {
+		return igst;
+	}
+	public void setIgst(float igst) {
+		this.igst = igst;
+	}
+	public float getTaxPer() {
+		return taxPer;
+	}
+	public void setTaxPer(float taxPer) {
+		this.taxPer = taxPer;
+	}
+	public float getBillAmount() {
+		return billAmount;
+	}
+	public void setBillAmount(float billAmount) {
+		this.billAmount = billAmount;
+	}
+	public String getInvoiceNo() {
+		return invoiceNo;
+	}
+	public void setInvoiceNo(String invoiceNo) {
+		this.invoiceNo = invoiceNo;
+	}
 	public int getBillDetailId() {
 		return billDetailId;
 	}
@@ -71,9 +129,10 @@ public class TaxBillBean {
 	public String toString() {
 		return "TaxBillBean [billDetailId=" + billDetailId + ", billHeaderId=" + billHeaderId + ", companyId="
 				+ companyId + ", custId=" + custId + ", custGstn=" + custGstn + ", billDate=" + billDate + ", custName="
-				+ custName + ", igstPer=" + igstPer + ", taxableAmount=" + taxableAmount + "]";
+				+ custName + ", cgstPer=" + cgstPer + ", sgstPer=" + sgstPer + ", cgst=" + cgst + ", sgst=" + sgst
+				+ ", igst=" + igst + ", igstPer=" + igstPer + ", taxableAmount=" + taxableAmount + ", taxPer=" + taxPer
+				+ ", invoiceNo=" + invoiceNo + ", billAmount=" + billAmount + "]";
 	}
-	
 	
 	
 	
