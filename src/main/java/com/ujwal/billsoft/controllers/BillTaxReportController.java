@@ -147,8 +147,8 @@ public class BillTaxReportController {
 		return getList;
 		
 	}
-	@RequestMapping(value = "/showTaxwisePdf/{fromDate}/{toDate}/{compId}", method = RequestMethod.GET)
-	public void showTaxwisePdf(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate,@PathVariable("compId") int compId,
+	@RequestMapping(value = "/showBillReportwisePdf/{fromDate}/{toDate}/{comp_id}", method = RequestMethod.GET)
+	public void showTaxwisePdf(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate,@PathVariable("comp_id") int comp_id,
 			HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException {
 		BufferedOutputStream outStream = null;
 		System.out.println("Inside Pdf showTaxwisePdf");

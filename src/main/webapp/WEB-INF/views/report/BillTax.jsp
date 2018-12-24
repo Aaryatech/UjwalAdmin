@@ -163,11 +163,6 @@
 											<th style="text-align: center">Tax %</th>
 											<th style="text-align: center">Total Taxable Amount</th>
 											<th style="text-align: center">Bill Amount</th>
-											
-											<!-- <th style="text-align: center">Total Amount</th> -->
-											
-
-
 										</tr>
 									</thead>
 
@@ -450,9 +445,9 @@
 			//alert("hiii");
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
-
-			window.open('${pageContext.request.contextPath}/showBillwisePdf/'
-					+ fromDate + '/' + toDate);
+			var comp_id = document.getElementById("comp_id").value;
+			window.open('${pageContext.request.contextPath}/showBillReportwisePdf/'
+					+ fromDate + '/' + toDate+ '/' + comp_id);
 			document.getElementById("expExcel").disabled = true;
 
 		}
