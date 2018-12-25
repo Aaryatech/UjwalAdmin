@@ -20,6 +20,7 @@ import com.ujwal.billsoft.models.MCompany;
 import com.ujwal.billsoft.models.MCustomer;
 import com.ujwal.billsoft.models.MGetPart;
 import com.ujwal.billsoft.models.MPart;
+import com.ujwal.billsoft.models.MPartList;
 import com.ujwal.billsoft.models.MTax;
 import com.ujwal.billsoft.models.MUom;
 
@@ -34,14 +35,21 @@ public class UjwalPartController {
 		ModelAndView mav = new ModelAndView("masters/addPart");
 		try {
 		restTamplate = new RestTemplate();
-		List<MPart> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
+		List<MPartList> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPartDetails", List.class);
 		mav.addObject("pList", partList);
+		
 		List<MTax> taxList = restTamplate.getForObject(Constants.url + "/ujwal/getAllTaxes", List.class);
 		mav.addObject("tList", taxList);
+		
 		List<MUom> muom = restTamplate.getForObject(Constants.url + "/ujwal/getAllMUom", List.class);
 		mav.addObject("muomList", muom);
+		
 		List<MGetPart> getpartList = restTamplate.getForObject(Constants.url + "/getAllPartList", List.class);
 		mav.addObject("getList", getpartList);
+		
+		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		mav.addObject("compList", compList);
+		
 		mav.addObject("title", "Add Part");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -63,6 +71,7 @@ public class UjwalPartController {
 		try {
 		
 		String partName = req.getParameter("part_name");
+		int compId = Integer.parseInt(req.getParameter("compId"));
 		String partRegisterNo = req.getParameter("part_register_no");
 		int partUomId = Integer.parseInt(req.getParameter("measurement_of_unit"));
 		int partTaxId = Integer.parseInt(req.getParameter("part_tax_id"));
@@ -75,6 +84,7 @@ public class UjwalPartController {
 		
 		MPart mPart = new MPart();
 		mPart.setPartId(partId);
+		mPart.setCompId(compId);
 		mPart.setPartName(partName);
 		mPart.setPartRegisterNo(partRegisterNo);
 		mPart.setPartUomId(partUomId);
@@ -182,7 +192,7 @@ public ModelAndView showPartList() {
 	ModelAndView mav = new ModelAndView("masters/partList");
 	try {
 	restTamplate = new RestTemplate();
-	List<MPart> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
+	List<MPartList> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPartDetails", List.class);
 	mav.addObject("pList", partList);
 	List<MTax> taxList = restTamplate.getForObject(Constants.url + "/ujwal/getAllTaxes", List.class);
 	mav.addObject("tList", taxList);

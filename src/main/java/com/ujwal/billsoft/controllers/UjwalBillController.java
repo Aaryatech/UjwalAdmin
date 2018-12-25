@@ -62,12 +62,15 @@ public class UjwalBillController {
 		detailList = new ArrayList<BillDetails>();
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		Date date = new Date();		
-			
-		List<MCompany> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
-		mav.addObject("custList", custList);
+		List<MCompany> compList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		mav.addObject("compList", compList);
+		
+		/*List<MCustomer> custList = rest.getForObject(Constants.url + "/ujwal/getCustomerListById", List.class);
+		mav.addObject("custList", custList);*/
 		
 		List<MPart> partList = rest.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
 		mav.addObject("pList", partList);
+		
 		
 		mav.addObject("date", dateFormat.format(date));
 		mav.addObject("title", "Add Bill");
@@ -478,9 +481,12 @@ public ModelAndView showBillList(HttpServletRequest request, HttpServletResponse
 		model = new ModelAndView("bill/billList");
 
 		model.addObject("title", "Bill List");
-
-		List<MCompany> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
-		model.addObject("custList", custList);
+		
+		List<MCompany> compList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		model.addObject("compList", compList);
+			
+		/*List<MCompany> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
+		model.addObject("custList", custList);*/
 
 		String fromDate = null, toDate = null;
 

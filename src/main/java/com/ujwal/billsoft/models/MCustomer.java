@@ -7,6 +7,7 @@ public class MCustomer {
 	
 	private int custId;
 	private String custName;
+	private int compId;
 	private String custAddress;
 	private String custPhone;
 	private String custGstn;
@@ -49,6 +50,13 @@ public class MCustomer {
 	}
 	public void setCustName(String custName) {
 		this.custName = custName;
+	}
+	
+	public int getCompId() {
+		return compId;
+	}
+	public void setCompId(int compId) {
+		this.compId = compId;
 	}
 	public String getCustAddress() {
 		return custAddress;
@@ -173,13 +181,13 @@ public class MCustomer {
 	}
 	@Override
 	public String toString() {
-		return "MCustomer [custId=" + custId + ", custName=" + custName + ", custAddress=" + custAddress
-				+ ", custPhone=" + custPhone + ", custGstn=" + custGstn + ", custPan=" + custPan + ", custEmail="
-				+ custEmail + ", custVehNo=" + custVehNo + ", custChasiNo=" + custChasiNo + ", custRegisNo="
-				+ custRegisNo + ", custRoNo=" + custRoNo + ", custState=" + custState + ", custDelStatus="
-				+ custDelStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", extVar1="
-				+ extVar1 + ", extVar2=" + extVar2 + ", extVar3=" + extVar3 + ", exBool1=" + exBool1 + ", exBool2="
-				+ exBool2 + ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + "]";
+		return "MCustomer [custId=" + custId + ", custName=" + custName + ", compId=" + compId + ", custAddress="
+				+ custAddress + ", custPhone=" + custPhone + ", custGstn=" + custGstn + ", custPan=" + custPan
+				+ ", custEmail=" + custEmail + ", custVehNo=" + custVehNo + ", custChasiNo=" + custChasiNo
+				+ ", custRegisNo=" + custRegisNo + ", custRoNo=" + custRoNo + ", custState=" + custState
+				+ ", custDelStatus=" + custDelStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3="
+				+ exInt3 + ", extVar1=" + extVar1 + ", extVar2=" + extVar2 + ", extVar3=" + extVar3 + ", exBool1="
+				+ exBool1 + ", exBool2=" + exBool2 + ", exDate1=" + exDate1 + ", exDate2=" + exDate2 + "]";
 	}
 	
 	

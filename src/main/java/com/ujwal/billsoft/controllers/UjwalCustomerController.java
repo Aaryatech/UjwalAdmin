@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,8 +31,11 @@ public class UjwalCustomerController {
 		ModelAndView mav = new ModelAndView("masters/addCustomer");
 		try {
 		restTamplate = new RestTemplate();
-		List<MCustomer> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
-		mav.addObject("custList", compList);
+
+		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+	/*	List<MCustomer> custList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);*/
+		//mav.addObject("custList", custList);
+		mav.addObject("compList", compList);
 		mav.addObject("title", "Add Customer");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -55,6 +59,7 @@ public class UjwalCustomerController {
 			
 		
 		String custName = req.getParameter("cust_name");
+		int compId = Integer.parseInt(req.getParameter("compId"));
 		String custAddress = req.getParameter("cust_address");
 		String custPhone = req.getParameter("cust_phone");
 		String custState = req.getParameter("cust_state");
@@ -68,8 +73,10 @@ public class UjwalCustomerController {
 		
 		
 		MCustomer mCust = new MCustomer();
+	
 		mCust.setCustId(custId);
 		mCust.setCustName(custName);
+		mCust.setCompId(compId);
 		mCust.setCustAddress(custAddress);
 		mCust.setCustPhone(custPhone);
 		mCust.setCustState(custState);
@@ -98,8 +105,6 @@ public class UjwalCustomerController {
 		return "redirect:/showAddCustomer";
 		
 	}
-	
-	//
 	
 @RequestMapping(value="/editCustomer/{custId}", method=RequestMethod.GET)
 	
@@ -199,7 +204,7 @@ public ModelAndView showCustList() {
 	ModelAndView mav = new ModelAndView("masters/customerList");
 	try {
 	restTamplate = new RestTemplate();
-	List<MCustomer> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
+	List<MCustomer> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomerDetails", List.class);
 	mav.addObject("custList", compList);
 	mav.addObject("title", "Customers List");
 	}catch(Exception e){
@@ -208,5 +213,23 @@ public ModelAndView showCustList() {
 
 	return mav;		
 }
+
+	@RequestMapping(value = "/getCustomerListById", method = RequestMethod.GET)	
+	public @ResponseBody List<MCustomer>   getCustById(HttpServletRequest req, HttpServletResponse resp ) {
+
+		int compId = Integer.parseInt(req.getParameter("compId"));
+		System.out.println("DAta = "+compId);
+		
+		restTamplate = new RestTemplate();
+		
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("id", compId);
+		
+		List<MCustomer> custList = restTamplate.postForObject(Constants.url + "/ujwal/getCustomerByCompId",map, List.class);
+		System.out.println("Response List= "+custList);
+		
+		return custList;
+		
+	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 public class MPart {
 	
 	private int partId;
+	private int compId;
 	private String partName;
 	private String partNo;
 	private String partRegisterNo;
@@ -27,6 +28,14 @@ public class MPart {
 	private boolean exBool2;
 	private Date exDate1;
 	private Date exDate2;
+	
+	
+	public int getCompId() {
+		return compId;
+	}
+	public void setCompId(int compId) {
+		this.compId = compId;
+	}
 	public int getPartId() {
 		return partId;
 	}
