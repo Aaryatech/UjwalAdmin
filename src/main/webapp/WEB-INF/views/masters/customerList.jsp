@@ -104,8 +104,7 @@
 											<th style="text-align: center">Customer Name</th>
 											<th style="text-align: center">Mobile No.</th>
 											<th style="text-align: center">Email</th>
-											<!-- <th style="text-align: center">PAN No</th>
-											<th style="text-align: center">GST No</th> -->
+											<th style="text-align: center">Company Name</th>
 											<th style="text-align: center">Vehicle No</th>
 											<th style="text-align: center">Registration No.</th>
 											<th style="text-align: center">Chassis No.</th>
@@ -140,12 +139,8 @@
 											<td style="text-align: left"><c:out
 														value="${cust.custEmail}" /></td>
 												
-											<%-- <td style="text-align: left"><c:out
-														value="${cust.custPan}" /></td>
-														
-												
 											<td style="text-align: left"><c:out
-														value="${cust.custGstn}" /></td> --%>	
+														value="${cust.compName}" /></td>
 														
 											<td style="text-align: left"><c:out
 														value="${cust.custVehNo}" /></td>

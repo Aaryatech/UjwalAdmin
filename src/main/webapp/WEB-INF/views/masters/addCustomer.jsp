@@ -138,16 +138,26 @@ div.scrollmenu {
 
 
 									<div class="col-md-2">Customer Name*</div>
-									<div class="col-md-10">
+									<div class="col-md-4">
 										<input type="text" id="cust_name" name="cust_name"
 											oninvalid="setCustomValidity('Please enter correct customer name')"
 											onchange="try{setCustomValidity('')}catch(e){}"
 											pattern="^[A-Za-z\s]+$" value="${cust.custName}"
-											style="width: 50%;" autocomplete="off" class="form-control"
+											style="width: 100%;" autocomplete="off" class="form-control"
 											required>
-
-									</div>
 									<span id="cName"></span>
+									</div>
+									
+										<div class="col-md-2">Company Name*</div>
+									<div class="col-md-4">
+											<select name="compId" id="compId" class="form-control chosen" tabindex="6" required>
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											 </c:forEach>
+										</select> 
+									</div>
+									
 								</div>
 								<div class="form-group"></div>
 								<div class="row">

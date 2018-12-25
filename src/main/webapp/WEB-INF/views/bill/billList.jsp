@@ -7,11 +7,12 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujwal Billing Software</title>
+<title>Ujjwal Billing Software</title>
 
 
 <c:url var="getCustByPlantId" value="/getCustByPlantId" />
 <c:url var="getBillListBetDate" value="/getBillListBetDate" />
+<c:url var="getCustomerListById" value="/getCustomerListById" />
 <%-- 
 
 <c:url var="getCustInfoByCustId" value="/getCustInfoByCustId" />
@@ -183,9 +184,20 @@
 						</div>
 						<div class="card-body card-block">
 							
-								<div class="row">
+									<div class="row">
+									
+										<div class="col-md-2">Company Name*</div>
+										<div class="col-md-4">
+											<select name="compId" id="compId" class="standardSelect" tabindex="6" 
+											onchange="getCompId()" required>
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											 </c:forEach>
+										</select> 
+									</div>
 
-									<div class="col-md-2">Select Customer</div>
+									<%-- <div class="col-md-2">Select Customer</div>
 									<div class="col-md-4">
 										<select id="cust_name" name="cust_name" class="standardSelect"
 											tabindex="1" required
@@ -195,6 +207,19 @@
 												<option value="${cust.custId}">${cust.custName}</option>
 											</c:forEach>
 										</select>
+									</div> --%>
+									<div class="col-md-2">Customer Name</div>
+									<div class="col-md-4">
+										<select id="cust_id" name="cust_id" style="width: 100%;" class="standardSelect"
+										
+											
+											oninvalid="setCustomValidity('Please select customer')"
+											onchange="getCustInfo()">
+                                     <c:forEach items="${custList}" var="cust">
+												<option value="${cust.custId}">${cust.custName}</option>
+											</c:forEach>
+										</select>
+
 									</div>
 
 								</div>
@@ -314,6 +339,47 @@
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/data-table/buttons.colVis.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/data-table/datatables-init.js"></script>
+
+
+	<script type="text/javascript">
+			function getCompId() { 
+		
+			var compId = document.getElementById("compId").value;
+			var valid = true;
+			alert("Data "+compId)
+			if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select Company Name");
+			}
+
+			if (valid == true) {
+
+				$.getJSON('${getCustomerListById}', {
+					compId : compId,
+					ajax : 'true',
+				},
+
+				function(data) {
+					
+					var len = data.length;
+					//alert("data " +JSON.stringify(data));
+					var html='<option value="-1">All</option>';
+
+					for (var i = 0; i < len; i++) {
+
+						html += '<option value="' + data[i].custId + '">'
+								+data[i].custName+ '</option>';
+
+					}
+					html += '</option>';
+					$('#cust_id').html(html);
+					$("#cust_id").trigger("chosen:updated");
+				
+				});
+			}//end of if
+
+		}
+	</script>	
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>

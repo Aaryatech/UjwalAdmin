@@ -126,6 +126,23 @@
 								<input type="hidden" name="part_id" id="part_id"
 									value="${partList.partId}">
 
+									
+									<div class="row">
+									
+										<div class="col-md-2">Company Name*</div>
+									<div class="col-md-4">
+											<select name="compId" id="compId" class="form-control chosen" tabindex="6" required>
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											 </c:forEach>
+										</select> 
+									</div>
+									
+								</div>
+								<div class="form-group"></div>
+
+
 								<div class="row">
 
 

@@ -105,16 +105,10 @@
 											<th style="text-align: center">Part No</th>
 											<th style="text-align: center">Registration No.</th>
 											<th style="text-align: center">Part UOM Name</th>
-											<!-- <th style="text-align: center">Part Specification</th> -->
 											<th style="text-align: center">Tax Description</th>
 											<th style="text-align: center">Part MRP</th>
 											<th style="text-align: center">Ro. No.</th>
-										
-											
-											
-
-									
-
+											<th style="text-align: center">Company Name</th> 
 											<th style="text-align: center; width: 5%;">Action</th>
 
 										</tr>
@@ -138,19 +132,19 @@
 														value="${pList.partRegisterNo}" /></td>
 														
 												<td style="text-align: left"><c:out
-														value="${pList.partUomId}" /></td>
+														value="${pList.uomName}" /></td> 
 														
-												<%-- <td style="text-align: left"><c:out
-														value="${pList.partSpecification}" /></td> --%>
-											
 												<td style="text-align: left"><c:out
-														value="${pList.partTaxId}" /></td>
-														
+														value="${pList.taxDesc}" /></td>
+																												
 												<td style="text-align: left"><c:out
 														value="${pList.partMrp}" /></td>
 													
 												<td style="text-align: left"><c:out
 														value="${pList.partRoNo}" /></td>
+													
+												<td style="text-align: left"><c:out
+														value="${pList.compName}" /></td>
 																										
 												<td style="text-align: center"><a
 													href="${pageContext.request.contextPath}/editPart/${pList.partId}"><i

@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujwal Billing Software</title>
+<title>Ujjwal Billing Software</title>
 
 <c:url var="getCustById" value="/getCustById" />
 <c:url var="addPartDetail" value="/addPartDetail" />
@@ -15,8 +15,10 @@
 <c:url var="getPartListById" value="/getPartListById" />
 <c:url var="getItemForDelete" value="/getItemForDelete" />
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
-
+<c:url var="getCustomerListById" value="/getCustomerListById" />
 <c:url var="getItemForEdit" value="/getItemForEdit" />
+
+
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -137,9 +139,25 @@
 							<form action="${pageContext.request.contextPath}/insertBill"
 								id="submitForm" method="post">
 							<input type="hidden" name="isEditBill" id="isEditBill" value="${isEditBill}"/>
+								
+								
+									<div class="row">
+									
+										<div class="col-md-2">Company Name*</div>
+										<div class="col-md-4">
+											<select name="compId" id="compId" class="form-control chosen" tabindex="6" 
+											onchange="getCompId()" required>
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											 </c:forEach>
+										</select> 
+									</div>
+									
+								</div>
+								<div class="form-group"></div>
+								
 								<div class="row">
-
-
 
 									<div class="col-md-2">Customer Name</div>
 									<div class="col-md-4">
@@ -316,7 +334,21 @@
 
 									</div></div>
 									
-									<h3 style="margin-top:10px;margin-bottom:20px; font-style:bold">Add Part</h3>
+						<!-- ************************************************************************************************* -->
+							<div class="card-header" style="margin-top: 2%;">
+							<strong style="margin-top:10px;margin-bottom:20px; margin-left:-83%; font-style:bold; font-size: 15px;">Add Part</strong>
+								
+							<div class="col-md-2">
+								
+							</div>
+							<div class="col-md-8">
+						
+							</div>
+							
+
+						</div>
+						
+									<!-- <h3 style="margin-top:10px;margin-bottom:20px; font-style:bold; font-size: 25px;">Add Part</h3> -->
 								<div class="form-group"></div>
 							
 								<div class="row">
@@ -332,20 +364,28 @@
 											</c:forEach>
 										</select>
 									</div>
-									<div class="col-md-1">MRP</div>
+									<!-- <div class="col-md-1">MRP</div>
 
 									<div class="col-md-2">
 									
 										<input type="text" id="part_mrp" name="part_mrp"   value="0.0"
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 								
-									</div>
+									</div> -->
 									<div class="col-md-1">Qty</div>
 
 									<div class="col-md-2">
-										<input type="number" id="qty" name="qty"  value="0" min="0"
+										<input type="text" id="qty" name="qty"  value="0" min="0"
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 									</div>
+									
+									<div class="col-md-1" >Disc %</div>
+
+									<div class="col-md-2">
+										<input type="text" id="disc" name="disc"  value="0.0" 
+											style="width: 50%; " class="form-control" autocomplete="off"/> 
+									</div>
+									
 								</div>
 									
 	                 			
@@ -353,23 +393,29 @@
 							
 								<div class="row">
 								
-									<div class="col-md-2">Disc %</div>
+									<div class="col-md-2">MRP %</div>
 
 									<div class="col-md-4">
-										<input type="text" id="disc" name="disc"  value="0.0"
+										<input type="text" id="part_mrp" name="part_mrp"   value="0.0"
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 									</div>
-								
+						
+							<div class="col-md-2">Disc Amt.</div>
+							<div class="col-md-4">
+										<input type="text" id="discAmt" name="discAmt" value="0.0" readonly="readonly"
+											style="width: 50%;" class="form-control" autocomplete="off"/> 
+									</div>
+									
 							
 								
-								<div class="col-md-2">Remark</div>
+								<!-- <div class="col-md-2">Remark</div>
 
 									<div class="col-md-4">
 									
 										<input type="text" id="remark" name="remark"  value="NA"
 											style="width: 80%;" class="form-control" autocomplete="off"/> 
 								
-									</div>	
+									</div>	 -->
 									<div class="col-lg-2">
 	<input type="button" class="btn btn-primary" value="Add" id="AddButton"
 		style="align-content: center; width: 113px; margin-left: 380px;" onclick="add()">
@@ -531,6 +577,72 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
 
+	<script type="text/javascript">
+	
+	$("#part_mrp").on("keypress keyup blur",function (event) {
+        //this.value = this.value.replace(/[^0-9\.]/g,'');
+ 	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+	
+	$("#qty").on("keypress keyup blur",function (event) {
+        //this.value = this.value.replace(/[^0-9\.]/g,'');
+ 	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+	
+	$("#disc").on("keypress keyup blur",function (event) {
+        //this.value = this.value.replace(/[^0-9\.]/g,'');
+ 	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+	
+	</script>
+
+	<script type="text/javascript">
+			function getCompId() { 
+		
+			var compId = document.getElementById("compId").value;
+			var valid = true;
+			if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select Part Name");
+			}
+
+			if (valid == true) {
+
+				$.getJSON('${getCustomerListById}', {
+					compId : compId,
+					ajax : 'true',
+				},
+
+				function(data) {
+					
+					var len = data.length;
+					//alert("data " +JSON.stringify(data));
+					var html='<option value="-1">All</option>';
+
+					for (var i = 0; i < len; i++) {
+
+						html += '<option value="' + data[i].custId + '">'
+								+data[i].custName+ '</option>';
+
+					}
+					html += '</option>';
+					$('#cust_id').html(html);
+					$("#cust_id").trigger("chosen:updated");
+				
+				});
+			}//end of if
+
+		}
+	</script>
 
 	<script>
 		jQuery(document).ready(function() {
@@ -684,6 +796,7 @@ function add(){
 								});  
 					
 				document.getElementById("total_amt").value = gtotal;
+				document.getElementById("discAmt").value = discRs.toFixed(2);
 				 		 
 						} 
 					
