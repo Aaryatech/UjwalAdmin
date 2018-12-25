@@ -151,20 +151,20 @@
 								<table id="bootstrap-data-table"
 									class="table table-striped table-bordered">
 									<thead>
-										<tr>
+										<tr>	
 											<th style="text-align: center; width: 5%;">Sr No</th>
-											<th style="text-align: center">Item Code</th>
+										
 											<th style="text-align: center">Item Name</th>
 											<th style="text-align: center">HSN Code</th>
+											<th style="text-align: center">Tax Rate</th>
+											<th style="text-align: center">Qty</th>
 											<th style="text-align: center">CGST</th>
 											<th style="text-align: center">IGST</th>
 											<th style="text-align: center">SGST</th>
-											<th style="text-align: center">Tax %</th>
-											<th style="text-align: center">Total Taxable Amount</th>
+											<th style="text-align: center">Tax Amount</th>
+											<th style="text-align: center">Total Tax</th>
 											<!-- <th style="text-align: center">Total Amount</th> -->
-											
-
-
+										
 										</tr>
 									</thead>
 
@@ -344,11 +344,12 @@
 					dataTable.clear().draw();
 
 					$.each(data, function(i, v) {
-					
+  							var totaltax=v.cgstPer+v.sgstPer;
+			
 						dataTable.row.add(
-								[ i + 1, v.partId, v.partName, v.hsnCode,
-										 v.cgstRs, v.sgstRs,v.igstRs,
-										 v.partTaxId,v.taxableAmount
+								[ i + 1, v.partName, v.hsnCode,v.taxPer,v.qty,
+										 v.cgst, v.sgst,v.igst,
+										 v.taxableAmount, total
 
 								]).draw();
 					});
@@ -445,11 +446,12 @@
 	<script type="text/javascript">
 		function genPdf() {
 			//alert("hiii");
+			var itemId = document.getElementById("item_id").value;
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
-			window.open('${pageContext.request.contextPath}/showBillwisePdf/'
-					+ fromDate + '/' + toDate);
+			window.open('${pageContext.request.contextPath}/showItemWisePdf/'
+					+ fromDate + '/' + toDate+ '/' + itemId);
 			document.getElementById("expExcel").disabled = true;
 
 		}

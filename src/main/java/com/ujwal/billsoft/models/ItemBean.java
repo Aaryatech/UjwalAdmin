@@ -1,16 +1,38 @@
 package com.ujwal.billsoft.models;
 
 public class ItemBean {
-	
-	
+	private int billDetailId;
+	private int billHeaderId;
 	private int partId;
 	private String partName;
 	private String hsnCode;
-	private float cgstRs;
-	private float sgstRs;
-	private float igstRs;
-	private int partTaxId;
+	private float cgst;
+	private float sgst;
+	private float igst;	
+	private float qty;
+	private float totalTax;
+	private float taxPer;
 	private float taxableAmount;
+	
+	
+	public float getTaxPer() {
+		return taxPer;
+	}
+	public void setTaxPer(float taxPer) {
+		this.taxPer = taxPer;
+	}
+	public int getBillDetailId() {
+		return billDetailId;
+	}
+	public void setBillDetailId(int billDetailId) {
+		this.billDetailId = billDetailId;
+	}
+	public int getBillHeaderId() {
+		return billHeaderId;
+	}
+	public void setBillHeaderId(int billHeaderId) {
+		this.billHeaderId = billHeaderId;
+	}
 	public int getPartId() {
 		return partId;
 	}
@@ -29,33 +51,36 @@ public class ItemBean {
 	public void setHsnCode(String hsnCode) {
 		this.hsnCode = hsnCode;
 	}
-	public float getCgstRs() {
-		return cgstRs;
+	public float getCgst() {
+		return cgst;
 	}
-	public void setCgstRs(float cgstRs) {
-		this.cgstRs = cgstRs;
+	public void setCgst(float cgst) {
+		this.cgst = cgst;
 	}
-	public float getSgstRs() {
-		return sgstRs;
+	public float getSgst() {
+		return sgst;
 	}
-	public void setSgstRs(float sgstRs) {
-		this.sgstRs = sgstRs;
+	public void setSgst(float sgst) {
+		this.sgst = sgst;
 	}
-	public float getIgstRs() {
-		return igstRs;
+	public float getIgst() {
+		return igst;
 	}
-	public void setIgstRs(float igstRs) {
-		this.igstRs = igstRs;
+	public void setIgst(float igst) {
+		this.igst = igst;
 	}
-	
-	
-	public int getPartTaxId() {
-		return partTaxId;
+	public float getQty() {
+		return qty;
 	}
-	public void setPartTaxId(int partTaxId) {
-		this.partTaxId = partTaxId;
+	public void setQty(float qty) {
+		this.qty = qty;
 	}
-	
+	public float getTotalTax() {
+		return totalTax;
+	}
+	public void setTotalTax(float totalTax) {
+		this.totalTax = totalTax;
+	}
 	public float getTaxableAmount() {
 		return taxableAmount;
 	}
@@ -64,10 +89,11 @@ public class ItemBean {
 	}
 	@Override
 	public String toString() {
-		return "ItemBean [partId=" + partId + ", partName=" + partName + ", hsnCode=" + hsnCode + ", taxable=" + taxableAmount
-				+ ", cgstPer=" + cgstRs + ", sgstPer=" + sgstRs + ", igstPer=" + igstRs + ", partTax_id="
-				+ partTaxId + "]";
+		return "ItemBean [billDetailId=" + billDetailId + ", billHeaderId=" + billHeaderId + ", partId=" + partId
+				+ ", partName=" + partName + ", hsnCode=" + hsnCode + ", cgst=" + cgst + ", sgst=" + sgst + ", igst="
+				+ igst + ", qty=" + qty + ", totalTax=" + totalTax + ", taxPer=" + taxPer + ", taxableAmount="
+				+ taxableAmount + "]";
 	}
-
+	
 	
 }
