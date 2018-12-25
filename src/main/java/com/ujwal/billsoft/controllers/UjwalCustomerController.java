@@ -68,8 +68,8 @@ public class UjwalCustomerController {
 		String custRegisNo = req.getParameter("cust_regis_no");
 		String custPan = req.getParameter("cust_pan");
 		String custVehNo = req.getParameter("cust_veh_no");
-		String custRoNo = req.getParameter("cust_ro_no");
-		String custChasiNo = req.getParameter("cust_chasi_no");
+		String custModelNo = req.getParameter("cust_model_no");
+		String custVinNo = req.getParameter("cust_vin_no");
 		
 		
 		MCustomer mCust = new MCustomer();
@@ -81,13 +81,13 @@ public class UjwalCustomerController {
 		mCust.setCustPhone(custPhone);
 		mCust.setCustState(custState);
 		mCust.setCustGstn(custGstn);
-		mCust.setCustChasiNo(custChasiNo);
+		mCust.setCustModelNo(custModelNo);
 		mCust.setCustPan(custPan);
 		mCust.setCustRegisNo(custRegisNo);
 		mCust.setCustVehNo(custVehNo);
 		mCust.setCustDelStatus(0);
 		mCust.setCustEmail(custEmail);
-		mCust.setCustRoNo(custRoNo);
+		mCust.setCustVinNo(custVinNo);
 		
 		
 		restTamplate = new RestTemplate();

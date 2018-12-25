@@ -277,22 +277,22 @@ div.scrollmenu {
 								<div class="row">
 
 									
-									<div class="col-md-2">Ro No.*</div>
+									<div class="col-md-2">Model No.*</div>
 									<div class="col-md-4">
-										<input type="text" id="cust_ro_no" name="cust_ro_no" required
+										<input type="text" id="cust_model_no" name="cust_model_no" required
 											style="width: 100%;" class="form-control" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter Ro No')"
-											value="${cust.custRoNo}" maxlength="30"
+											value="${cust.custModelNo}" maxlength="30"
 											onchange="try{setCustomValidity('')}catch(e){}" /> <span
 											class="error" aria-live="polite"></span>
 
 									</div>							
 									
-											<div class="col-md-2">Chassis No.*</div>
+											<div class="col-md-2">VIN No.*</div>
 									<div class="col-md-4">
-										<input type="text" id="cust_chasi_no" name="cust_chasi_no" 
+										<input type="text" id="cust_vin_no" name="cust_vin_no" 
 											style="width: 100%;" class="form-control" maxlength="17"
-											value="${cust.custChasiNo}" autocomplete="off"
+											value="${cust.custVinNo}" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter chasi no')"
 											onchange="try{setCustomValidity('')}catch(e){}" required/> 
 											<span class="error"	aria-live="polite" id="chassis"></span>
@@ -322,106 +322,7 @@ div.scrollmenu {
 							
 						</div>
 						
-						<%-- <div class="card-body card-block">
-							<form
-								action="${pageContext.request.contextPath}/deleteRecordofCustomer"
-								method="post">
-
-
-								<table id="bootstrap-data-table"
-									class="table table-striped table-bordered">
-									<thead>
-										<tr>
-											<th class="check" style="text-align: center; width: 5%;"><input
-												type="checkbox" name="selAll" id="selAll" /> Select All</th>
-											<th style="text-align: center; width: 5%;">Sr No</th>
-											<th style="text-align: center">Customer Name</th>
-											<th style="text-align: center">Customer Address</th>
-											<th style="text-align: center">Mobile. No.</th>
-											<th style="text-align: center">State</th> 
-											<th style="text-align: center">Email</th>
-											<!-- <th style="text-align: center">GST No</th>
-											<th style="text-align: center">Regs No</th>
-											<th style="text-align: center">PAN No</th>
-											<th style="text-align: center">Vhicle No</th>
-											<th style="text-align: center">Ro No</th>
-											<th style="text-align: center">Chasi No</th>
-											 -->
-											
-
-									
-
-											<th style="text-align: center; width: 5%;">Action</th>
-											<th style="text-align: center">More Details</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach items="${custList}" var="cust" varStatus="count">
-											<tr>
-												<td><input type="checkbox" class="chk"
-													name="custIds" id="custIds${count.index+1}"
-													value="${cust.custId}" /></td>
-												<td style="text-align: center">${count.index+1}</td>
-
-
-												<td style="text-align: left"><c:out
-														value="${cust.custName}" /></td>
-
-												<td style="text-align: left"><c:out
-														value="${cust.custAddress}" /></td>
-
-												
-
-												<td style="text-align: left"><c:out
-														value="${cust.custPhone}" /></td>
-														
-														<td style="text-align: left"><c:out
-														value="${cust.custState}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custEmail}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custGstn}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custRegisNo}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custPan}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custVehNo}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custRoNo}" /></td>
-														<td style="text-align: left"><c:out
-														value="${cust.custChasiNo}" /></td>
-												
-												<td style="text-align: center"><a
-													href="${pageContext.request.contextPath}/editCustomer/${cust.custId}"><i
-														class="fa fa-edit" title="Edit"></i> <span class="text-muted"></span></a>
-													&nbsp; <a
-													href="${pageContext.request.contextPath}/deleteCustomer/${cust.custId}"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-														class="fa fa-trash-o" title="Delete"></i></a></td>
-														
-														<td style="text-align: center"><a
-													href="${pageContext.request.contextPath}/moreCustomerDetails/${cust.custId}"><i
-														class="" title="Edit"></i> <span class="text-muted">Details</span></a>
-													&nbsp; </td>
-
-											</tr>
-										</c:forEach>
-									</tbody>
-											
-								</table>
-								<div class="col-lg-1">
-
-									<input type="submit" class="btn btn-primary" value="Delete"
-										id="deleteId"
-										onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to delete record');}"
-										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
-
-
-								</div>
-							</form>
-
-						</div> --%>
+						
 						
 					</div>
 				</div>

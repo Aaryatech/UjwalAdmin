@@ -99,16 +99,16 @@
 									<thead>
 										<tr>
 											<th class="check" style="text-align: center; width: 5%;"><input
-												type="checkbox" name="selAll" id="selAll" /> Select All</th>
-											<th style="text-align: center; width: 5%;">Sr No</th>
+												type="checkbox" name="selAll" id="selAll" /></th>
+											<th style="text-align: center; width: 5%;">Sr</th>
 											<th style="text-align: center">Customer Name</th>
 											<th style="text-align: center">Mobile No.</th>
 											<th style="text-align: center">Email</th>
 											<th style="text-align: center">Company Name</th>
 											<th style="text-align: center">Vehicle No</th>
 											<th style="text-align: center">Registration No.</th>
-											<th style="text-align: center">Chassis No.</th>
-											<th style="text-align: center">Ro. No.</th>
+											<th style="text-align: center">VIN No.</th>
+											<th style="text-align: center">Model No.</th>
 											
 											<!-- <th style="text-align: center">Customer Address</th>
 											<th style="text-align: center">State</td> -->
@@ -154,10 +154,10 @@
 														value="${cust.custRegisNo}" /></td>
 													
 											<td style="text-align: left"><c:out
-														value="${cust.custChasiNo}" /></td>
+														value="${cust.custVinNo}" /></td>
 														
 											<td style="text-align: left"><c:out
-														value="${cust.custRoNo}" /></td>
+														value="${cust.custModelNo}" /></td>
 														
 												
 												<td style="text-align: center"><a

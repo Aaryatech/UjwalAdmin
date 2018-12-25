@@ -131,7 +131,7 @@
 									
 										<div class="col-md-2">Company Name*</div>
 									<div class="col-md-4">
-											<select name="compId" id="compId" class="form-control chosen" tabindex="6" required>
+											<select name="compId" id="compId" class="standardSelect" tabindex="6" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
 												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
@@ -139,13 +139,6 @@
 										</select> 
 									</div>
 									
-								</div>
-								<div class="form-group"></div>
-
-
-								<div class="row">
-
-
 									<div class="col-md-2">Part Name*</div>
 									<div class="col-md-4">
 										<input type="text" id="part_name" name="part_name"
@@ -156,6 +149,24 @@
 											required>
 
 									</div>
+									
+									
+								</div>
+								<div class="form-group"></div>
+
+
+								<div class="row">
+
+
+									<div class="col-md-2">Part Specification*</div>
+									<div class="col-md-4">
+										<input type="text" id="part_specification" name="part_specification" required
+											style="width: 100%;" class="form-control" autocomplete="off"
+											oninvalid="setCustomValidity('Please specification')"
+											 value="${partList.partSpecification}"
+											onchange="try{setCustomValidity('')}catch(e){}" /> 
+									</div>  
+									
 									<div class="col-md-2">Part No.*</div>
 
 									<div class="col-md-4">
@@ -169,16 +180,16 @@
 								<div class="form-group"></div>
 								<div class="row">
 
-									<div class="col-md-2">Part Register No.*</div>
+									 <div class="col-md-2">Select Tax*</div>
 									<div class="col-md-4">
-										<input type="text" id="part_register_no" name="part_register_no"
-											style="width: 100%;" class="form-control"
-											value="${partList.partRegisterNo}" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter reg no')"
-										
-											onchange="try{setCustomValidity('')}catch(e){}" required />
-										<span class="error" aria-live="polite"></span>
-									</div>
+										<select id="part_tax_id" name="part_tax_id" class="standardSelect">
+											<option value="">Select Tax</option>
+
+											<c:forEach items="${tList}" var="tax">
+												<option value="${tax.taxId}">${tax.taxDesc}</option>
+											</c:forEach>
+										</select>
+									</div> 
 								
 									<div class="col-md-2">Measurement Unit*</div>
 									<div class="col-md-4">
@@ -191,48 +202,21 @@
 										</select>
 									</div>
 								</div>
-
-
-								<div class="form-group"></div>
-								<div class="row">
-									<div class="col-md-2">Part Specification*</div>
-									<div class="col-md-4">
-										<input type="text" id="part_specification" name="part_specification" required
-											style="width: 100%;" class="form-control" autocomplete="off"
-											oninvalid="setCustomValidity('Please specification')"
-											 value="${partList.partSpecification}"
-											onchange="try{setCustomValidity('')}catch(e){}" /> 
-									</div>
-									
-									<div class="col-md-2">Select Tax*</div>
-									<div class="col-md-4">
-										<select id="part_tax_id" name="part_tax_id" class="standardSelect">
-											<option value="">Select Tax</option>
-
-											<c:forEach items="${tList}" var="tax">
-												<option value="${tax.taxId}">${tax.taxDesc}</option>
-											</c:forEach>
-										</select>
-
-									</div>
-								
-								</div>
-								
 								
 								<div class="form-group"></div>
 								<div class="row">
 									<div class="col-md-2">Part MRP*</div>
 									<div class="col-md-4">
-										<input type="number" id="part_mrp" name="part_mrp" required
+										<input type="text" id="part_mrp" name="part_mrp" required
 											style="width: 100%;" class="form-control"
 											oninvalid="setCustomValidity('Please enter part mrp')"
 											
 											value="${partList.partMrp}" autocomplete="off"
 											onchange="try{setCustomValidity('')}catch(e){}" /> <span class="error" aria-live="polite"></span>
 									</div>
-									<div class="col-md-2">Ro No.*</div>
+									<div class="col-md-2">Model No.*</div>
 									<div class="col-md-4">
-										<input type="text" id="part_ro_no" name="part_ro_no" required
+										<input type="text" id="model_no" name="model_no" required
 											style="width: 100%;" class="form-control"
 											oninvalid="setCustomValidity('Please enter part regs no.')"
 											
@@ -260,7 +244,7 @@
 							
 						</div>
 						
-						<div class="card-body card-block">
+						<%-- <div class="card-body card-block">
 							<form
 								action="${pageContext.request.contextPath}/deleteRecordofPart"
 								method="post">
@@ -345,7 +329,7 @@
 								</div>
 							</form>
 
-						</div>
+						</div> --%>
 						
 					</div>
 				</div>
