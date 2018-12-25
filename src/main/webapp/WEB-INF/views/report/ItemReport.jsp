@@ -370,7 +370,7 @@
 		function callDelete(weighId) {
 			window.open("${pageContext.request.contextPath}/deleteWeighing/"
 					+ weighId);
-
+   
 		}
 	</script>
 

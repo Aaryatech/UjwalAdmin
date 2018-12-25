@@ -14,7 +14,7 @@ public class ItemBean {
 	private float taxPer;
 	private float taxableAmount;
 	
-	
+	 
 	public float getTaxPer() {
 		return taxPer;
 	}
