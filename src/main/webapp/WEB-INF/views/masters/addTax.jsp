@@ -141,7 +141,7 @@
 
 									<div class="col-md-2">CGST % *</div>
 									<div class="col-md-4">
-										<input type="number" id="cgst_per" name="cgst_per"
+										<input type="text" id="cgst_per" name="cgst_per"
 											style="width: 100%;" class="form-control"
 											value="${taxList.cgstPer}" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter cgst price')"
@@ -171,7 +171,7 @@
 									<div class="col-md-2">SGST % *</div>
 
 									<div class="col-md-4">
-										<input type="number" id="sgst_per" name="sgst_per"  class="form-control"
+										<input type="text" id="sgst_per" name="sgst_per"  class="form-control"
 											oninvalid="setCustomValidity('Please enter correct sgst price')"
 											onchange="try{setCustomValidity('')}catch(e){}" onblur="gstCal()"
 											value="${taxList.sgstPer}"
@@ -199,10 +199,10 @@
 									</div>
 									<div class="col-md-2">IGST % *</div>
 									<div class="col-md-4">
-										<input type="number" id="igst_per" name="igst_per" required
+										<input type="text" id="igst_per" name="igst_per" required
 											style="width: 100%;" class="form-control" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter igst price')"
-											 value="${taxList.igstPer}"
+											 value="${taxList.igstPer}" readonly="readonly"
 											onchange="try{setCustomValidity('')}catch(e){}" /> 
 									</div>
 								</div>
@@ -213,10 +213,10 @@
 									<div class="col-md-2">Total Tax % *</div>
 
 									<div class="col-md-4">
-										<input type="number" id="tax_per" name="tax_per" class="form-control"
+										<input type="text" id="tax_per" name="tax_per" class="form-control"
 											style="width: 100%;" autocomplete="off" value="${taxList.taxPer}"
 											oninvalid="setCustomValidity('Please enter tax price')"
-										 required>
+										readonly="readonly" required>
 									</div>
 									
 								
@@ -229,12 +229,12 @@
 								<div class="col-lg-3">
 									<input type="submit" class="btn btn-primary" value="Submit"
 										id="submitButton"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 								</div>
 								<div class="col-lg-3">
 									<input type="reset" class="btn btn-primary" value="Clear"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 								</div>
 								
@@ -377,6 +377,51 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
+	
+	<script>
+	
+
+
+	$("#cgst_per").on("keypress keyup blur",function (event) {
+	            //this.value = this.value.replace(/[^0-9\.]/g,'');
+	     $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+	            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+	                event.preventDefault();
+	            }
+	        });
+	
+
+
+	$("#sgst_per").on("keypress keyup blur",function (event) {
+	            //this.value = this.value.replace(/[^0-9\.]/g,'');
+	     $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+	            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+	                event.preventDefault();
+	            }
+	        });
+	
+
+
+	$("#igst_per").on("keypress keyup blur",function (event) {
+	            //this.value = this.value.replace(/[^0-9\.]/g,'');
+	     $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+	            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+	                event.preventDefault();
+	            }
+	        });
+	
+
+
+	$("#cess_per").on("keypress keyup blur",function (event) {
+	            //this.value = this.value.replace(/[^0-9\.]/g,'');
+	     $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+	            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+	                event.preventDefault();
+	            }
+	        });
+	
+	</script>
+	
 	
 	<script>
 	$('#selAll').click(function(e){

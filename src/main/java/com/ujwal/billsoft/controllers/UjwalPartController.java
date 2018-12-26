@@ -61,6 +61,7 @@ public class UjwalPartController {
 	@RequestMapping(value="/insertPart", method=RequestMethod.POST)
 	public String newCompany(HttpServletRequest req, HttpServletResponse resp) {
 		int partId=0;
+		String partRegisterNo = null;
 		try
 		{
 			 partId = Integer.parseInt(req.getParameter("part_id"));
@@ -72,10 +73,10 @@ public class UjwalPartController {
 		
 		String partName = req.getParameter("part_name");
 		int compId = Integer.parseInt(req.getParameter("compId"));
-		String partRegisterNo = req.getParameter("part_register_no");
+		partRegisterNo = req.getParameter("part_register_no");
 		int partUomId = Integer.parseInt(req.getParameter("measurement_of_unit"));
 		int partTaxId = Integer.parseInt(req.getParameter("part_tax_id"));
-		String partRoNo = req.getParameter("part_ro_no");
+		String partRoNo = req.getParameter("model_no");
 		String partMrp = req.getParameter("part_mrp");
 		String partSpecification = req.getParameter("part_specification");
 		String partNo = req.getParameter("part_no");
@@ -110,7 +111,6 @@ public class UjwalPartController {
 		
 	}
 	
-	//
 	
 @RequestMapping(value="/editPart/{partId}", method=RequestMethod.GET)
 	
@@ -121,14 +121,24 @@ public class UjwalPartController {
 		restTamplate = new RestTemplate();
 		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
 		map.add("id", id);
+		
+		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		mav.addObject("compList", compList);
+		
+		
 		MPart partList = restTamplate.postForObject(Constants.url + "/ujwal/getPartById", map, MPart.class);
 		mav.addObject("partList", partList);
+		
 		List<MUom> muom = restTamplate.getForObject(Constants.url + "/ujwal/getAllMUom", List.class);
 		mav.addObject("muomList", muom);
+		
 		List<MPart> pList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
 		mav.addObject("pList", pList);
+		
 		List<MTax> taxList = restTamplate.getForObject(Constants.url + "/ujwal/getAllTaxes", List.class);
 		mav.addObject("tList", taxList);
+		
+		mav.addObject("title", "Update Part");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
@@ -207,5 +217,7 @@ public ModelAndView showPartList() {
 	}
 	return mav;		
 }
+
+
 
 }

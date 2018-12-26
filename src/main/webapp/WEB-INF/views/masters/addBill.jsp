@@ -796,7 +796,7 @@ function add(){
 								});  
 					
 				document.getElementById("total_amt").value = gtotal;
-				document.getElementById("discAmt").value = discRs.toFixed(2);
+			
 				 		 
 						} 
 					

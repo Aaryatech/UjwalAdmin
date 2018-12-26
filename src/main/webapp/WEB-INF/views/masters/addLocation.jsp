@@ -133,7 +133,7 @@
 
 									<div class="col-md-4">
 									
-										 <select name="compId" id="compId" class="form-control chosen" tabindex="6" required>
+										 <select name="compId" id="compId" class="standardSelect" tabindex="6" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
 												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
@@ -216,12 +216,12 @@
 								<div class="col-lg-3">
 									<input type="submit" class="btn btn-primary" value="Submit"
 										id="submitButton"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 								</div>
 								<div class="col-lg-3">
 									<input type="reset" class="btn btn-primary" value="Clear"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 								</div>
 							</form>
@@ -243,12 +243,10 @@
 											<th style="text-align: center; width: 5%;">Sr No</th>
 											<th style="text-align: center">Location Name</th>
 											<th style="text-align: center">Location Address</th>
+											<th style="text-align: center">Company Name</th>
 											<th style="text-align: center">Email</th>
 											<th style="text-align: center">Mobile. No.</th>
-											<th style="text-align: center">Fax N.o</th>
-											<th style="text-align: center">Company Code</th>
-											
-
+											<th style="text-align: center">Fax No.</th>
 											<th style="text-align: center; width: 5%;">Action</th>
 
 										</tr>
@@ -267,6 +265,8 @@
 
 												<td style="text-align: left"><c:out
 														value="${comp.locationAddress}" /></td>
+												
+												<td style="text-align: center">${comp.compName}</td>
 
 												<td style="text-align: center">${comp.email}</td>				
 	
@@ -274,7 +274,7 @@
 												
 												<td style="text-align: center">${comp.faxNo}</td>
 												
-												<td style="text-align: center">${comp.compName}</td>
+												
 												
 											
 												<td style="text-align: center"><a

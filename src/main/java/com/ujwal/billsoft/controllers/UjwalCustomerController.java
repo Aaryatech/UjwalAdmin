@@ -115,10 +115,17 @@ public class UjwalCustomerController {
 		restTamplate = new RestTemplate();
 		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
 		map.add("id", id);
-		MCustomer custList = restTamplate.postForObject(Constants.url + "/ujwal/getCustomerById", map, MCustomer.class);
-		mav.addObject("cust", custList);
-		List<MCustomer> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
-		mav.addObject("custList", compList);
+		
+		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		mav.addObject("compList", compList);
+		
+		MCustomer cust = restTamplate.postForObject(Constants.url + "/ujwal/getCustomerById", map, MCustomer.class);
+		mav.addObject("cust", cust);
+		
+		List<MCustomer> custList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
+		mav.addObject("custList", custList);
+		
+		mav.addObject("title", "Update Customer");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}

@@ -139,6 +139,25 @@
 										</select> 
 									</div>
 									
+									
+									<div class="col-md-2">Part No.*</div>
+
+									<div class="col-md-4">
+										<input type="text" id="part_no" name="part_no" class="form-control"
+											style="width: 50%;" autocomplete="off" value="${partList.partNo}"
+											oninvalid="setCustomValidity('Please enter part no.')"
+											maxlength="200"
+											onchange="try{setCustomValidity('')}catch(e){}" required>
+									</div>
+									<%--  --%>
+									
+									
+								</div>
+								<div class="form-group"></div>
+
+
+								<div class="row">
+
 									<div class="col-md-2">Part Name*</div>
 									<div class="col-md-4">
 										<input type="text" id="part_name" name="part_name"
@@ -150,14 +169,6 @@
 
 									</div>
 									
-									
-								</div>
-								<div class="form-group"></div>
-
-
-								<div class="row">
-
-
 									<div class="col-md-2">Part Specification*</div>
 									<div class="col-md-4">
 										<input type="text" id="part_specification" name="part_specification" required
@@ -165,16 +176,6 @@
 											oninvalid="setCustomValidity('Please specification')"
 											 value="${partList.partSpecification}"
 											onchange="try{setCustomValidity('')}catch(e){}" /> 
-									</div>  
-									
-									<div class="col-md-2">Part No.*</div>
-
-									<div class="col-md-4">
-										<input type="text" id="part_no" name="part_no" class="form-control"
-											style="width: 50%;" autocomplete="off" value="${partList.partNo}"
-											oninvalid="setCustomValidity('Please enter part no.')"
-											maxlength="200"
-											onchange="try{setCustomValidity('')}catch(e){}" required>
 									</div>
 								</div>
 								<div class="form-group"></div>
@@ -231,12 +232,12 @@
 								<div class="col-lg-3">
 									<input type="submit" class="btn btn-primary" value="Submit"
 										id="submitButton"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 								</div>
 								<div class="col-lg-3">
 									<input type="reset" class="btn btn-primary" value="Clear"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 								</div>
 								
@@ -384,6 +385,18 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
+
+	<script>
+	
+	$("#part_mrp").on("keypress keyup blur",function (event) {
+        //this.value = this.value.replace(/[^0-9\.]/g,'');
+ 	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+	
+	</script>
 
 
 	<script>

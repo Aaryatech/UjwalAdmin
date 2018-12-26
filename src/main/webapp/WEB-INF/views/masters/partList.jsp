@@ -103,11 +103,11 @@
 											<th style="text-align: center; width: 5%;">Sr No</th>
 											<th style="text-align: center">Part Name</th>
 											<th style="text-align: center">Part No</th>
-											<th style="text-align: center">Registration No.</th>
+											<!-- <th style="text-align: center">Registration No.</th> -->
 											<th style="text-align: center">Part UOM Name</th>
 											<th style="text-align: center">Tax Description</th>
 											<th style="text-align: center">Part MRP</th>
-											<th style="text-align: center">Ro. No.</th>
+											<th style="text-align: center">Model No.</th>
 											<th style="text-align: center">Company Name</th> 
 											<th style="text-align: center; width: 5%;">Action</th>
 
@@ -128,8 +128,8 @@
 												<td style="text-align: left"><c:out
 														value="${pList.partNo}" /></td>
 
-												<td style="text-align: left"><c:out
-														value="${pList.partRegisterNo}" /></td>
+											<%-- 	<td style="text-align: left"><c:out
+														value="${pList.partRegisterNo}" /></td> --%>
 														
 												<td style="text-align: left"><c:out
 														value="${pList.uomName}" /></td> 

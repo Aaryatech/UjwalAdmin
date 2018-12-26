@@ -150,7 +150,7 @@ div.scrollmenu {
 									
 										<div class="col-md-2">Company Name*</div>
 									<div class="col-md-4">
-											<select name="compId" id="compId" class="form-control chosen" tabindex="6" required>
+											<select name="compId" id="compId" class="standardSelect" tabindex="6" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
 												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
@@ -380,16 +380,16 @@ div.scrollmenu {
 
 
 <script type="text/javascript">
-	var minLength = 10;
+	var minLength = 7;
 	var maxLength = 50;
 	$(document).ready(function(){
 	    $('#cust_name').blur(function(){
 	        var field = $(this).val();
 	        var charLength = $(this).val().length;
 	        if(charLength < minLength){
-	            $('#cName').text('Customer Name is short, minimum '+minLength+' required.');
+	            $('#cName').text('Invalid Customer Name');
 	        }else if(charLength > maxLength){
-	            $('#cName').text('Customer Name is not valid, maximum '+maxLength+' allowed.');
+	            $('#cName').text('Invalid Customer Name.');
 	            $(this).val(field.substring(0, maxLength));
 	        }else{
 	            $('#cName').text('');

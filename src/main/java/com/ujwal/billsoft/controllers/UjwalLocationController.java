@@ -100,12 +100,17 @@ public ModelAndView addShowCompanyForm() {
 		restTamplate = new RestTemplate();
 		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
 		map.add("id", id);
+		
 		List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
 		MLocation loc = restTamplate.postForObject(Constants.url + "/ujwal/getLocationById", map, MLocation.class);
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		List<MLocComp> locCompList = restTamplate.getForObject(Constants.url + "/ujwal/getCompLoc", List.class);
+		
+		
 		mav.addObject("compList", compList);
 		mav.addObject("editLoc", loc);
 		mav.addObject("locList", locList);
+		mav.addObject("locComp", locCompList);
 		mav.addObject("title", "Edit Location");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
