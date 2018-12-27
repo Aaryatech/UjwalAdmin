@@ -1,7 +1,6 @@
 package com.ujwal.billsoft.models;
 
 public class Info {
-
 	
     private String message;
     
