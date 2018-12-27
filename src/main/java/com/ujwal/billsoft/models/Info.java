@@ -3,7 +3,6 @@ package com.ujwal.billsoft.models;
 public class Info {
 	
     private String message;
-    
     private Boolean error;
 
     public String getMessage() {
