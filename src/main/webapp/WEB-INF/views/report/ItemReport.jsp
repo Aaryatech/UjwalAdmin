@@ -139,7 +139,7 @@
 							<div class="row">
 								<div class="col-md-6"></div>
 								<div class="col-md-2">
-									<input type="button" class="btn btn-primary"
+									<input type="button" class="btn btn-primary" style="background-color: #272c33;"
 										onclick="showItemReport()" value="Submit">
 								</div>
 							</div>
@@ -159,8 +159,8 @@
 											<th style="text-align: center">Tax Rate</th>
 											<th style="text-align: center">Qty</th>
 											<th style="text-align: center">CGST</th>
-											<th style="text-align: center">IGST</th>
 											<th style="text-align: center">SGST</th>
+											<th style="text-align: center">IGST</th>
 											<th style="text-align: center">Tax Amount</th>
 											<th style="text-align: center">Total Tax</th>
 											<!-- <th style="text-align: center">Total Amount</th> -->
@@ -175,7 +175,7 @@
 
 									<button type="button" class="btn btn-primary"
 										onclick="exportToExcel();" disabled="disabled" id="expExcel"
-										style="align-content: center; width: 200px; margin-left: 80px;">
+										style="align-content: center; width: 200px; margin-left: 80px; background-color: #272c33;">
 										Export To Excel</button>
 								</div>
 
@@ -184,7 +184,7 @@
 
 									<button type="button" class="btn btn-primary"
 										onclick="genPdf()" disabled="disabled" id="PDFButton"
-										style="align-content: center; width: 100px; margin-left: 80px;">
+										style="align-content: center; width: 100px; margin-left: 80px; background-color: #272c33;">
 										PDF</button>
 								</div>
 								&nbsp;
@@ -344,12 +344,12 @@
 					dataTable.clear().draw();
 
 					$.each(data, function(i, v) {
-  							var totaltax=v.cgstPer+v.sgstPer;
-			
+  							var totaltax=v.cgst+v.sgst;
+							//	alert
 						dataTable.row.add(
-								[ i + 1, v.partName, v.hsnCode,v.taxPer,v.qty,
-										 v.cgst, v.sgst,v.igst,
-										 v.taxableAmount, total
+								[ i + 1, v.partName, v.hsnCode, v.taxPer, v.qty,
+										 v.cgst, v.sgst, v.igst,
+										 v.taxableAmount, totaltax
 
 								]).draw();
 					});

@@ -253,15 +253,15 @@
 									<thead>
 										<tr>
 											<th class="check" style="text-align: center; width: 5%;"><input
-												type="checkbox" name="selAll" id="selAll" /> Select All</th>
-											<th style="text-align: center; width: 5%;">Sr No</th>
+												type="checkbox" name="selAll" id="selAll" /> </th>
+											<th style="text-align: center; width: 5%;">Sr.</th>
 											<th style="text-align: center">Tax Description</th>
 											<th style="text-align: center">HSN Code</th>
-											<th style="text-align: center">Tax Price</th>
-											<th style="text-align: center">CGST Price</th>
-											<th style="text-align: center">SGST Price</th>
-											<th style="text-align: center">IGST Price</th>
-											<th style="text-align: center">CESS Price</th>
+											<th style="text-align: center">Tax </th>
+											<th style="text-align: center">CGST </th>
+											<th style="text-align: center">SGST </th>
+											<th style="text-align: center">IGST </th>
+											<th style="text-align: center">CESS </th>
 											<th style="text-align: center; width: 5%;">Action</th>
 
 										</tr>

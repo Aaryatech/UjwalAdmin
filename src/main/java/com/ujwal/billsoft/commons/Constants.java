@@ -9,6 +9,6 @@ public class Constants {
 	public static final String RTO_DOC_URL = "http://exhibition.aaryatechindia.in:12756/ujwaladmin/";
 	public static final String REPORT_SAVE = "http://exhibition.aaryatechindia.in:12756/ujwaladmin/repo.pdf";
 	public static final int COMPANY_IMAGE_TYPE =1;
-	public static final String ReportURL = "http://exhibition.aaryatechindia.in:12756/ujwaladmin/repo.pdf";;
+	public static final String ReportURL = "E://AARYA TechProjects Domian/repo.pdf";
 
 }

@@ -7,7 +7,8 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujjwal Billing Software</title>
+<title>Ujwal Billing Software</title>
+
 
 <c:url var="getCustById" value="/getCustById" />
 <c:url var="addPartDetail" value="/addPartDetail" />
@@ -17,7 +18,6 @@
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
 <c:url var="getCustomerListById" value="/getCustomerListById" />
 <c:url var="getItemForEdit" value="/getItemForEdit" />
-
 
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -139,9 +139,8 @@
 							<form action="${pageContext.request.contextPath}/insertBill"
 								id="submitForm" method="post">
 							<input type="hidden" name="isEditBill" id="isEditBill" value="${isEditBill}"/>
-								
-								
-									<div class="row">
+
+							<div class="row">
 									
 										<div class="col-md-2">Company Name*</div>
 										<div class="col-md-4">
@@ -156,12 +155,12 @@
 									
 								</div>
 								<div class="form-group"></div>
-								
+
 								<div class="row">
 
 									<div class="col-md-2">Customer Name</div>
 									<div class="col-md-4">
-										<select id="cust_id" name="cust_id" style="width: 100%;" class="form-control"
+											<select id="cust_id" name="cust_id" style="width: 100%;" class="form-control"
 										
 											onchange="getData()">
 											<option value="">Select Customer</option>
@@ -310,8 +309,7 @@
 
 								<div class="row">
 
-									
-									<div class="col-md-2">RO No</div>
+									<div class="col-md-2">Model No</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_ro_no" name="cust_ro_no" 
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -322,7 +320,7 @@
 
 									</div>							
 									
-											<div class="col-md-2">Chassi No.</div>
+											<div class="col-md-2">VIN No.</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_chasi_no" name="cust_chasi_no" 
 											style="width: 100%;" class="form-control"
@@ -332,23 +330,10 @@
 											/> <span class="error"
 											aria-live="polite"></span>
 
-									</div></div>
+									</div>
+									</div>
 									
-						<!-- ************************************************************************************************* -->
-							<div class="card-header" style="margin-top: 2%;">
-							<strong style="margin-top:10px;margin-bottom:20px; margin-left:-83%; font-style:bold; font-size: 15px;">Add Part</strong>
-								
-							<div class="col-md-2">
-								
-							</div>
-							<div class="col-md-8">
-						
-							</div>
-							
-
-						</div>
-						
-									<!-- <h3 style="margin-top:10px;margin-bottom:20px; font-style:bold; font-size: 25px;">Add Part</h3> -->
+									<h3 style="margin-top:10px;margin-bottom:20px; font-style:bold">Add Part</h3>
 								<div class="form-group"></div>
 							
 								<div class="row">
@@ -364,28 +349,20 @@
 											</c:forEach>
 										</select>
 									</div>
-									<!-- <div class="col-md-1">MRP</div>
+									<div class="col-md-1">MRP</div>
 
 									<div class="col-md-2">
 									
 										<input type="text" id="part_mrp" name="part_mrp"   value="0.0"
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 								
-									</div> -->
+									</div>
 									<div class="col-md-1">Qty</div>
 
 									<div class="col-md-2">
-										<input type="text" id="qty" name="qty"  value="0" min="0"
+										<input type="number" id="qty" name="qty"  value="0" min="0"
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 									</div>
-									
-									<div class="col-md-1" >Disc %</div>
-
-									<div class="col-md-2">
-										<input type="text" id="disc" name="disc"  value="0.0" 
-											style="width: 50%; " class="form-control" autocomplete="off"/> 
-									</div>
-									
 								</div>
 									
 	                 			
@@ -393,29 +370,23 @@
 							
 								<div class="row">
 								
-									<div class="col-md-2">MRP %</div>
+									<div class="col-md-2">Disc %</div>
 
 									<div class="col-md-4">
-										<input type="text" id="part_mrp" name="part_mrp"   value="0.0"
+										<input type="text" id="disc" name="disc"  value="0.0"
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 									</div>
-						
-							<div class="col-md-2">Disc Amt.</div>
-							<div class="col-md-4">
-										<input type="text" id="discAmt" name="discAmt" value="0.0" readonly="readonly"
-											style="width: 50%;" class="form-control" autocomplete="off"/> 
-									</div>
-									
+								
 							
 								
-								<!-- <div class="col-md-2">Remark</div>
+								<div class="col-md-2">Remark</div>
 
 									<div class="col-md-4">
 									
 										<input type="text" id="remark" name="remark"  value="NA"
 											style="width: 80%;" class="form-control" autocomplete="off"/> 
 								
-									</div>	 -->
+									</div>	
 									<div class="col-lg-2">
 	<input type="button" class="btn btn-primary" value="Add" id="AddButton"
 		style="align-content: center; width: 113px; margin-left: 380px;" onclick="add()">
@@ -578,34 +549,6 @@
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
 
 	<script type="text/javascript">
-	
-	$("#part_mrp").on("keypress keyup blur",function (event) {
-        //this.value = this.value.replace(/[^0-9\.]/g,'');
- 	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
-        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-            event.preventDefault();
-        }
-    });
-	
-	$("#qty").on("keypress keyup blur",function (event) {
-        //this.value = this.value.replace(/[^0-9\.]/g,'');
- 	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
-        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-            event.preventDefault();
-        }
-    });
-	
-	$("#disc").on("keypress keyup blur",function (event) {
-        //this.value = this.value.replace(/[^0-9\.]/g,'');
- 	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
-        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-            event.preventDefault();
-        }
-    });
-	
-	</script>
-
-	<script type="text/javascript">
 			function getCompId() { 
 		
 			var compId = document.getElementById("compId").value;
@@ -643,7 +586,7 @@
 
 		}
 	</script>
-
+	
 	<script>
 		jQuery(document).ready(function() {
 			jQuery(".standardSelect").chosen({
@@ -796,7 +739,6 @@ function add(){
 								});  
 					
 				document.getElementById("total_amt").value = gtotal;
-			
 				 		 
 						} 
 					

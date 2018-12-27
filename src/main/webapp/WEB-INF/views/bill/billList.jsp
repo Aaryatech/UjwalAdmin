@@ -233,6 +233,8 @@
 											value="${fromDate}"> <span class="error"
 											aria-live="polite"></span>
 									</div>
+									
+									
 									<div class="col-md-2">To Date</div>
 									<div class="col-md-4">
 										<input type="text" autocomplete="off"  id="to_date" name="to_date"
@@ -248,7 +250,7 @@
 								<div class="row">
 								<div class="col-md-6"></div>
 									<div class="col-md-3">
-										<input type="button" class="btn btn-primary"  onclick="showBill()" value="Submit">
+										<input type="button" class="btn btn-primary"  onclick="showBillReport()" value="Submit">
 									<button class="buttonload" id="loader">
                                    <i class="fa fa-spinner fa-spin"></i>Loading
                                    </button>
@@ -268,7 +270,7 @@
 										<thead>
 											<tr>
 											
-												<th style="text-align: center"><!-- <input type="checkbox" id="selectAll" />  -->Sr.No.</th>
+												<th style="text-align: center"><!-- <input type="checkbox" id="selectAll" />  -->Sr.</th>
 												<th style="text-align: center">Bill No</th>
 												<th style="text-align: center">Bill Date</th>
 												<th style="text-align: center">Customer Name</th>
@@ -414,17 +416,108 @@
 		});
 	</script>
 
+	<script type="text/javascript">
+		// onclick of submit to search order 
+		function showBillReport() {
 
+			//alert("Hi View Orders  ");
+
+			var compId = document.getElementById("compId").value;
+			var custId = document.getElementById("cust_id").value;
+			var fromDate = document.getElementById("from_date").value;
+			var toDate = document.getElementById("to_date").value;
+
+			//alert(compId);
+
+			var valid = true;
+
+			if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select company");
+			}
+			
+			else if (custId == null || custId == "") {
+				valid = false;
+				alert("Please select company");
+			}
+		
+			else if (fromDate == null || fromDate == "") {
+				valid = false;
+				alert("Please select from date");
+			}
+
+			else if (toDate == null || toDate == "") {
+				valid = false;
+				alert("Please select to date");
+			}
+
+			if (fromDate > toDate) {
+				valid = false;
+				alert("from date greater than todate ");
+			}
+			if (valid == true) {
+				alert("hello1");	
+
+				$.getJSON('${getBillListBetDate}', {
+					
+					custId : custId,
+					fromDate : fromDate,
+					toDate : toDate,
+					ajax : 'true',
+
+				},
+					
+				function(data) {
+					document.getElementById("expExcel").disabled = false;
+					document.getElementById("PDFButton").disabled = false;
+
+					if (data == "") {
+						alert("No records found !!");
+						document.getElementById("expExcel").disabled = true;
+						document.getElementById("PDFButton").disabled = true;
+
+					}
+
+					var dataTable = $('#bootstrap-data-table').DataTable();
+					dataTable.clear().draw();
+
+					$.each(data, function(i, v) {
+  						alert("hello");									
+						dataTable.row.add(
+								[ i + 1,
+								  v.billDetailId,
+								  v.billDate,
+								  v.custName
+								
+								]).draw();
+					});
+
+				});
+
+			}//end of if valid ==true
+
+		}
+		
+	</script>
 
 	<script type="text/javascript">
 		function showBill() {
 		
+			 var compId=document.getElementById("compId").value;
+			 var custId = document.getElementById("cust_name").value;
 			 var fromDate=document.getElementById("from_date").value;
-			 var toDate=document.getElementById("to_date").value;
-			 
-			var custId = document.getElementById("cust_name").value;
+			 var toDate=document.getElementById("to_date").value; 
+  			 
+			 alert("hi");
+			
 			var valid = true;
-			if (custId == null || custId == "") {
+			
+			 if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select Company");
+			}
+			
+			 else if (custId == null || custId == "") {
 				valid = false;
 				alert("Please Select Customer");
 				
@@ -488,7 +581,7 @@ var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v
 														.add(
 																[
 																	checkB+''+ (i + 1),
-																		v.invoiceNo,
+																		v.billDetailId,
 																		v.billDate,
 																		v.custName,
 																		acButton

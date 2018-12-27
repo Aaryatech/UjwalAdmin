@@ -79,15 +79,16 @@ public class HomeController {
 						map.add("userPass", password);
 
 						CradentialValidator	userObj = restTemplate.postForObject(Constants.url + "/ujwal/loginUser", map, CradentialValidator.class);
-
+								
 						String loginResponseMessage = "";
 
 						if (userObj.isError() == false) {
 
 							session.setAttribute("UserDetail", userObj);
 							//CradentialValidator userResponse = (CradentialValidator) session.getAttribute("UserDetail");
-							session.setAttribute("userInfo", userObj.getMusr());
+							session.setAttribute("userBean", userObj.getMusr());
 
+					
 							mav = new ModelAndView("home");
 							session.setAttribute("userName", name);
 

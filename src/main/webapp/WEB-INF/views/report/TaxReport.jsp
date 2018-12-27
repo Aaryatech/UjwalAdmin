@@ -156,7 +156,7 @@
 							<div class="row">
 								<div class="col-md-6"></div>
 								<div class="col-md-2">
-									<input type="button" class="btn btn-primary"
+									<input type="button" class="btn btn-primary" style="background-color: #272c33;"
 										onclick="showQuot()" value="Submit">
 								</div>
 							</div>
@@ -190,7 +190,7 @@
 
 									<button type="button" class="btn btn-primary"
 										onclick="exportToExcel();" disabled="disabled" id="expExcel"
-										style="align-content: center; width: 200px; margin-left: 80px;">
+										style="align-content: center; width: 200px; margin-left: 80px; background-color: #272c33;">
 										Export To Excel</button>
 								</div>
 
@@ -199,7 +199,7 @@
 
 									<button type="button" class="btn btn-primary"
 										onclick="genPdf()" disabled="disabled" id="PDFButton"
-										style="align-content: center; width: 100px; margin-left: 80px;">
+										style="align-content: center; width: 100px; margin-left: 80px; background-color: #272c33;">
 										PDF</button>
 								</div>
 								&nbsp;

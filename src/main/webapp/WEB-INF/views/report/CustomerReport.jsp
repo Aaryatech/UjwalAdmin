@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html class="no-js" lang="">
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +10,7 @@
 
 
 <c:url var="getCustListBetweenDate" value="/getCustListBetweenDate" />
-
+<c:url var="getCustomerListById" value="/getCustomerListById" />
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -95,7 +94,61 @@
 
 							<div class="form-group"></div>
 
+							
 							<div class="row">
+							
+							<div class="col-md-2">Company Name*</div>
+										<div class="col-md-4">
+											<select name="compId" id="compId" class="standardSelect" tabindex="6" 
+											onchange="getCompId()" required>
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											 </c:forEach>
+										</select> 
+									</div>
+
+								<div class="col-md-2">Select Customer</div>
+
+								<div class="col-md-4">
+									<%-- <select id="custId" name="custId" class="standardSelect"
+										multiple tabindex="1" required
+										oninvalid="setCustomValidity('Please select company')"
+										onchange="getData()">
+										<option value="">Select</option>
+										<option value="0">All</option>
+										<c:forEach items="${custList}" var="cust">
+											<option value="${cust.custId}">${cust.custName}</option>
+										</c:forEach>
+									</select> --%>
+										<select id="cust_id" name="cust_id" style="width: 100%;" class="standardSelect"
+										
+											
+											oninvalid="setCustomValidity('Please select customer')"
+											onchange="getCustInfo()">
+											<option value="0">All</option>
+                                     <c:forEach items="${custList}" var="cust">
+												<option value="${cust.custId}">${cust.custName}</option>
+											</c:forEach>
+										</select>
+								</div>
+								<%-- <div class="col-md-2">Select Plant*</div>
+
+								<div class="col-md-4">
+									<select id="plantId" name="plantId" class="standardSelect"
+										multiple tabindex="1" required onchange="getData()">
+										<option value="">Select</option>
+
+										<option value="0">All</option>
+										<c:forEach items="${plantList}" var="plant">
+											<option value="${plant.plantId}">${plant.plantName}</option>
+										</c:forEach>
+									</select>
+								</div> --%>
+							</div>
+						
+						<div class="form-group"></div>
+						<div class="row">
 								<div class="col-md-2">From Date</div>
 								<div class="col-md-4">
 									<input type="text" autocomplete="off" id="from_date"
@@ -115,43 +168,11 @@
 
 							<div class="form-group"></div>
 
-							<div class="row">
-
-								<div class="col-md-2">Select Customer</div>
-
-								<div class="col-md-4">
-									<select id="custId" name="custId" class="standardSelect"
-										multiple tabindex="1" required
-										oninvalid="setCustomValidity('Please select company')"
-										onchange="getData()">
-										<option value="">Select</option>
-										<option value="0">All</option>
-										<c:forEach items="${custList}" var="cust">
-											<option value="${cust.custId}">${cust.custName}</option>
-										</c:forEach>
-									</select>
-								</div>
-								<%-- <div class="col-md-2">Select Plant*</div>
-
-								<div class="col-md-4">
-									<select id="plantId" name="plantId" class="standardSelect"
-										multiple tabindex="1" required onchange="getData()">
-										<option value="">Select</option>
-
-										<option value="0">All</option>
-										<c:forEach items="${plantList}" var="plant">
-											<option value="${plant.plantId}">${plant.plantName}</option>
-										</c:forEach>
-									</select>
-								</div> --%>
-							</div>
-
-
 							<div class="form-group"></div>
 							<div class="row">
 								<div class="col-md-6"></div>
 								<div class="col-md-2">
-									<input type="button" class="btn btn-primary"
+									<input type="button" class="btn btn-primary" style="background-color: #272c33;"
 										onclick="showQuot()" value="Submit">
 								</div>
 							</div>
@@ -187,7 +208,7 @@
 
 									<button type="button" class="btn btn-primary"
 										onclick="exportToExcel();" disabled="disabled" id="expExcel"
-										style="align-content: center; width: 200px; margin-left: 80px;">
+										style="align-content: center; width: 200px; margin-left: 80px; background-color: #272c33;">
 										Export To Excel</button>
 								</div>
 
@@ -196,7 +217,7 @@
 
 									<button type="button" class="btn btn-primary"
 										onclick="genPdf()" disabled="disabled" id="PDFButton"
-										style="align-content: center; width: 100px; margin-left: 80px;">
+										style="align-content: center; width: 100px; margin-left: 80px; background-color: #272c33;">
 										PDF</button>
 								</div>
 								&nbsp;
@@ -272,6 +293,45 @@
 	</script>
 
 
+	<script type="text/javascript">
+			function getCompId() { 
+		
+			var compId = document.getElementById("compId").value;
+			var valid = true;
+			//alert("Data "+compId)
+			if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select Company Name");
+			}
+
+			if (valid == true) {
+
+				$.getJSON('${getCustomerListById}', {
+					compId : compId,
+					ajax : 'true',
+				},
+
+				function(data) {
+					
+					var len = data.length;
+					//alert("data " +JSON.stringify(data));
+					var html='<option value="-1">All</option>';
+
+					for (var i = 0; i < len; i++) {
+
+						html += '<option value="' + data[i].custId + '">'
+								+data[i].custName+ '</option>';
+
+					}
+					html += '</option>';
+					$('#cust_id').html(html);
+					$("#cust_id").trigger("chosen:updated");
+				
+				});
+			}//end of if
+
+		}
+	</script>	
 
 
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -298,7 +358,7 @@
 
 			//alert("Hi View Orders  ");
 
-			var custId = document.getElementById("custId").value;
+			var custId = document.getElementById("cust_id").value;
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
@@ -374,11 +434,11 @@
 																				v.billDate,
 																				v.custName,
 																				v.custGstn,
-																				v.cgstAmt,
-																				v.igstAmt,
-																				v.sgstAmt,
-																				v.totaTax,
-																				v.taxableAmt,
+																				v.cgstRs,
+																				v.igstRs,
+																				v.sgstRs,
+																				v.totalTax,
+																				v.taxableAmount,
 																				v.grandTotal
 																				
 

@@ -39,6 +39,7 @@ import com.ujwal.billsoft.commons.Currency;
 import com.ujwal.billsoft.commons.DateConvertor;
 import com.ujwal.billsoft.models.BillDetails;
 import com.ujwal.billsoft.models.BillHeader;
+import com.ujwal.billsoft.models.BillReport;
 import com.ujwal.billsoft.models.MCompany;
 import com.ujwal.billsoft.models.MCustomer;
 import com.ujwal.billsoft.models.MGetPart;
@@ -178,10 +179,12 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 	return model;
 }
 
-@RequestMapping(value = "/addPartDetail", method = RequestMethod.GET)
-public @ResponseBody List<BillDetails> addPartDetail(HttpServletRequest request,HttpServletResponse response) {
-
+	@RequestMapping(value = "/addPartDetail", method = RequestMethod.GET)
+	public @ResponseBody List<BillDetails> addPartDetail(HttpServletRequest request,HttpServletResponse response) {
+	
+	
 	try {
+			
 		    int partId = Integer.parseInt(request.getParameter("partId"));
 			int isEdit = Integer.parseInt(request.getParameter("isEdit"));
 			int index = Integer.parseInt(request.getParameter("index"));
@@ -376,8 +379,10 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		}
 			
 		HttpSession session = request.getSession();
-		MUser userResponse = (MUser) session.getAttribute("userInfo");
-
+		MUser userResponse = (MUser) session.getAttribute("userBean");
+			
+		System.out.println("User Cred="+userResponse.getUserName()+" "+userResponse.getCompanyId()+" "+userResponse.getUserId());
+		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String curDate = dateFormat.format(new Date());
 		String date=request.getParameter("date");
@@ -388,12 +393,14 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 
 		int custId = Integer.parseInt(request.getParameter("cust_id"));
 		BillHeader header= new BillHeader();
+		
 		if(isEditBill==1) {
 		   header.setBillHeaderId(billHeader.getBillHeaderId());
 		}else
 		{
 		   header.setBillHeaderId(0);
 		}
+	
 		header.setCustId(custId);
 	    header.setCompanyId(userResponse.getCompanyId());
 	    header.setUserId(userResponse.getUserId());
@@ -437,13 +444,13 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("docCode", 1);
 
-		 doc = rest.postForObject(Constants.url + "/getDocument", map, Document.class);
-		header.setInvoiceNo(doc.getDocPrefix() + "" + doc.getSrNo());
+		// doc = rest.postForObject(Constants.url + "/getDocument", map, Document.class);
+		//header.setInvoiceNo(doc.getDocPrefix() + "" + doc.getSrNo());
 		}
 		header.setBillDetailList(detailList);
 		BillHeader insertbillHeadRes = rest.postForObject(Constants.url + "saveBill", header,BillHeader.class);
 		
-		if (insertbillHeadRes != null) {
+		/*if (insertbillHeadRes != null) {
 
 			isError = 2;
 
@@ -461,7 +468,7 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 
 			isError = 1;
 		}
-		
+	*/	
 	} catch (Exception e) {
 		isError = 1;
 		System.err.println("exception In insertOrder at OrderController " + e.getMessage());
@@ -527,22 +534,24 @@ public ModelAndView showBillList(HttpServletRequest request, HttpServletResponse
 	return model;
 }
 @RequestMapping(value = "/getBillListBetDate", method = RequestMethod.GET)
-public @ResponseBody List<GetBillHeader> getBillListBetDate(HttpServletRequest request,
+public @ResponseBody List<BillReport> getBillListBetDate(HttpServletRequest request,
 		HttpServletResponse response) {
 
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 	int custId = Integer.parseInt(request.getParameter("custId"));
 	String fromDate = request.getParameter("fromDate");
 	String toDate = request.getParameter("toDate");
+	
+	System.out.println("Data Get = "+custId+" "+fromDate+" "+toDate);
  
 	map.add("custId", custId);
 	map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 	map.add("toDate", DateConvertor.convertToYMD(toDate));
 
-	GetBillHeader[] ordHeadArray = rest.postForObject(Constants.url + "getBillHeadersByDate", map,
-			GetBillHeader[].class);
-	List<GetBillHeader> getBillList = new ArrayList<GetBillHeader>(Arrays.asList(ordHeadArray));
-
+	BillReport[] ordHeadArray = rest.postForObject(Constants.url + "getBillHeadersByDate", map,
+			BillReport[].class);
+	List<BillReport> getBillList = new ArrayList<BillReport>(Arrays.asList(ordHeadArray));
+	System.out.println("List 2 Found = "+getBillList);
 	return getBillList;
 }
 

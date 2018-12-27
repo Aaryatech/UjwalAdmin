@@ -1,25 +1,30 @@
 package com.ujwal.billsoft.models;
 
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class CustReport {
+	
 	private int billHeaderId; 
 
 	private String billDate;
 	private int custId;
 	private int companyId;
-	private float taxPer;
-	private float taxableAmt;
-	private float sgstAmt;
-	private float cgstAmt;
-	private float igstAmt;
-	private float totaTax;
+	//private float taxPer;
+	private float taxableAmount;
+	private float sgstRs;
+	private float cgstRs;
+	private float igstRs;
+	private float totalTax;
 	private float grandTotal;
 	private String custName;
-	private int locId;
+	/*private int locId;
 	private int userId;
 	private float roundOff;
 	private float discAmt;
 	private String userName;
-	private String custGstn;
+*/	private String custGstn;
+
 	
 	public int getBillHeaderId() {
 		return billHeaderId;
@@ -27,6 +32,7 @@ public class CustReport {
 	public void setBillHeaderId(int billHeaderId) {
 		this.billHeaderId = billHeaderId;
 	}
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public String getBillDate() {
 		return billDate;
 	}
@@ -45,41 +51,43 @@ public class CustReport {
 	public void setCompanyId(int companyId) {
 		this.companyId = companyId;
 	}
-	public float getTaxPer() {
+/*	public float getTaxPer() {
 		return taxPer;
 	}
 	public void setTaxPer(float taxPer) {
 		this.taxPer = taxPer;
+	}*/
+	
+
+	public float getSgstRs() {
+		return sgstRs;
 	}
-	public float getTaxableAmt() {
-		return taxableAmt;
+	public float getTaxableAmount() {
+		return taxableAmount;
 	}
-	public void setTaxableAmt(float taxableAmt) {
-		this.taxableAmt = taxableAmt;
+	public void setTaxableAmount(float taxableAmount) {
+		this.taxableAmount = taxableAmount;
 	}
-	public float getSgstAmt() {
-		return sgstAmt;
+	public void setSgstRs(float sgstRs) {
+		this.sgstRs = sgstRs;
 	}
-	public void setSgstAmt(float sgstAmt) {
-		this.sgstAmt = sgstAmt;
+	public float getCgstRs() {
+		return cgstRs;
 	}
-	public float getCgstAmt() {
-		return cgstAmt;
+	public void setCgstRs(float cgstRs) {
+		this.cgstRs = cgstRs;
 	}
-	public void setCgstAmt(float cgstAmt) {
-		this.cgstAmt = cgstAmt;
+	public float getIgstRs() {
+		return igstRs;
 	}
-	public float getIgstAmt() {
-		return igstAmt;
+	public void setIgstRs(float igstRs) {
+		this.igstRs = igstRs;
 	}
-	public void setIgstAmt(float igstAmt) {
-		this.igstAmt = igstAmt;
+	public float getTotalTax() {
+		return totalTax;
 	}
-	public float getTotaTax() {
-		return totaTax;
-	}
-	public void setTotaTax(float totaTax) {
-		this.totaTax = totaTax;
+	public void setTotalTax(float totalTax) {
+		this.totalTax = totalTax;
 	}
 	public float getGrandTotal() {
 		return grandTotal;
@@ -93,7 +101,7 @@ public class CustReport {
 	public void setCustName(String custName) {
 		this.custName = custName;
 	}
-	public int getLocId() {
+/*	public int getLocId() {
 		return locId;
 	}
 	public void setLocId(int locId) {
@@ -122,7 +130,7 @@ public class CustReport {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
+	}*/
 	public String getCustGstn() {
 		return custGstn;
 	}
@@ -132,20 +140,12 @@ public class CustReport {
 	@Override
 	public String toString() {
 		return "CustReport [billHeaderId=" + billHeaderId + ", billDate=" + billDate + ", custId=" + custId
-				+ ", companyId=" + companyId + ", taxPer=" + taxPer + ", taxableAmt=" + taxableAmt + ", sgstAmt="
-				+ sgstAmt + ", cgstAmt=" + cgstAmt + ", igstAmt=" + igstAmt + ", totaTax=" + totaTax + ", grandTotal="
-				+ grandTotal + ", custName=" + custName + ", locId=" + locId + ", userId=" + userId + ", roundOff="
-				+ roundOff + ", discAmt=" + discAmt + ", userName=" + userName + ", custGstn=" + custGstn
-				+ ", getBillHeaderId()=" + getBillHeaderId() + ", getBillDate()=" + getBillDate() + ", getCustId()="
-				+ getCustId() + ", getCompanyId()=" + getCompanyId() + ", getTaxPer()=" + getTaxPer()
-				+ ", getTaxableAmt()=" + getTaxableAmt() + ", getSgstAmt()=" + getSgstAmt() + ", getCgstAmt()="
-				+ getCgstAmt() + ", getIgstAmt()=" + getIgstAmt() + ", getTotaTax()=" + getTotaTax()
-				+ ", getGrandTotal()=" + getGrandTotal() + ", getCustName()=" + getCustName() + ", getLocId()="
-				+ getLocId() + ", getUserId()=" + getUserId() + ", getRoundOff()=" + getRoundOff() + ", getDiscAmt()="
-				+ getDiscAmt() + ", getUserName()=" + getUserName() + ", getCustGstn()=" + getCustGstn()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+				+ ", companyId=" + companyId + ", taxableAmount=" + taxableAmount + ", sgstRs=" + sgstRs + ", cgstRs="
+				+ cgstRs + ", igstRs=" + igstRs + ", totalTax=" + totalTax + ", grandTotal=" + grandTotal + ", custName="
+				+ custName + ", custGstn=" + custGstn + "]";
 	}
+	
+	
 	
 	
 }

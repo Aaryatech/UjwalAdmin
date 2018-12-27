@@ -94,7 +94,7 @@ public class UjwalBillReportController {
 		int compId =Integer.parseInt(request.getParameter("compId"));
 		
 
-		System.out.println(fromDate +"  "+toDate);
+		System.out.println("Datesss"+fromDate +"  "+toDate);
 
 		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 		map.add("toDate", DateConvertor.convertToYMD(toDate));
@@ -607,35 +607,35 @@ public class UjwalBillReportController {
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + work.getCgstAmt(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getCgstRs(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getIgstAmt(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getIgstRs(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getSgstAmt(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getSgstRs(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getTotaTax(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getTotalTax(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getTaxableAmt(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getTaxableAmount(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
@@ -806,9 +806,13 @@ public class UjwalBillReportController {
 		try 
 		{
 			rest = new RestTemplate();
-			List<MCustomer> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
-			mav.addObject("custList", custList);	
-			System.out.println(custList);
+		/*	List<MCustomer> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
+			mav.addObject("custList", custList);	*/
+			List<MCompany> compList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+			
+			System.out.println(compList);
+			mav.addObject("compList", compList);
+		//	System.out.println(custList);
 
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -840,7 +844,7 @@ public class UjwalBillReportController {
 
 		
 		
-		CustReport[] ordHeadArray = rest.postForObject(Constants.url + "/getCustomerBetweenDate", map,CustReport[].class);
+		CustReport[] ordHeadArray = rest.postForObject(Constants.url + "/ujwal/getCustomerBetweenDate", map,CustReport[].class);
 		getListnew = new ArrayList<CustReport>(Arrays.asList(ordHeadArray));
 		System.out.println("Customer List: "+getListnew);
 		
@@ -875,11 +879,11 @@ public class UjwalBillReportController {
 			rowData.add("" + getListnew.get(i).getBillDate());
 			rowData.add("" + getListnew.get(i).getCustGstn());
 			rowData.add("" + getListnew.get(i).getCustName());
-			rowData.add("" + getListnew.get(i).getCgstAmt());
-			rowData.add("" + getListnew.get(i).getSgstAmt());
-			rowData.add("" + getListnew.get(i).getIgstAmt());
-			rowData.add("" + getListnew.get(i).getTotaTax());
-			rowData.add("" + getListnew.get(i).getTaxableAmt());
+			rowData.add("" + getListnew.get(i).getCgstRs());
+			rowData.add("" + getListnew.get(i).getSgstRs());
+			rowData.add("" + getListnew.get(i).getIgstRs());
+			rowData.add("" + getListnew.get(i).getTotalTax());
+			rowData.add("" + getListnew.get(i).getTaxableAmount());
 			rowData.add("" + getListnew.get(i).getGrandTotal());
 
 			expoExcel.setRowData(rowData);

@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html class="no-js" lang="">
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -94,6 +93,25 @@
 
 						<div class="card-body card-block">
 
+							<div class="row">
+
+
+								<div class="col-md-2">Company Name</div>
+								<div class="col-md-4">
+									<select id="comp_id" name="comp_id" class="standardSelect"
+										tabindex="1" required
+										oninvalid="setCustomValidity('Please select item')">
+										<option value="0">All</option>
+										<c:forEach items="${compList}" var="item">
+											<option value="${item.compId}">${item.compName}</option>
+										</c:forEach>
+
+									</select>
+								</div>
+
+							</div>
+							
+
 							<div class="form-group"></div>
 
 							<div class="row">
@@ -114,32 +132,12 @@
 
 							</div>
 
-							<div class="form-group"></div>
-
-							<div class="row">
-
-
-								<div class="col-md-2">Company Name</div>
-								<div class="col-md-4">
-									<select id="comp_id" name="comp_id" class="standardSelect"
-										tabindex="1" required
-										oninvalid="setCustomValidity('Please select item')">
-										<option value="0">All</option>
-										<c:forEach items="${compList}" var="item">
-											<option value="${item.compId}">${item.compName}</option>
-										</c:forEach>
-
-									</select>
-								</div>
-
-							</div>
-
-
+						
 							<div class="form-group"></div>
 							<div class="row">
 								<div class="col-md-6"></div>
 								<div class="col-md-2">
-									<input type="button" class="btn btn-primary"
+									<input type="button" class="btn btn-primary" style="background-color: #272c33;"
 										onclick="showItemReport()" value="Submit">
 								</div>
 							</div>
@@ -173,7 +171,7 @@
 
 									<button type="button" class="btn btn-primary"
 										onclick="exportToExcel();" disabled="disabled" id="expExcel"
-										style="align-content: center; width: 200px; margin-left: 80px;">
+										style="align-content: center; width: 200px; margin-left: 80px; background-color: #272c33;">
 										Export To Excel</button>
 								</div>
 
@@ -182,7 +180,7 @@
 
 									<button type="button" class="btn btn-primary"
 										onclick="genPdf()" disabled="disabled" id="PDFButton"
-										style="align-content: center; width: 100px; margin-left: 80px;">
+										style="align-content: center; width: 100px; margin-left: 80px; background-color: #272c33;">
 										PDF</button>
 								</div>
 								&nbsp;
@@ -344,8 +342,8 @@
 					$.each(data, function(i, v) {
 					
 						dataTable.row.add(
-								[ i + 1, v.invoiceNo, v.billDate, v.custName,
-										 v.custGstn, v.cgst,v.sgst,v.igst,v.taxPer,v.taxableAmount,v.billAmount
+								[ i + 1, v.billDetailId, v.billDate, v.custName,
+										 v.custGstn, v.cgstPer,v.sgstPer,v.igstPer,v.taxPer,v.taxableAmount,v.billAmount
 										
 
 								]).draw();
