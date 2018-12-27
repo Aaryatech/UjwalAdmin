@@ -250,7 +250,7 @@
 								<div class="row">
 								<div class="col-md-6"></div>
 									<div class="col-md-3">
-										<input type="button" class="btn btn-primary"  onclick="showBillReport()" value="Submit">
+										<input type="button" class="btn btn-primary"  onclick="showBill()" value="Submit">
 									<button class="buttonload" id="loader">
                                    <i class="fa fa-spinner fa-spin"></i>Loading
                                    </button>
@@ -348,7 +348,7 @@
 		
 			var compId = document.getElementById("compId").value;
 			var valid = true;
-			alert("Data "+compId)
+		
 			if (compId == null || compId == "") {
 				valid = false;
 				alert("Please select Company Name");
@@ -456,7 +456,7 @@
 				alert("from date greater than todate ");
 			}
 			if (valid == true) {
-				alert("hello1");	
+			
 
 				$.getJSON('${getBillListBetDate}', {
 					
@@ -468,13 +468,13 @@
 				},
 					
 				function(data) {
-					document.getElementById("expExcel").disabled = false;
-					document.getElementById("PDFButton").disabled = false;
+					//document.getElementById("expExcel").disabled = false;
+					//document.getElementById("PDFButton").disabled = false;
 
 					if (data == "") {
 						alert("No records found !!");
-						document.getElementById("expExcel").disabled = true;
-						document.getElementById("PDFButton").disabled = true;
+					//	document.getElementById("expExcel").disabled = true;
+					//	document.getElementById("PDFButton").disabled = true;
 
 					}
 
@@ -503,12 +503,11 @@
 	<script type="text/javascript">
 		function showBill() {
 		
-			 var compId=document.getElementById("compId").value;
-			 var custId = document.getElementById("cust_name").value;
-			 var fromDate=document.getElementById("from_date").value;
-			 var toDate=document.getElementById("to_date").value; 
-  			 
-			 alert("hi");
+			var compId = document.getElementById("compId").value;
+			var custId = document.getElementById("cust_id").value;
+			var fromDate = document.getElementById("from_date").value;
+			var toDate = document.getElementById("to_date").value;
+  			
 			
 			var valid = true;
 			

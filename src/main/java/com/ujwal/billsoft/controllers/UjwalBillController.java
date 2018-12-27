@@ -81,6 +81,7 @@ public class UjwalBillController {
 		map.add("docCode", 1);
 		Document doc = rest.postForObject(Constants.url + "getDocument", map, Document.class);
 		mav.addObject("doc", doc);
+		System.err.println(doc.toString()+"getDocument");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
@@ -130,8 +131,11 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 
 	ModelAndView model = null;
 	try {
-
 		model = new ModelAndView("masters/addBill");	
+		List<MCompany> compList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		model.addObject("compList", compList);
+		
+	
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 		map.add("billHeadId", billHeadId);
@@ -444,13 +448,13 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("docCode", 1);
 
-		// doc = rest.postForObject(Constants.url + "/getDocument", map, Document.class);
-		//header.setInvoiceNo(doc.getDocPrefix() + "" + doc.getSrNo());
+		doc = rest.postForObject(Constants.url + "/getDocument", map, Document.class);
+		header.setInvoiceNo(doc.getDocPrefix() + "" + doc.getSrNo());
 		}
 		header.setBillDetailList(detailList);
 		BillHeader insertbillHeadRes = rest.postForObject(Constants.url + "saveBill", header,BillHeader.class);
 		
-		/*if (insertbillHeadRes != null) {
+		if (insertbillHeadRes != null) {
 
 			isError = 2;
 
@@ -468,7 +472,7 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 
 			isError = 1;
 		}
-	*/	
+		
 	} catch (Exception e) {
 		isError = 1;
 		System.err.println("exception In insertOrder at OrderController " + e.getMessage());

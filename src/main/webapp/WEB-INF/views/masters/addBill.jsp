@@ -106,7 +106,7 @@
 
 								<button type="button" class="close" data-dismiss="alert"
 									aria-label="Close">
-									<span aria-hidden="true">Ã—</span>
+									<span aria-hidden="true"></span>
 								</button>
 								<strong>Data Submitted Successfully</strong>
 							</div>
@@ -118,16 +118,20 @@
 				<div class="col-xs-12 col-sm-12">
 					<div class="card">
 						<div class="card-header">
-							<div class="col-md-2">
+							<%-- <div class="col-md-2">
 								<strong>${title}</strong>
 								
-							</div>
-							<div class="col-md-8">
-							<div class="col-md-3">Invoice No:</div>
+							</div> --%>		<div class="col-md-8"><div class="col-md-3">Invoice No:</div>
+									<div class="col-md-3">
+									<c:if test="${isEditBill==1}">  ${bill.invoiceNo} </c:if><c:if test="${isEditBill==0}"> ${doc.docPrefix}${doc.srNo}</c:if>
+									
+								</div>
+						
+						<%-- 	<div class="col-md-3">Invoice No:</div>
 									<div class="col-md-3">
 									<c:if test="${isEditBill==1}"> ${bill.invoiceNo} </c:if><c:if test="${isEditBill==0}">	${doc.srNo}</c:if>
 									
-								</div>
+								</div> --%>
 							</div>
 							<div class="col-md-2" align="left">
 								<a href="${pageContext.request.contextPath}/showBillList"><strong>Bill List</strong></a>
@@ -148,7 +152,18 @@
 											onchange="getCompId()" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
-												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											<c:choose>
+											<c:when test="${makeList.compId==bill.companyId}">
+								<option value="${makeList.compId}" selected><c:out value="${makeList.compName}"></c:out> </option>
+											
+											</c:when>
+											<c:otherwise>
+											<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											
+											</c:otherwise>
+											</c:choose>
+											
+											
 											 </c:forEach>
 										</select> 
 									</div>
@@ -372,24 +387,30 @@
 								
 									<div class="col-md-2">Disc %</div>
 
-									<div class="col-md-4">
+									<div class="col-md-2">
 										<input type="text" id="disc" name="disc"  value="0.0"
 											style="width: 50%;" class="form-control" autocomplete="off"/> 
 									</div>
-								
-							
+							<!-- 	
+								<div class="col-md-2">Disc Amt</div>
+
+									<div class="col-md-2">
+										<input type="text" id="disc_amt" name="disc_amt"  value="0.0"
+											style="width: 50%;" readonly class="form-control" autocomplete="off"/> 
+									</div>
+								 -->
 								
 								<div class="col-md-2">Remark</div>
 
-									<div class="col-md-4">
+									<div class="col-md-2">
 									
 										<input type="text" id="remark" name="remark"  value="NA"
-											style="width: 80%;" class="form-control" autocomplete="off"/> 
+											style="width:50%;" class="form-control" autocomplete="off"/> 
 								
 									</div>	
 									<div class="col-lg-2">
 	<input type="button" class="btn btn-primary" value="Add" id="AddButton"
-		style="align-content: center; width: 113px; margin-left: 380px;" onclick="add()">
+		style="width: 63px;" onclick="add()">
 
 								</div>
 									</div>
@@ -569,7 +590,7 @@
 					
 					var len = data.length;
 					//alert("data " +JSON.stringify(data));
-					var html='<option value="-1">All</option>';
+					var html='<option value="">Select Customer</option>';
 
 					for (var i = 0; i < len; i++) {
 
@@ -637,8 +658,8 @@
 					document.getElementById("cust_regis_no").value=data.custRegisNo
 					document.getElementById("cust_pan").value=data.custPan
 					document.getElementById("cust_veh_no").value=data.custVehNo
-					document.getElementById("cust_ro_no").value=data.custRoNo
-					document.getElementById("cust_chasi_no").value=data.custChasiNo
+					document.getElementById("cust_ro_no").value=data.custModelNo
+					document.getElementById("cust_chasi_no").value=data.custVinNo
 				
 				
 		
