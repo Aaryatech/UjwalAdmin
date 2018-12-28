@@ -1,4 +1,3 @@
-
 <html>
 <head>
 <style>
@@ -47,46 +46,49 @@ html {
 					</a>
 						<ul class="sub-menu children dropdown-menu ">
 
-                       	<li class="active"><i class="fa fa-plus"></i><a
-								href="${pageContext.request.contextPath}/addNewUser">Add
-									User</a></li>
-								
-							<li class="active"><i class="fa fa-plus"></i><a
+						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddCompany">Add
 									Company</a></li>
+						
+						<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showAddLocation">Add
+									Location</a></li>
 
-					
-							<li class="active"><i class="fa fa-plus"></i><a
+                       	
+						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddCustomer">Add
 									Customer</a></li>
 									
-							<li class="active"><i class="fa fa-plus"></i><a
+						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showCustList">Customer
 								List</a></li>
 
-							<li class="active"><i class="fa fa-plus"></i><a
+						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddUom">Add
 									Measurement Unit</a></li>
+									
+						<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/addNewUser">Add
+									User</a></li>
 
-							<li class="active"><i class="fa fa-plus"></i><a
+						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddTax">Add
 									 Tax</a></li>
+								
+						<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showAddModel">Add
+									Model</a></li>	
 
-							<li class="active"><i class="fa fa-plus"></i><a
+
+						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showAddPart">Add
 									Part</a></li>
 									
-							<li class="active"><i class="fa fa-plus"></i><a
+						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showPartList">Part
 									List</a></li>
 
-							<li class="active"><i class="fa fa-plus"></i><a
-								href="${pageContext.request.contextPath}/showAddLocation">Add
-									Location</a></li>
-									
-							
-
-							
+						
 							<%-- 		<li class="active"><i class="fa fa-puzzle-piece"></i><a
 								href="${pageContext.request.contextPath}/showCustList">
 									Customer List</a></li>
@@ -272,7 +274,7 @@ html {
 								Tax Report</a></li>
 							
 								<li class="active"><i class="fa fa-plus"></i><a
-								href="${pageContext.request.contextPath}/showBillwiseReport">Billwise Report</a></li>
+								href="${pageContext.request.contextPath}/showBillwiseReport">Bill Wise Report</a></li>
 							
 
 						</ul></li>
