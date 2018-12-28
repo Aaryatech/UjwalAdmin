@@ -188,12 +188,16 @@
 										 <select name="compId" id="compId" class="form-control chosen" tabindex="6" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
-												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											<c:choose>
+											<c:when test="${makeList.compId == editLoc.companyId}">
+											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
+											</c:when>
+											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
+											</c:choose>
 											 </c:forEach>
 										</select>
 										
 									</div>
-
 
 									<div class="col-md-2">Select Location*</div>
 
@@ -201,7 +205,15 @@
 										 <select name="locId" id="locId" class="form-control chosen" tabindex="6" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${locList}" var="locList"> 
-												<option value="${locList.locationId}"><c:out value="${locList.location_name}"></c:out> </option>
+											<c:choose>
+												<c:when test="${locList.locationId==editLoc.locationId}">
+												<option value="${locList.locationId}" selected>${locList.location_name}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${locList.locationId}">${locList.location_name}</option>
+												</c:otherwise>
+											</c:choose>
+											
 											 </c:forEach>
 										</select>
 									</div>
@@ -239,7 +251,6 @@
 											<th style="text-align: center; width: 5%;">Sr No</th>
 											<th style="text-align: center">User Name</th>
 											<th style="text-align: center">Mobile No</th>
-											<th style="text-align: center">Password</th>
 											<th style="text-align: center">Email</th>
 											<th style="text-align: center">Location Code</th>
 											<th style="text-align: center">Company Code</th>
@@ -264,7 +275,7 @@
 												<td style="text-align: left"><c:out
 														value="${comp.userMobile}" /></td>
 
-												<td style="text-align: center">${comp.userPwd}</td>				
+												
 	
 												<td style="text-align: center">${comp.userEmail}</td>
 												

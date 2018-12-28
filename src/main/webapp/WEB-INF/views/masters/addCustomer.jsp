@@ -10,7 +10,6 @@
 <title>Ujjwal Billing Software</title>
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
 
-
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -200,7 +199,7 @@ div.scrollmenu {
 										<input type="text" id="cust_state" name="cust_state"  class="form-control"
 											oninvalid="setCustomValidity('Please enter correct customer state')"
 											onchange="try{setCustomValidity('')}catch(e){}"
-											pattern="^[A-Za-z\s]+$" value="${cust.custState}"
+											pattern="^[A-Za-z\s]+$" value="${custState}"
 											style="width: 100%;" autocomplete="off"
 											required>
 
@@ -223,7 +222,7 @@ div.scrollmenu {
 									<div class="col-md-2">GST No.*</div>
 							
 									<div class="col-md-4">
-										<input type="text" id="cust_gstn" name="cust_gstn" required
+										<input type="text" id="cust_gstn" name="cust_gstn"
 											onblur="getCheck()" style="width: 100%;" class="form-control"
 											autocomplete="off"
 											oninvalid="setCustomValidity('Please enter GST no')"
@@ -234,20 +233,7 @@ div.scrollmenu {
 											class="error" aria-live="polite"></span>
 
 									</div>
-								<div class="col-md-2">Registration No.*</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_regis_no" name="cust_regis_no" required
-											style="width: 100%;" class="form-control"
-											value="${cust.custRegisNo}" autocomplete="off"/> 
-											<span class="error" aria-live="polite" id="reg"></span>
-									</div>
-																	
-								</div>
-								
-								<div class="form-group"></div>
-
-								<div class="row">
-									<div class="col-md-2">PAN No.*</div>
+								<div class="col-md-2">PAN No.*</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_pan" name="cust_pan" required
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -258,8 +244,28 @@ div.scrollmenu {
 											onchange="try{setCustomValidity('')}catch(e){}" /> <span
 											class="error" aria-live="polite"></span>
 
-									</div>
+									</div>				
+								</div> 
+								
+								<div class="form-group"></div>
 
+								<div class="row">
+								<div class="col-md-2">Model No.*</div>
+									<div class="col-md-4">
+										<%-- <input type="text" id="cust_model_no" name="cust_model_no" required
+											style="width: 100%;" class="form-control" autocomplete="off"
+											oninvalid="setCustomValidity('Please enter Ro No')"
+											value="${cust.custModelNo}" maxlength="30"
+											onchange="try{setCustomValidity('')}catch(e){}" /> --%>
+											<select name="cust_model_no" id="cust_model_no" class="standardSelect" tabindex="6" required>
+											<option value="">Select Model</option>
+											<c:forEach items="${modelList}" var="modelList"> 
+												<option value="${modelList.modelId}"><c:out value="${modelList.modelName}"></c:out> </option>
+											 </c:forEach>
+										</select>  <span
+											class="error" aria-live="polite"></span>
+									</div>		
+									
 									<div class="col-md-2">Vehicle No.*</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_veh_no" name="cust_veh_no" required
@@ -277,16 +283,7 @@ div.scrollmenu {
 								<div class="row">
 
 									
-									<div class="col-md-2">Model No.*</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_model_no" name="cust_model_no" required
-											style="width: 100%;" class="form-control" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter Ro No')"
-											value="${cust.custModelNo}" maxlength="30"
-											onchange="try{setCustomValidity('')}catch(e){}" /> <span
-											class="error" aria-live="polite"></span>
-
-									</div>							
+														
 									
 											<div class="col-md-2">VIN No.*</div>
 									<div class="col-md-4">
