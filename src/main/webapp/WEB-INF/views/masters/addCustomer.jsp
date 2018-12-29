@@ -3,13 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html class="no-js" lang="">
-
+													
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Ujjwal Billing Software</title>
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
-
+<c:url var="getUniqueModelNo" value="/getUniqueModelNo" />
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -134,9 +134,45 @@ div.scrollmenu {
 
 								<div class="row">
 
+								<div class="col-md-2">Company Name*</div>
+									<div class="col-md-4">
+									 <select name="compId" id="compId" class="standardSelect" tabindex="6" required
+									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId()"> 
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+											<c:choose>
+											<c:when test="${makeList.compId == cust.compId}">
+											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
+											</c:when>
+											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
+											</c:choose>
+											 </c:forEach>
+										</select>
+									</div>
+								
 
+									
+									<div class="col-md-2">Model No.*</div>
+									<div class="col-md-4">
+										
+											<select name="cust_model_no" id="cust_model_no" class="standardSelect" tabindex="6" required>
+											<option value="">Select Model</option>
+											<c:forEach items="${modelList}" var="modelList">
+											
+												<option value="${modelList.modelId}">${modelList.modelName}</option>
+											
+											 </c:forEach>
+										</select>  <span
+											class="error" aria-live="polite"></span>
+									</div>	
+								
+									
+																			
+								</div>
+								<div class="form-group"></div>
+								<div class="row">
 
-									<div class="col-md-2">Customer Name*</div>
+								 <div class="col-md-2">Customer Name*</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_name" name="cust_name"
 											oninvalid="setCustomValidity('Please enter correct customer name')"
@@ -145,33 +181,9 @@ div.scrollmenu {
 											style="width: 100%;" autocomplete="off" class="form-control"
 											required>
 									<span id="cName"></span>
-									</div>
-									
-										<div class="col-md-2">Company Name*</div>
-									<div class="col-md-4">
-											<select name="compId" id="compId" class="standardSelect" tabindex="6" required>
-											<option value="">Select Company</option>
-											<c:forEach items="${compList}" var="makeList"> 
-												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
-											 </c:forEach>
-										</select> 
-									</div>
-									
-								</div>
-								<div class="form-group"></div>
-								<div class="row">
+									</div> 
 
-
-
-									<div class="col-md-2">Customer Address*</div>
-
-									<div class="col-md-4">
-										<textarea id="cust_address" name="cust_address" class="form-control"
-											style="width: 100%;" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter customer address')"
-											maxlength="200"
-											onchange="try{setCustomValidity('')}catch(e){}" required>${cust.custAddress}</textarea>
-									</div>
+								
 
 
 									
@@ -187,7 +199,32 @@ div.scrollmenu {
 
 									</div>
 								</div>
+							
+							<div class="form-group"></div>
+								<div class="row">
 
+									
+									<div class="col-md-2">Vehicle No.*</div>
+									<div class="col-md-4">
+										<input type="text" id="cust_veh_no" name="cust_veh_no" required
+											style="width: 100%;" class="form-control" autocomplete="off"
+										maxlength="20"
+										value="${cust.custVehNo}"
+										/> <span
+											class="error" aria-live="polite"></span>					
+
+									</div>
+									
+									<div class="col-md-2">Customer Address*</div>
+
+									<div class="col-md-4">
+										<textarea id="cust_address" name="cust_address" class="form-control"
+											style="width: 100%;" autocomplete="off"
+											oninvalid="setCustomValidity('Please enter customer address')"
+											maxlength="200"
+											onchange="try{setCustomValidity('')}catch(e){}" required>${cust.custAddress}</textarea>
+									</div> 
+								</div>
 
 								<div class="form-group"></div>
 								<div class="row">
@@ -201,13 +238,13 @@ div.scrollmenu {
 											onchange="try{setCustomValidity('')}catch(e){}"
 											pattern="^[A-Za-z\s]+$" value="${custState}"
 											style="width: 100%;" autocomplete="off"
-											required>
+											>
 
 									</div>	
 									
 									<div class="col-md-2">Email Id*</div>
 									<div class="col-md-4">
-										<input type="text" id="cust_email" name="cust_email" required
+										<input type="text" id="cust_email" name="cust_email" 
 											style="width: 100%;" class="form-control" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter email')"
 											pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
@@ -233,9 +270,21 @@ div.scrollmenu {
 											class="error" aria-live="polite"></span>
 
 									</div>
-								<div class="col-md-2">PAN No.*</div>
+									
+										<div class="col-md-2">VIN No.*</div>
 									<div class="col-md-4">
-										<input type="text" id="cust_pan" name="cust_pan" required
+										<input type="text" id="cust_vin_no" name="cust_vin_no" 
+											style="width: 100%;" class="form-control" maxlength="17"
+											value="${cust.custVinNo}" autocomplete="off"
+											oninvalid="setCustomValidity('Please enter chasi no')"
+											onchange="try{setCustomValidity('')}catch(e){}" /> 
+											<span class="error"	aria-live="polite" id="chassis"></span>
+
+									</div>
+								
+							<%--	<div class="col-md-2">PAN No.*</div>
+									<div class="col-md-4">
+										<input type="text" id="cust_pan" name="cust_pan"
 											style="width: 100%;" class="form-control" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter PAN no')"
 											maxlength="10" value="${cust.custPan}"
@@ -244,39 +293,12 @@ div.scrollmenu {
 											onchange="try{setCustomValidity('')}catch(e){}" /> <span
 											class="error" aria-live="polite"></span>
 
-									</div>				
+									</div>	 --%>			
 								</div> 
 								
 								<div class="form-group"></div>
 
-								<div class="row">
-								<div class="col-md-2">Model No.*</div>
-									<div class="col-md-4">
-										<%-- <input type="text" id="cust_model_no" name="cust_model_no" required
-											style="width: 100%;" class="form-control" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter Ro No')"
-											value="${cust.custModelNo}" maxlength="30"
-											onchange="try{setCustomValidity('')}catch(e){}" /> --%>
-											<select name="cust_model_no" id="cust_model_no" class="standardSelect" tabindex="6" required>
-											<option value="">Select Model</option>
-											<c:forEach items="${modelList}" var="modelList"> 
-												<option value="${modelList.modelId}"><c:out value="${modelList.modelName}"></c:out> </option>
-											 </c:forEach>
-										</select>  <span
-											class="error" aria-live="polite"></span>
-									</div>		
-									
-									<div class="col-md-2">Vehicle No.*</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_veh_no" name="cust_veh_no" required
-											style="width: 100%;" class="form-control" autocomplete="off"
-										maxlength="20"
-										value="${cust.custVehNo}"
-										/> <span
-											class="error" aria-live="polite"></span>
-
-									</div>
-								</div>
+								
 
 								<div class="form-group"></div>
 
@@ -285,16 +307,7 @@ div.scrollmenu {
 									
 														
 									
-											<div class="col-md-2">VIN No.*</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_vin_no" name="cust_vin_no" 
-											style="width: 100%;" class="form-control" maxlength="17"
-											value="${cust.custVinNo}" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter chasi no')"
-											onchange="try{setCustomValidity('')}catch(e){}" required/> 
-											<span class="error"	aria-live="polite" id="chassis"></span>
-
-									</div>
+										
 									<span></span>
 
 
@@ -482,9 +495,46 @@ $(document).ready(function(){
 					});
 		});
 	</script>
+	
+	
+ <script type="text/javascript">
+			function getCompId() { 
+		
+			var companyId = document.getElementById("compId").value;
+			var valid = true;
+			if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select Model Name");
+			}
 
+			if (valid == true) {
 
+				$.getJSON('${getUniqueModelNo}', {
+					companyId : companyId,
+					ajax : 'true',
+				},
 
+				function(data) {
+					
+					var len = data.length;
+					//alert("data");
+					var html='<option value="">Select Model</option>';
+
+					for (var i = 0; i < len; i++) {
+
+						html += '<option value="' + data[i].modelId + '">'
+								+data[i].modelName+ '</option>';
+
+					}
+					html += '</option>';
+					$('#cust_model_no').html(html);
+					$("#cust_model_no").trigger("chosen:updated");
+				
+				});
+			}//end of if
+
+		}
+	</script>
 	<script type="text/javascript">
 		function getCheck() {
 

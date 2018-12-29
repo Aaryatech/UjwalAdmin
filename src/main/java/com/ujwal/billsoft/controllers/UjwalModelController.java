@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -161,6 +162,27 @@ public String deleteCustomer(@PathVariable("modelId") int modelId) {
 	}
 
 	
+	@RequestMapping(value="/getUniqueModelNo",method=RequestMethod.GET)
+	
+	public @ResponseBody List<MModelBean>  getModelById(HttpServletRequest req, HttpServletResponse resp) {
+		
+		
+		int companyId = Integer.parseInt(req.getParameter("companyId"));
+		System.out.println("Company No="+companyId);
+		
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		map.add("companyId", companyId);
+		
+		List<MModelBean> modelList = rest.postForObject(Constants.url + "/ujwal/getModelByCompanyId", map, List.class);
+		System.out.println("Response 1="+modelList);
+		System.out.println("Response 2="+modelList.toString());
+		
+		
+		return modelList;
+		
+	}
 	
 	
 }
