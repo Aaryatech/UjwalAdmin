@@ -21,6 +21,7 @@ import com.ujwal.billsoft.models.Info;
 import com.ujwal.billsoft.models.MCompany;
 import com.ujwal.billsoft.models.MLocation;
 import com.ujwal.billsoft.models.MUser;
+import com.ujwal.billsoft.models.UserBean;
 
 @Controller	
 public class UjwalUserController {
@@ -33,12 +34,17 @@ RestTemplate restTamplate = null;
 		ModelAndView mav = new ModelAndView("masters/addUser");
 		try {
 		restTamplate = new RestTemplate();
-		List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
-		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
-		List<MUser> userList = restTamplate.getForObject(Constants.url + "/ujwal/getAllUsers", List.class);
-		mav.addObject("compList", compList);
-		mav.addObject("locList", locList);
-		mav.addObject("userList", userList);
+	   //List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
+	    //mav.addObject("locList", locList);
+	    
+	    List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+	    mav.addObject("compList", compList);
+	    
+	    //List<MUser> userList = restTamplate.getForObject(Constants.url + "/ujwal/getAllUsers", List.class);
+		
+	    List<UserBean> userList = restTamplate.getForObject(Constants.url + "/ujwal/getAllUsersByDel", List.class);
+	    mav.addObject("userList", userList);
+			
 		mav.addObject("title", "Add User");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -50,9 +56,10 @@ RestTemplate restTamplate = null;
 	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
 	public String addNewUser(HttpServletRequest req, HttpServletResponse resp) {
 		
-		String path = null;
+		String path = null; 
 		restTamplate = new RestTemplate();
 		int user_id = 0;
+		
 		try {
 			user_id = Integer.parseInt(req.getParameter("user_id"));
 		}catch(Exception e){
@@ -96,13 +103,21 @@ RestTemplate restTamplate = null;
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 		map.add("id", id);
 		MUser usr= restTamplate.postForObject(Constants.url + "/ujwal/getUserById", map, MUser.class);	
-		List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
-		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
-		List<MUser> userList = restTamplate.getForObject(Constants.url + "/ujwal/getAllUsers", List.class);
 		mav.addObject("editLoc", usr);
+	
+		
+		//List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
+		//mav.addObject("locList", locList);
+		
+		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
 		mav.addObject("compList", compList);
-		mav.addObject("locList", locList);
-		mav.addObject("userList", userList);
+		
+		List<MUser> userList = restTamplate.getForObject(Constants.url + "/ujwal/getAllUsers", List.class);
+		mav.addObject("userList", userList);	
+		
+		List<UserBean> user = restTamplate.getForObject(Constants.url + "/ujwal/getAllUsersByDel", List.class);
+		mav.addObject("userList", user);
+			
 		mav.addObject("title", "Edit User");
 		return mav;
 	}

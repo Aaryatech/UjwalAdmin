@@ -18,10 +18,18 @@ public class MGetCustomerDetails {
 	private String custRoNo;
 	//private String custState;
 	private int custDelStatus;
+	private int modelId;
+	private String modelName;
 	
-	
-	
-	
+	public int getModelId() {
+		return modelId;
+	}
+	public void setModelId(int modelId) {
+		this.modelId = modelId;
+	}
+	public String getModelName() {
+		return modelName;
+	}
 	public String getCompName() {
 		return compName;
 	}

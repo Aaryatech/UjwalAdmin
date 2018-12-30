@@ -23,6 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ujwal.billsoft.commons.Constants;
 import com.ujwal.billsoft.models.CradentialValidator;
+import com.ujwal.billsoft.models.MCompany;
+import com.ujwal.billsoft.models.MLocation;
+import com.ujwal.billsoft.models.MUser;
 
 /**
  * Handles requests for the application home page.
@@ -90,6 +93,7 @@ public class HomeController {
 
 					
 							mav = new ModelAndView("home");
+							//mav = new ModelAndView("common/right");
 							session.setAttribute("userName", name);
 
 							loginResponseMessage = "Login Successful";
@@ -99,6 +103,30 @@ public class HomeController {
 							int userId = userObj.getMusr().getUserId();
 							map.add("usrId", userId);
 							System.out.println("user data" + userObj.toString());
+							
+							MUser userResponse = (MUser) session.getAttribute("userBean");
+							
+							System.out.println("User Cred="+userResponse.getUserName()+" "+userResponse.getCompanyId()+" "+userResponse.getUserId());
+							
+							
+							int locationId = userResponse.getLocationId();
+							int companyId = userResponse.getCompanyId();
+							System.out.println("Compannyy IDSS = "+companyId+" "+locationId);
+							
+							RestTemplate rest = new RestTemplate();
+							
+							
+							map.add("id", companyId);
+							MCompany mComp = rest.postForObject(Constants.url + "/ujwal/getCompanyById", map, MCompany.class);
+							System.out.println("Company is="+mComp.getCompName());
+							
+							/*map.add("id", locationId);
+							MLocation mLoc = rest.postForObject(Constants.url +"/ujwal/getLocationById", map, MLocation.class);
+							System.out.println("Data="+mLoc.toString());
+							System.out.println("Location is="+mLoc.getLocation_name());*/
+							
+							session.setAttribute("companyName", mComp.getCompName());
+							//session.setAttribute("locationName", mLoc.getLocation_name());
 
 							return mav;
 						} else {
@@ -133,7 +161,38 @@ public class HomeController {
 		return "login";
 	}*/
 	
-
+	/*@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView getCompLocName(HttpServletRequest request ,HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView("common/right");
+		HttpSession session = request.getSession();
+		MUser userResponse = (MUser) session.getAttribute("userBean");
+			
+		System.out.println("User Cred="+userResponse.getUserName()+" "+userResponse.getCompanyId()+" "+userResponse.getUserId());
+		
+		
+		int locationId = userResponse.getLocationId();
+		int companyId = userResponse.getCompanyId();
+		System.out.println("Compannyy IDSS = "+companyId+" "+locationId);
+		
+		RestTemplate rest = new RestTemplate();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("id", companyId);
+		map.add("id", locationId);
+		
+		MCompany mComp = rest.postForObject(Constants.url + "/ujwal/getCompanyById", map, MCompany.class);
+		System.out.println("Company is="+mComp.getCompName());
+		
+		MLocation mLoc = rest.postForObject(Constants.url +"/ujwal/getLocationById", map, MLocation.class);
+		System.out.println("Location is="+mLoc.getLocation_name());
+		
+		mav.addObject("mComp", mComp);
+		mav.addObject("mLoc", mLoc);
+		
+		return mav;
+		
+	}
+*/
 
 	
 }

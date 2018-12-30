@@ -31,10 +31,11 @@ public class UjwalModelController {
 	public ModelAndView showAddModel() {
 		ModelAndView mav = new ModelAndView("masters/addModel");
 		List<MModelBean> modBean = rest.getForObject(Constants.url+ "/ujwal/getModelByDelStatus", List.class);
-		List<MCompany> compList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
-	
-		mav.addObject("compList", compList);
 		mav.addObject("modelList", modBean);
+		
+		List<MCompany> compList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		mav.addObject("compList", compList);
+		
 		mav.addObject("title","Add Model");
 		mav.addObject("comp.custState","Maharashtra");
 		return mav;
@@ -96,6 +97,9 @@ public class UjwalModelController {
 		map.add("id", id);
 		
 		mav.addObject("title", "Update Model");
+		
+		List<MCompany> compList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		mav.addObject("compList", compList);
 		
 		List<MModelBean> modBean = rest.getForObject(Constants.url+ "/ujwal/getModelByDelStatus", List.class);
 		mav.addObject("modelList", modBean);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
@@ -11,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,10 +21,12 @@ import com.ujwal.billsoft.models.Info;
 import com.ujwal.billsoft.models.MCompany;
 import com.ujwal.billsoft.models.MCustomer;
 import com.ujwal.billsoft.models.MGetPart;
+import com.ujwal.billsoft.models.MModelBean;
 import com.ujwal.billsoft.models.MPart;
 import com.ujwal.billsoft.models.MPartList;
 import com.ujwal.billsoft.models.MTax;
 import com.ujwal.billsoft.models.MUom;
+import com.ujwal.billsoft.models.MUser;
 
 @Controller
 public class UjwalPartController {
@@ -35,8 +39,10 @@ public class UjwalPartController {
 		ModelAndView mav = new ModelAndView("masters/addPart");
 		try {
 		restTamplate = new RestTemplate();
-		List<MPartList> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPartDetails", List.class);
-		mav.addObject("pList", partList);
+		
+		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
+		mav.addObject("compList", compList);
+		
 		
 		List<MTax> taxList = restTamplate.getForObject(Constants.url + "/ujwal/getAllTaxes", List.class);
 		mav.addObject("tList", taxList);
@@ -47,8 +53,8 @@ public class UjwalPartController {
 		List<MGetPart> getpartList = restTamplate.getForObject(Constants.url + "/getAllPartList", List.class);
 		mav.addObject("getList", getpartList);
 		
-		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
-		mav.addObject("compList", compList);
+		List<MPartList> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPartDetails", List.class);
+		mav.addObject("pList", partList);
 		
 		mav.addObject("title", "Add Part");
 		}catch(Exception e){
@@ -61,7 +67,7 @@ public class UjwalPartController {
 	@RequestMapping(value="/insertPart", method=RequestMethod.POST)
 	public String newCompany(HttpServletRequest req, HttpServletResponse resp) {
 		int partId=0;
-		String partRegisterNo = null;
+		String partRegisterNo = "NA";
 		try
 		{
 			 partId = Integer.parseInt(req.getParameter("part_id"));
@@ -76,7 +82,7 @@ public class UjwalPartController {
 		partRegisterNo = req.getParameter("part_register_no");
 		int partUomId = Integer.parseInt(req.getParameter("measurement_of_unit"));
 		int partTaxId = Integer.parseInt(req.getParameter("part_tax_id"));
-		String partRoNo = req.getParameter("model_no");
+		String partRoNo = req.getParameter("cust_model_no");
 		String partMrp = req.getParameter("part_mrp");
 		String partSpecification = req.getParameter("part_specification");
 		String partNo = req.getParameter("part_no");
@@ -125,6 +131,8 @@ public class UjwalPartController {
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
 		mav.addObject("compList", compList);
 		
+		List<MModelBean> modBean = restTamplate.getForObject(Constants.url+ "/ujwal/getModelByDelStatus", List.class);
+		mav.addObject("modBean", modBean);
 		
 		MPart partList = restTamplate.postForObject(Constants.url + "/ujwal/getPartById", map, MPart.class);
 		mav.addObject("partList", partList);
@@ -163,7 +171,7 @@ public String deleteCustomer(@PathVariable("partId") int id) {
 		System.out.println(e.getMessage());
 	}
 
-	return "redirect:/showAddPart";
+	return "redirect:/showPartList";
 }
 @RequestMapping(value = "/deleteRecordofPart", method = RequestMethod.POST)
 public String deleteRecordofPart(HttpServletRequest request, HttpServletResponse response) {
@@ -192,22 +200,42 @@ public String deleteRecordofPart(HttpServletRequest request, HttpServletResponse
 		System.err.println("Exception in /deleteRecordofPart @MastContr  " + e.getMessage());
 		e.printStackTrace();
 	}
-return "redirect:/showAddPart";
+return "redirect:/showPartList";
 }
 
 @RequestMapping(value="/showPartList", method=RequestMethod.GET)
 
-public ModelAndView showPartList() {
+public ModelAndView showPartList(HttpServletRequest request, HttpServletResponse response) {
 	
 	ModelAndView mav = new ModelAndView("masters/partList");
 	try {
+		
+		HttpSession session = request.getSession();
+		MUser userResponse = (MUser) session.getAttribute("userBean");
+			
+		System.out.println("User Cred="+userResponse.getUserName()+" "+userResponse.getCompanyId()+" "+userResponse.getUserId());
+		
+		int companyId = userResponse.getCompanyId();
+		System.out.println("Compannyy IDSS = "+companyId);
+		
+		
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("companyId", companyId);	
+			
+		restTamplate = new RestTemplate();
+			
+		
 	restTamplate = new RestTemplate();
-	List<MPartList> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPartDetails", List.class);
+	
+	List<MPartList> partList = restTamplate.postForObject(Constants.url + "/ujwal/getAllPartDetails", map, List.class);
 	mav.addObject("pList", partList);
+	
 	List<MTax> taxList = restTamplate.getForObject(Constants.url + "/ujwal/getAllTaxes", List.class);
 	mav.addObject("tList", taxList);
+	
 	List<MUom> muom = restTamplate.getForObject(Constants.url + "/ujwal/getAllMUom", List.class);
 	mav.addObject("muomList", muom);
+	
 	List<MGetPart> getpartList = restTamplate.getForObject(Constants.url + "/getAllPartList", List.class);
 	mav.addObject("getList", getpartList);
 	
@@ -219,5 +247,25 @@ public ModelAndView showPartList() {
 }
 
 
+@RequestMapping(value = "/getModelNo", method=RequestMethod.GET)
+public @ResponseBody List<MModelBean> getModelName(HttpServletRequest req, HttpServletResponse resp){
+	int companyId = Integer.parseInt(req.getParameter("companyId"));
+	System.out.println("Company No="+companyId);
+	
+
+	MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+	restTamplate = new RestTemplate();
+	map.add("companyId", companyId);
+	
+	List<MModelBean> modelList = restTamplate.postForObject(Constants.url + "/ujwal/getModelByCompanyId", map, List.class);
+	System.out.println("Response 1="+modelList);
+	System.out.println("Response 2="+modelList.toString());
+	
+	
+	return modelList;
+	
+
+	
+}
 
 }

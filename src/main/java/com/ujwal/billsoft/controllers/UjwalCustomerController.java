@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,6 +20,9 @@ import com.ujwal.billsoft.commons.Constants;
 import com.ujwal.billsoft.models.Info;
 import com.ujwal.billsoft.models.MCompany;
 import com.ujwal.billsoft.models.MCustomer;
+import com.ujwal.billsoft.models.MGetCustomerDetails;
+import com.ujwal.billsoft.models.MModelBean;
+import com.ujwal.billsoft.models.MUser;
 
 @Controller
 public class UjwalCustomerController {
@@ -31,11 +35,12 @@ public class UjwalCustomerController {
 		ModelAndView mav = new ModelAndView("masters/addCustomer");
 		try {
 		restTamplate = new RestTemplate();
-
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
-	/*	List<MCustomer> custList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);*/
-		//mav.addObject("custList", custList);
+		//List<MModelBean> modBean = restTamplate.getForObject(Constants.url+ "/ujwal/getModelByDelStatus", List.class);
+		//mav.addObject("modelList", modBean);
 		mav.addObject("compList", compList);
+		mav.addObject("custState", "Maharashtra");
+	
 		mav.addObject("title", "Add Customer");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -106,11 +111,12 @@ public class UjwalCustomerController {
 		
 	}
 	
+	
 @RequestMapping(value="/editCustomer/{custId}", method=RequestMethod.GET)
 	
 	public ModelAndView editCompany(@PathVariable("custId") int id) {
 		
-		ModelAndView mav = new ModelAndView("masters/addCustomer");
+		ModelAndView mav = new ModelAndView("masters/customerList");
 		try {
 		restTamplate = new RestTemplate();
 		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
@@ -124,6 +130,11 @@ public class UjwalCustomerController {
 		
 		List<MCustomer> custList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
 		mav.addObject("custList", custList);
+		
+		MModelBean modb = restTamplate.postForObject(Constants.url + "/ujwal/getModelById", map, MModelBean.class);
+		mav.addObject("editModel", modb);	
+		
+		mav.addObject("custState", cust.getCustState());
 		
 		mav.addObject("title", "Update Customer");
 		}catch(Exception e){
@@ -150,7 +161,7 @@ public String deleteCustomer(@PathVariable("custId") int id) {
 		System.out.println(e.getMessage());
 	}
 
-	return "redirect:/showAddCustomer";
+	return "redirect:/showCustList";
 }
 
 @RequestMapping(value = "/deleteRecordofCustomer", method = RequestMethod.POST)
@@ -180,7 +191,7 @@ public String deleteRecordofCustomer(HttpServletRequest request, HttpServletResp
 		System.err.println("Exception in /deleteRecordofCustomer @MastContr  " + e.getMessage());
 		e.printStackTrace();
 	}
-return "redirect:/showAddCustomer";
+return "redirect:/showCustList";
 }
 
 @RequestMapping(value="/moreCustomerDetails/{custId}", method=RequestMethod.GET)
@@ -206,12 +217,26 @@ public ModelAndView CustomerDetails(@PathVariable("custId") int id ) {
 //showCustList
 @RequestMapping(value="/showCustList", method=RequestMethod.GET)
 
-public ModelAndView showCustList() {
+public ModelAndView showCustList(HttpServletRequest request, HttpServletResponse response) {
 	
 	ModelAndView mav = new ModelAndView("masters/customerList");
+	
+	HttpSession session = request.getSession();
+	MUser userResponse = (MUser) session.getAttribute("userBean");
+		
+	System.out.println("User Cred="+userResponse.getUserName()+" "+userResponse.getCompanyId()+" "+userResponse.getUserId());
+	
+	int companyId = userResponse.getCompanyId();
+	System.out.println("Compannyy IDSS = "+companyId);
 	try {
+	
+	MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+	map.add("companyId", companyId);	
+		
 	restTamplate = new RestTemplate();
-	List<MCustomer> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomerDetails", List.class);
+	
+	
+	List<MGetCustomerDetails> compList = restTamplate.postForObject(Constants.url + "/ujwal/getAllCustomerDetails",map, List.class);
 	mav.addObject("custList", compList);
 	mav.addObject("title", "Customers List");
 	}catch(Exception e){

@@ -14,7 +14,7 @@ public class MPart {
 	private int partUomId;
 	private String partSpecification;
 	private int partTaxId;
-	private String partRoNo;
+	private String partRoNo; //model no.
 	private String partMrp;
 	
 	private int partDelStatus;

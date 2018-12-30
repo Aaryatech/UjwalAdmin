@@ -17,6 +17,22 @@ public class MPartList {
 	private String uomName;
 	private int uomId;
 	private int partDelStatus;
+	private String modelName;
+	private int modelId;
+	
+	public String getModelName() {
+		return modelName;
+	}
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+	public int getModelId() {
+		return modelId;
+	}
+	public void setModelId(int modelId) {
+		this.modelId = modelId;
+	}
+
 	
 	public String getPartName() {
 		return partName;

@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class MCompany {
 
-	
 	private int compId;
 	private String compName;
 	private String address;

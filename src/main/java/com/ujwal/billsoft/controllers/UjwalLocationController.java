@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,12 +33,12 @@ public ModelAndView addShowCompanyForm() {
 		try {
 		restTamplate = new RestTemplate();
 		
-		List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
+		List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocationsByDel", List.class);
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
 		List<MLocComp> locCompList = restTamplate.getForObject(Constants.url + "/ujwal/getCompLoc", List.class);
 		
 		mav.addObject("compList", compList);
-		mav.addObject("locList", locList);
+		//mav.addObject("locList", locList);
 		mav.addObject("locComp", locCompList);
 		mav.addObject("title", "Add Location");
 		}catch(Exception e){
@@ -88,11 +89,9 @@ public ModelAndView addShowCompanyForm() {
 		
 		
 		return "redirect:/showAddLocation";
-		
 	}
 	
-@RequestMapping(value="/editLocation/{locId}", method=RequestMethod.GET)
-	
+	@RequestMapping(value="/editLocation/{locId}", method=RequestMethod.GET)
 	public ModelAndView editCompany(@PathVariable("locId") int id) {
 		
 		ModelAndView mav = new ModelAndView("masters/addLocation");
@@ -101,7 +100,7 @@ public ModelAndView addShowCompanyForm() {
 		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
 		map.add("id", id);
 		
-		List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
+		List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocationsByDel", List.class);
 		MLocation loc = restTamplate.postForObject(Constants.url + "/ujwal/getLocationById", map, MLocation.class);
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
 		List<MLocComp> locCompList = restTamplate.getForObject(Constants.url + "/ujwal/getCompLoc", List.class);
@@ -163,8 +162,22 @@ public String deleteRecordofLocation(HttpServletRequest request, HttpServletResp
 		e.printStackTrace();
 		
 	}
-return "redirect:/showAddLocation";
+	return "redirect:/showAddLocation";
 }
 
+
+	@RequestMapping(value = "/getLocation", method = RequestMethod.GET)
+	public @ResponseBody List<MLocation> getLocation(HttpServletRequest req, HttpServletResponse resp){
+		
+		int companyId = Integer.parseInt(req.getParameter("companyId"));
+	
+		System.out.println("IDss="+companyId);
+		restTamplate = new RestTemplate();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("companyId", companyId);
+		List<MLocation> locList = restTamplate.postForObject(Constants.url + "/ujwal/getAllLocations", map, List.class);
+		System.out.println("Response Loc="+locList);
+		return locList;
+	}
 
 }
