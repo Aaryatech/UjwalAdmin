@@ -139,18 +139,20 @@ function validate(){
 									
 										<div class="col-md-2">Company Name*</div>
 									<div class="col-md-4">
-											<select name="compId" id="compId" class="standardSelect" tabindex="6" required>
+										<select name="compId" id="compId" class="standardSelect" tabindex="6" required
+									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId()"> 
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
-												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											<c:choose>
+											<c:when test="${makeList.compId == editModel.companyId}">
+											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
+											</c:when>
+											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
+											</c:choose>
 											 </c:forEach>
 										</select> 
 									</div>
-									</div>
 									
-								<div class="form-group"></div>
-								<div class="row">
-
 										<div class="col-md-2">Model No*</div>
 
 										<div class="col-md-4">
@@ -161,9 +163,9 @@ function validate(){
 											style="width: 100%;" autocomplete="off" class="form-control"
 											required>
 												<span id="modelNo"></span>
+										</div>
 									</div>
-
-								</div>
+									
 
 								<div class="form-group"></div>
 								<div class="row">
@@ -178,14 +180,7 @@ function validate(){
 											required>
 												<span id="modelName"></span>
 									</div>
-					</div>
-
-								<div class="form-group"></div>
-
-							
-								<div class="form-group"></div>
-
-								<div class="row">
+									
 									<div class="col-md-2">Production Date*</div>
 									<div class="col-md-4">
 											<input type="date" id="production_date" name="production_date"
@@ -195,9 +190,12 @@ function validate(){
 											style="width: 100%;" autocomplete="off" class="form-control"
 											required>
 												<span id="cName"></span>
+										</div>
+									
 									</div>
 
-								</div>
+								<div class="form-group"></div>
+
 								<div class="form-group"></div>
 								<div class="col-lg-4"></div>
 								<div class="col-lg-3">
@@ -337,7 +335,7 @@ $('#selAll').click(function(e){
 </script>
 
 	<script type="text/javascript">
-	var minLength = 5;
+	var minLength = 1;
 	var maxLength = 50;
 	$(document).ready(function(){
 	    $('#model_name').blur(function(){
@@ -354,7 +352,7 @@ $('#selAll').click(function(e){
 	    });
 	});	
 	
-	var minLength = 5;
+	var minLength = 1;
 	var maxLength = 50;
 	$(document).ready(function(){
 	    $('#model_no').blur(function(){

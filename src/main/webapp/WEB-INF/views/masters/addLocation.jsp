@@ -133,10 +133,22 @@
 
 									<div class="col-md-4">
 									
-										 <select name="compId" id="compId" class="standardSelect" tabindex="6" required>
+										<%--  <select name="compId" id="compId" class="standardSelect" tabindex="6" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
 												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											 </c:forEach>
+										</select> --%>
+										
+										<select name="compId" id="compId" class="standardSelect" tabindex="6" required> 
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+											<c:choose>
+											<c:when test="${makeList.compId == editLoc.compId}">
+											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
+											</c:when>
+											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
+											</c:choose>
 											 </c:forEach>
 										</select>
 										
@@ -185,13 +197,13 @@
 
 								<div class="row">
 
-									<div class="col-md-2">Mobile No*</div>
+									<div class="col-md-2">Contact No*</div>
 									<div class="col-md-4">
 										<input type="text" id="mob_no" name="mob_no"
 											style="width: 100%;" class="form-control"
 											value="${editLoc.phoneNo}" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter correct mob no')"
-											pattern="^[1-9]{1}[0-9]{9}$" maxlength="10"
+											pattern="^[1-9]{1}[0-9]{9}$" 
 											onchange="try{setCustomValidity('')}catch(e){}" required />
 										<span class="error" aria-live="polite"></span>
 
@@ -239,8 +251,8 @@
 									<thead>
 										<tr>
 											<th class="check" style="text-align: center; width: 5%;"><input
-												type="checkbox" name="selAll" id="selAll" /> Select All</th>
-											<th style="text-align: center; width: 5%;">Sr No</th>
+												type="checkbox" name="selAll" id="selAll" /></th>
+											<th style="text-align: center; width: 5%;">Sr.</th>
 											<th style="text-align: center">Location Name</th>
 											<th style="text-align: center">Location Address</th>
 											<th style="text-align: center">Company Name</th>
@@ -294,7 +306,7 @@
 									<input type="submit" class="btn btn-primary" value="Delete"
 										id="deleteId"
 										onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to delete record');}"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 
 								</div>
@@ -357,11 +369,38 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
 
+	<script type="text/javascript">
+
+	$("#mob_no").on("keypress keyup blur",function (event) {
+	            //this.value = this.value.replace(/[^0-9\.]/g,'');
+	     $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+	            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+	                event.preventDefault();
+	            }
+	        });
+	
+
+	$("#fax").on("keypress keyup blur",function (event) {
+	            //this.value = this.value.replace(/[^0-9\.]/g,'');
+	     $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+	            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+	                event.preventDefault();
+	            }
+	        });
+	</script>
+
 	<script>
-	$('#selAll').click(function(e){
-    var table= $(e.target).closest('table');
-    $('td input:checkbox',table).prop('checked',this.checked);
-	});
+	$(function () {
+        $("#submitButton").click(function () {
+            var ddlFruits = $("#compId");
+            if (ddlFruits.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an company!");
+                return false;
+            }
+            return true;
+        });
+    });
 	</script>
 
 	<script>

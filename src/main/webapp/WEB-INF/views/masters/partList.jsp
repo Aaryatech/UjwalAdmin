@@ -99,8 +99,8 @@
 									<thead>
 										<tr>
 											<th class="check" style="text-align: center; width: 5%;"><input
-												type="checkbox" name="selAll" id="selAll" /> Select All</th>
-											<th style="text-align: center; width: 5%;">Sr No</th>
+												type="checkbox" name="selAll" id="selAll" /> </th>
+											<th style="text-align: center; width: 5%;">Sr.</th>
 											<th style="text-align: center">Part Name</th>
 											<th style="text-align: center">Part No</th>
 											<!-- <th style="text-align: center">Registration No.</th> -->
@@ -141,7 +141,7 @@
 														value="${pList.partMrp}" /></td>
 													
 												<td style="text-align: left"><c:out
-														value="${pList.partRoNo}" /></td>
+														value="${pList.modelName}" /></td>
 													
 												<td style="text-align: left"><c:out
 														value="${pList.compName}" /></td>

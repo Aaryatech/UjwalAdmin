@@ -2,8 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
-<html class="no-js" lang="">
-													
+<html class="no-js" lang="">										
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -152,15 +151,20 @@ div.scrollmenu {
 								
 
 									
-									<div class="col-md-2">Model No.*</div>
+									<div class="col-md-2">Model Name*</div>
 									<div class="col-md-4">
 										
 											<select name="cust_model_no" id="cust_model_no" class="standardSelect" tabindex="6" required>
 											<option value="">Select Model</option>
-											<c:forEach items="${modelList}" var="modelList">
-											
-												<option value="${modelList.modelId}">${modelList.modelName}</option>
-											
+											<c:forEach items="${custList}" var="modelList">
+											<c:choose>
+											<c:when test="${modelList.custModelNo == cust.custModelNo }">
+												<option value="${modb.modelId}" selected>${modb.modelName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${modb.modelId}">${modb.modelName}</option>
+											</c:otherwise>
+											</c:choose>
 											 </c:forEach>
 										</select>  <span
 											class="error" aria-live="polite"></span>
@@ -207,6 +211,7 @@ div.scrollmenu {
 									<div class="col-md-2">Vehicle No.*</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_veh_no" name="cust_veh_no" required
+										onkeyup="this.value = this.value.toUpperCase();"
 											style="width: 100%;" class="form-control" autocomplete="off"
 										maxlength="20"
 										value="${cust.custVehNo}"
@@ -387,7 +392,47 @@ div.scrollmenu {
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
-
+	<script>
+	$(function () {
+        $("#submitButton").click(function () {
+            var ddlFruits = $("#compId");
+            if (ddlFruits.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an company!");
+                return false;
+            }
+            return true;
+        });
+    });
+	</script>
+	
+	<script>
+	$(function () {
+        $("#submitButton").click(function () {
+            var compId = $("#compId");
+            if (compId.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an company!");
+                return false;
+            }
+            return true;
+        });
+    });
+	</script>
+	
+	<script>
+	$(function () {
+        $("#submitButton").click(function () {
+            var cust_model_no = $("#cust_model_no");
+            if (cust_model_no.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an model!");
+                return false;
+            }
+            return true;
+        });
+    });
+	</script>
 
 <script type="text/javascript">
 	var minLength = 7;

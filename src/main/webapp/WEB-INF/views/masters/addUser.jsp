@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Ujjwal Billing Software</title>
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
-
+<c:url var="getLocation" value="/getLocation" />
 
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -125,7 +125,49 @@
 								id="submitForm" method="post">
 								<input type="hidden" name="user_id" id="user_id"
 									value="${editLoc.userId}">
+	
+								<div class="form-group"></div>
+								<div class="row">
+									<div class="col-md-2">Select Company*</div>
 
+									<div class="col-md-4">
+									
+										 <select name="compId" id="compId" class="standardSelect" tabindex="6" required 
+										 onchange="getCompId()" > 
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+											<c:choose>
+											<c:when test="${makeList.compId == editLoc.companyId}">
+											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
+											</c:when>
+											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
+											</c:choose>
+											 </c:forEach>
+										</select>
+										
+									</div>
+
+								<div class="col-md-2">Select Location*</div>
+
+									<div class="col-md-4">
+										 <select name="locId" id="locId" class="standardSelect" tabindex="6" required>
+											<option value="">Select Location</option>
+											<c:forEach items="${locList}" var="locList">
+											<c:choose>
+											
+												<c:when test="${locList.locationId==userList.locationId}">
+												<option value="${locList.locationId}" selected>${locList.location_name}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${locList.locationId}">${locList.location_name}</option>
+												</c:otherwise>
+											</c:choose>
+											
+											 </c:forEach>
+										</select>
+									</div>
+								</div>
+								
 
 								<div class="form-group"></div>
 								<div class="row">
@@ -178,46 +220,6 @@
 									</div>
 								</div>
 
-								<div class="form-group"></div>
-								<div class="row">
-
-									<div class="col-md-2">Select Company*</div>
-
-									<div class="col-md-4">
-									
-										 <select name="compId" id="compId" class="form-control chosen" tabindex="6" required>
-											<option value="">Select Company</option>
-											<c:forEach items="${compList}" var="makeList"> 
-											<c:choose>
-											<c:when test="${makeList.compId == editLoc.companyId}">
-											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
-											</c:when>
-											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
-											</c:choose>
-											 </c:forEach>
-										</select>
-										
-									</div>
-
-									<div class="col-md-2">Select Location*</div>
-
-									<div class="col-md-4">
-										 <select name="locId" id="locId" class="form-control chosen" tabindex="6" required>
-											<option value="">Select Company</option>
-											<c:forEach items="${locList}" var="locList"> 
-											<c:choose>
-												<c:when test="${locList.locationId==editLoc.locationId}">
-												<option value="${locList.locationId}" selected>${locList.location_name}</option>
-												</c:when>
-												<c:otherwise>
-													<option value="${locList.locationId}">${locList.location_name}</option>
-												</c:otherwise>
-											</c:choose>
-											
-											 </c:forEach>
-										</select>
-									</div>
-								</div>
 								
 									<div class="form-group"></div>
 								<div class="col-lg-4"></div>
@@ -247,13 +249,13 @@
 									<thead>
 										<tr>
 											<th class="check" style="text-align: center; width: 5%;"><input
-												type="checkbox" name="selAll" id="selAll" /> Select All</th>
-											<th style="text-align: center; width: 5%;">Sr No</th>
+												type="checkbox" name="selAll" id="selAll" /></th>
+											<th style="text-align: center; width: 5%;">Sr.</th>
 											<th style="text-align: center">User Name</th>
 											<th style="text-align: center">Mobile No</th>
 											<th style="text-align: center">Email</th>
-											<th style="text-align: center">Location Code</th>
-											<th style="text-align: center">Company Code</th>
+											<th style="text-align: center">Location</th>
+											<th style="text-align: center">Company </th>
 											
 
 											<th style="text-align: center; width: 5%;">Action</th>
@@ -279,9 +281,9 @@
 	
 												<td style="text-align: center">${comp.userEmail}</td>
 												
-												<td style="text-align: center">${comp.locationId}</td>
+												<td style="text-align: center">${comp.locationName}</td>
 												
-												<td style="text-align: center">${comp.companyId}</td>
+												<td style="text-align: center">${comp.compName}</td>
 												
 											
 												<td style="text-align: center"><a
@@ -363,6 +365,71 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
+
+	<script type="text/javascript">
+			function getCompId() { 
+		
+			var companyId = document.getElementById("compId").value;
+			var valid = true;
+			if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select Model Name");
+			}
+
+			if (valid == true) {
+
+				$.getJSON('${getLocation}', {
+					companyId : companyId,
+					ajax : 'true',
+				},
+
+				function(data) {
+					
+					var len = data.length;
+					//alert("data");
+					var html='<option value="">Select Location</option>';
+
+					for (var i = 0; i < len; i++) {
+
+						html += '<option value="' + data[i].locationId + '">'
+								+data[i].location_name+ '</option>';
+
+					}
+					html += '</option>';
+					$('#locId').html(html);
+					$("#locId").trigger("chosen:updated");
+				
+				});
+			}//end of if
+
+		}
+	</script>
+	
+<script type="text/javascript">
+    $(function () {
+        $("#submitButton").click(function () {
+            var ddlFruits = $("#compId");
+            if (ddlFruits.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an company!");
+                return false;
+            }
+            return true;
+        });
+    });
+    
+    $(function () {
+        $("#submitButton").click(function () {
+            var ddlFruits = $("#locId");
+            if (ddlFruits.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an location!");
+                return false;
+            }
+            return true;
+        });
+    });
+</script>
 
 	<script>
 	$('#selAll').click(function(e){

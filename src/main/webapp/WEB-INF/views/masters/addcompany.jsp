@@ -199,13 +199,13 @@ function validate(){
 
 									</div>
 
-									<div class="col-md-2">Mobile Number*</div>
+									<div class="col-md-2">Contact Number*</div>
 									<div class="col-md-4">
 									<input type="text" id="mob_no" name="mob_no"
 											style="width: 100%;" class="form-control"
 											value="${editComp.phoneNo}" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter correct mob no')"
-											pattern="^[1-9]{1}[0-9]{9}$" maxlength="10"
+											pattern="^[1-9]{1}[0-9]{9}$" 
 											onchange="try{setCustomValidity('')}catch(e){}" required />
 										<span class="error" aria-live="polite"></span>
 

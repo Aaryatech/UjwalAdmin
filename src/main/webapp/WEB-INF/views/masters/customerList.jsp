@@ -157,7 +157,7 @@
 														value="${cust.custVinNo}" /></td> --%>
 														
 											<td style="text-align: left"><c:out
-														value="${cust.custModelNo}" /></td>
+														value="${cust.modelName}" /></td>
 														
 												
 												<td style="text-align: center"><a

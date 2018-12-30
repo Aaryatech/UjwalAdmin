@@ -139,20 +139,6 @@
 
 									</div>
 
-									<div class="col-md-2">CGST % *</div>
-									<div class="col-md-4">
-										<input type="text" id="cgst_per" name="cgst_per"
-											style="width: 100%;" class="form-control"
-											value="${taxList.cgstPer}" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter cgst price')"
-											
-											onchange="try{setCustomValidity('')}catch(e){}" required />
-										<span class="error" aria-live="polite"></span>
-
-									</div>	
-								</div>
-								<div class="form-group"></div>
-								<div class="row">
 									<div class="col-md-2">HSN Code*</div>
 									
 									<div class="col-md-4">
@@ -164,8 +150,32 @@
 											required>
 
 									</div>
+								</div>
+								<div class="form-group"></div>
+								<div class="row">
+									<%-- <div class="col-md-2">HSN Code*</div>
 									
+									<div class="col-md-4">
+										<input type="text" id="hsn_code" name="hsn_code" 
+											oninvalid="setCustomValidity('Please enter correct hsn code')"
+											
+											value="${taxList.hsnCode}"
+											style="width: 100%;" autocomplete="off" class="form-control"
+											required>
+
+									</div> --%>
 									
+									<div class="col-md-2">CGST % *</div>
+									<div class="col-md-4">
+										<input type="text" id="cgst_per" name="cgst_per"
+											style="width: 100%;" class="form-control"
+											value="${taxList.cgstPer}" autocomplete="off"
+											oninvalid="setCustomValidity('Please enter cgst price')"
+											
+											onchange="try{setCustomValidity('')}catch(e){}" required />
+										<span class="error" aria-live="polite"></span>
+
+									</div>
 									
 	
 									<div class="col-md-2">SGST % *</div>
@@ -184,6 +194,16 @@
 
 								<div class="form-group"></div>
 								<div class="row">
+								
+								<div class="col-md-2">IGST % *</div>
+									<div class="col-md-4">
+										<input type="text" id="igst_per" name="igst_per" required
+											style="width: 100%;" class="form-control" autocomplete="off"
+											oninvalid="setCustomValidity('Please enter igst price')"
+											 value="${taxList.igstPer}" readonly="readonly"
+											onchange="try{setCustomValidity('')}catch(e){}" /> 
+									</div>
+								
 								<div class="col-md-2">CESS* (Optional)</div>
 							
 									<div class="col-md-4">
@@ -197,14 +217,7 @@
 											class="error" aria-live="polite"></span>
 
 									</div>
-									<div class="col-md-2">IGST % *</div>
-									<div class="col-md-4">
-										<input type="text" id="igst_per" name="igst_per" required
-											style="width: 100%;" class="form-control" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter igst price')"
-											 value="${taxList.igstPer}" readonly="readonly"
-											onchange="try{setCustomValidity('')}catch(e){}" /> 
-									</div>
+									
 								</div>
 								
 								
@@ -316,7 +329,7 @@
 									<input type="submit" class="btn btn-primary" value="Delete"
 										id="deleteId"
 										onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to delete record');}"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px;background-color: #272c33;">
 
 
 								</div>

@@ -3,13 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html class="no-js" lang="">
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Ujjwal Billing Software</title>
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
-
+<c:url var="getModelNo" value="/getModelNo" />
 
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -131,16 +130,48 @@
 									
 										<div class="col-md-2">Company Name*</div>
 									<div class="col-md-4">
-											<select name="compId" id="compId" class="standardSelect" tabindex="6" required>
+									 <select name="compId" id="compId" class="standardSelect" tabindex="6" required
+									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId()"> 
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
-												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											<c:choose>
+											<c:when test="${makeList.compId == partList.compId}">
+											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
+											</c:when>
+											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
+											</c:choose>
 											 </c:forEach>
-										</select> 
+										</select>
 									</div>
 									
+									<div class="col-md-2">Model Name*</div>
+										<div class="col-md-4">
+										
+											<select name="cust_model_no" id="cust_model_no" class="standardSelect" tabindex="6" required>
+											<option value="">Select Model</option>
+											<c:forEach items="${modBean}" var="modelList">
+											<c:choose>
+											<c:when test="${modelList.modelId ==  partList.partRoNo}">
+												<option value="${modelList.partRoNo}" selected="selected">${modelList.modelName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${modelList.partRoNo}">${modelList.modelName}</option>
+											</c:otherwise>
+											</c:choose>
+											 </c:forEach>
+										</select>  <span
+											class="error" aria-live="polite"></span>
+									</div>	
+								
 									
-									<div class="col-md-2">Part No.*</div>
+								</div>
+								
+								<div class="form-group"></div>
+
+
+								<div class="row">
+
+								<div class="col-md-2">Part No.*</div>
 
 									<div class="col-md-4">
 										<input type="text" id="part_no" name="part_no" class="form-control"
@@ -149,15 +180,9 @@
 											maxlength="200"
 											onchange="try{setCustomValidity('')}catch(e){}" required>
 									</div>
-									<%--  --%>
-									
-									
-								</div>
-								<div class="form-group"></div>
+								
 
-
-								<div class="row">
-
+								
 									<div class="col-md-2">Part Name*</div>
 									<div class="col-md-4">
 										<input type="text" id="part_name" name="part_name"
@@ -168,7 +193,11 @@
 											required>
 
 									</div>
-									
+								</div>
+																<div class="form-group"></div>
+								<div class="row">
+								
+																	
 									<div class="col-md-2">Part Specification*</div>
 									<div class="col-md-4">
 										<input type="text" id="part_specification" name="part_specification" required
@@ -177,35 +206,8 @@
 											 value="${partList.partSpecification}"
 											onchange="try{setCustomValidity('')}catch(e){}" /> 
 									</div>
-								</div>
-								<div class="form-group"></div>
-								<div class="row">
-
-									 <div class="col-md-2">Select Tax*</div>
-									<div class="col-md-4">
-										<select id="part_tax_id" name="part_tax_id" class="standardSelect">
-											<option value="">Select Tax</option>
-
-											<c:forEach items="${tList}" var="tax">
-												<option value="${tax.taxId}">${tax.taxDesc}</option>
-											</c:forEach>
-										</select>
-									</div> 
 								
-									<div class="col-md-2">Measurement Unit*</div>
-									<div class="col-md-4">
-										<select id="measurement_of_unit" name="measurement_of_unit" class="standardSelect">
-											<option value="">Measurement Unit</option>
-
-											<c:forEach items="${muomList}" var="muom">
-												<option value="${muom.uomId}">${muom.uomName}</option>
-											</c:forEach>
-										</select>
-									</div>
-								</div>
 								
-								<div class="form-group"></div>
-								<div class="row">
 									<div class="col-md-2">Part MRP*</div>
 									<div class="col-md-4">
 										<input type="text" id="part_mrp" name="part_mrp" required
@@ -215,18 +217,48 @@
 											value="${partList.partMrp}" autocomplete="off"
 											onchange="try{setCustomValidity('')}catch(e){}" /> <span class="error" aria-live="polite"></span>
 									</div>
-									<div class="col-md-2">Model No.*</div>
+									
+								</div>
+									
+								<div class="form-group"></div>
+								<div class="row">
+
+									 <div class="col-md-2">Select Tax*</div>
 									<div class="col-md-4">
-										<input type="text" id="model_no" name="model_no" required
-											style="width: 100%;" class="form-control"
-											oninvalid="setCustomValidity('Please enter part regs no.')"
-											
-											value="${partList.partRoNo}" autocomplete="off"
-											onchange="try{setCustomValidity('')}catch(e){}" /> <span class="error" aria-live="polite"></span>
-									</div>
+										<select id="part_tax_id" name="part_tax_id" class="standardSelect">
+											<option value="">Select Tax</option>
+
+											<c:forEach items="${tList}" var="tax">
+											<c:choose>
+											<c:when test="${tax.taxId == partList.partTaxId }">
+												<option value="${tax.taxId}" selected="selected">${tax.taxDesc}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${tax.taxId}">${tax.taxDesc}</option>
+											</c:otherwise>
+											</c:choose>
+											</c:forEach>
+										</select>
+									</div> 
 								
+									<div class="col-md-2">Measurement Unit*</div>
+									<div class="col-md-4">
+										<select id="measurement_of_unit" name="measurement_of_unit" class="standardSelect">
+										<option value="">Measurement Unit</option>
+										<c:forEach items="${muomList}" var="muom">
+										<c:choose>
+											<c:when test="${muom.uomId == partList.partUomId }">
+												<option value="${muom.uomId}" selected>${muom.uomName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${muom.uomId}">${muom.uomName}</option>
+											</c:otherwise>
+										</c:choose>
+										</c:forEach>
+										</select>
 									</div>
-								
+								</div>
+																
 								<div class="form-group"></div>
 								<div class="col-lg-4"></div>
 								<div class="col-lg-3">
@@ -387,7 +419,101 @@
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
 
 	<script>
+	$(function () {
+        $("#submitButton").click(function () {
+            var compId = $("#compId");
+            if (compId.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an company!");
+                return false;
+            }
+            return true;
+        });
+    });
+	</script>
 	
+	<script>
+	$(function () {
+        $("#submitButton").click(function () {
+            var cust_model_no = $("#cust_model_no");
+            if (cust_model_no.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an model!");
+                return false;
+            }
+            return true;
+        });
+    });
+	</script>
+	
+	<script>
+	$(function () {
+        $("#submitButton").click(function () {
+            var measurement_of_unit = $("#measurement_of_unit");
+            if (measurement_of_unit.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an uom!");
+                return false;
+            }
+            return true;
+        });
+    });
+	</script>
+	
+	<script>
+	$(function () {
+        $("#submitButton").click(function () {
+            var part_tax_id = $("#part_tax_id");
+            if (part_tax_id.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an tax!");
+                return false;
+            }
+            return true;
+        });
+    });
+	</script>
+	
+	<script type="text/javascript">
+	function getCompId() { 
+
+	var companyId = document.getElementById("compId").value;
+	var valid = true;
+	if (compId == null || compId == "") {
+		valid = false;
+		alert("Please select Model Name");
+	}
+
+	if (valid == true) {
+
+		$.getJSON('${getModelNo}', {
+			companyId : companyId,
+			ajax : 'true',
+		},
+
+		function(data) {
+			
+			var len = data.length;
+			//alert("data");
+			var html='<option value="">Select Model</option>';
+
+			for (var i = 0; i < len; i++) {
+
+				html += '<option value="' + data[i].modelId + '">'
+						+data[i].modelName+ '</option>';
+
+			}
+			html += '</option>';
+			$('#cust_model_no').html(html);
+			$("#cust_model_no").trigger("chosen:updated");
+		
+		});
+	}//end of if
+
+}
+</script>
+
+	<script>
 	$("#part_mrp").on("keypress keyup blur",function (event) {
         //this.value = this.value.replace(/[^0-9\.]/g,'');
  	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
