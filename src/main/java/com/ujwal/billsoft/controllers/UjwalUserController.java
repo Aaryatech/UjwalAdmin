@@ -65,7 +65,7 @@ RestTemplate restTamplate = null;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
-	
+		int userType = Integer.parseInt(req.getParameter("userType"));
 		String user_name = req.getParameter("user_name");
 		String mob_no = req.getParameter("mob_no");
 		String email = req.getParameter("email");
@@ -81,7 +81,7 @@ RestTemplate restTamplate = null;
 		musr.setUserPwd(pass);
 		musr.setCompanyId(compId);
 		musr.setLocationId(locId);
-		
+		musr.setEx_int(userType);
 		MUser muser = restTamplate.postForObject(Constants.url + "/ujwal/insertNewUser", musr, MUser.class);
 		if(muser!=null) {
 			System.out.println("sucess");

@@ -30,17 +30,24 @@ public class UjwalCustomerController {
 	
 	@RequestMapping(value="/showAddCustomer", method=RequestMethod.GET)
 	
-	public ModelAndView addShowCompanyForm() {
+	public ModelAndView addShowCompanyForm(HttpServletRequest req, HttpServletResponse resp) {
 		
 		ModelAndView mav = new ModelAndView("masters/addCustomer");
 		try {
+		
+		HttpSession session = req.getSession();
+		int compId = (int) session.getAttribute("conpanyId");
+		String companyName = (String) session.getAttribute("companyName");
+		System.out.println("Session Data = "+compId+" "+companyName);
+			
 		restTamplate = new RestTemplate();
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
 		//List<MModelBean> modBean = restTamplate.getForObject(Constants.url+ "/ujwal/getModelByDelStatus", List.class);
 		//mav.addObject("modelList", modBean);
 		mav.addObject("compList", compList);
 		mav.addObject("custState", "Maharashtra");
-	
+		mav.addObject("compid", compId);
+		mav.addObject("companyName", companyName);
 		mav.addObject("title", "Add Customer");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -53,6 +60,13 @@ public class UjwalCustomerController {
 	public String newCompany(HttpServletRequest req, HttpServletResponse resp) {
 		
 		int custId=0;
+		String custEmail = "NA";
+		String custGstn = "NA";
+		String custRegisNo = "NA";
+		String custPan = "NA";
+		String custVehNo = "NA";
+		String custAddress = "NA";
+		
 		try
 		{
 			custId = Integer.parseInt(req.getParameter("cust_id"));
@@ -65,14 +79,14 @@ public class UjwalCustomerController {
 		
 		String custName = req.getParameter("cust_name");
 		int compId = Integer.parseInt(req.getParameter("compId"));
-		String custAddress = req.getParameter("cust_address");
+		custAddress = req.getParameter("cust_address");
 		String custPhone = req.getParameter("cust_phone");
 		String custState = req.getParameter("cust_state");
-		String custEmail = req.getParameter("cust_email");
-		String custGstn = req.getParameter("cust_gstn");
-		String custRegisNo = req.getParameter("cust_regis_no");
-		String custPan = req.getParameter("cust_pan");
-		String custVehNo = req.getParameter("cust_veh_no");
+		custEmail = req.getParameter("cust_email");
+		custGstn = req.getParameter("cust_gstn");
+		custRegisNo = req.getParameter("cust_regis_no");
+		custPan = req.getParameter("cust_pan");
+		custVehNo = req.getParameter("cust_veh_no");
 		String custModelNo = req.getParameter("cust_model_no");
 		String custVinNo = req.getParameter("cust_vin_no");
 		
@@ -116,7 +130,7 @@ public class UjwalCustomerController {
 	
 	public ModelAndView editCompany(@PathVariable("custId") int id) {
 		
-		ModelAndView mav = new ModelAndView("masters/customerList");
+		ModelAndView mav = new ModelAndView("masters/addCustomer");
 		try {
 		restTamplate = new RestTemplate();
 		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
@@ -220,7 +234,7 @@ public ModelAndView CustomerDetails(@PathVariable("custId") int id ) {
 public ModelAndView showCustList(HttpServletRequest request, HttpServletResponse response) {
 	
 	ModelAndView mav = new ModelAndView("masters/customerList");
-	
+	try {
 	HttpSession session = request.getSession();
 	MUser userResponse = (MUser) session.getAttribute("userBean");
 		
@@ -228,7 +242,7 @@ public ModelAndView showCustList(HttpServletRequest request, HttpServletResponse
 	
 	int companyId = userResponse.getCompanyId();
 	System.out.println("Compannyy IDSS = "+companyId);
-	try {
+	
 	
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 	map.add("companyId", companyId);	

@@ -94,16 +94,16 @@ public class UjwalBillReportController {
 		int compId =Integer.parseInt(request.getParameter("compId"));
 		
 
-		System.out.println("Datesss"+fromDate +"  "+toDate);
+		System.out.println("Datesss"+fromDate +"  "+toDate+"  "+compId);
 
-		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-		map.add("toDate", DateConvertor.convertToYMD(toDate));
+		map.add("fromDate",fromDate);
+		map.add("toDate",toDate);
 
 		map.add("compId", compId);
 
 		
 		
-		CompReport[] ordHeadArray = rest.postForObject(Constants.url + "/getContractorBetweenDate", map,CompReport[].class);
+		CompReport[] ordHeadArray = rest.postForObject(Constants.url + "/ujwal/getContractorBetweenDate", map,CompReport[].class);
 		getList = new ArrayList<CompReport>(Arrays.asList(ordHeadArray));
 		System.out.println("SDF: "+getList);
 		

@@ -125,6 +125,7 @@ public class HomeController {
 							System.out.println("Data="+mLoc.toString());
 							System.out.println("Location is="+mLoc.getLocation_name());
 							
+							session.setAttribute("conpanyId",mComp.getCompId());
 							session.setAttribute("companyName", mComp.getCompName());
 							session.setAttribute("locationName", mLoc.getLocation_name());
 

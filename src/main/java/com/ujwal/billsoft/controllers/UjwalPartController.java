@@ -34,10 +34,16 @@ public class UjwalPartController {
 	
 	@RequestMapping(value="/showAddPart", method=RequestMethod.GET)
 	
-	public ModelAndView addShowCompanyForm() {
+	public ModelAndView addShowCompanyForm(HttpServletRequest req, HttpServletResponse resp) {
 		
 		ModelAndView mav = new ModelAndView("masters/addPart");
 		try {
+			
+			HttpSession session = req.getSession();
+			int compId = (int) session.getAttribute("conpanyId");
+			String companyName = (String) session.getAttribute("companyName");
+			System.out.println("Session Data = "+compId+" "+companyName);
+			
 		restTamplate = new RestTemplate();
 		
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
@@ -53,9 +59,11 @@ public class UjwalPartController {
 		List<MGetPart> getpartList = restTamplate.getForObject(Constants.url + "/getAllPartList", List.class);
 		mav.addObject("getList", getpartList);
 		
-		List<MPartList> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPartDetails", List.class);
+		List<MPart> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
 		mav.addObject("pList", partList);
 		
+		mav.addObject("compid", compId);
+		mav.addObject("companyName", companyName);
 		mav.addObject("title", "Add Part");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -249,9 +257,14 @@ public ModelAndView showPartList(HttpServletRequest request, HttpServletResponse
 
 @RequestMapping(value = "/getModelNo", method=RequestMethod.GET)
 public @ResponseBody List<MModelBean> getModelName(HttpServletRequest req, HttpServletResponse resp){
-	int companyId = Integer.parseInt(req.getParameter("companyId"));
-	System.out.println("Company No="+companyId);
-	
+	int companyId = 0;
+	try {
+			companyId = Integer.parseInt(req.getParameter("companyId"));
+			System.out.println("Company No="+companyId);
+		}catch(Exception e) {
+		companyId = 0;
+	}
+			
 
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 	restTamplate = new RestTemplate();
@@ -261,11 +274,7 @@ public @ResponseBody List<MModelBean> getModelName(HttpServletRequest req, HttpS
 	System.out.println("Response 1="+modelList);
 	System.out.println("Response 2="+modelList.toString());
 	
-	
 	return modelList;
-	
-
-	
-}
+	}
 
 }
