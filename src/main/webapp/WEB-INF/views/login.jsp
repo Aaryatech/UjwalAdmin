@@ -81,7 +81,7 @@
 										</div>
 										<input type="text" id="username" name="username"
 											placeholder="User Name" class="form-control"
-											autocomplete="off">
+											autocomplete="off" maxlength="10">
 									</div>
 								</div>
 

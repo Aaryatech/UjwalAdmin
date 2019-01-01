@@ -64,7 +64,7 @@ div.scrollmenu {
 
 </style>
 </head>
-<body>
+<body onload="getCompId()">
 
 
 	<!-- Left Panel -->
@@ -137,13 +137,13 @@ div.scrollmenu {
 									<div class="col-md-4">
 									 <select name="compId" id="compId" class="standardSelect" tabindex="6" required
 									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId()"> 
-											<option value="">Select Company</option>
+											<option value="${compid}">${companyName}</option>
 											<c:forEach items="${compList}" var="makeList"> 
 											<c:choose>
 											<c:when test="${makeList.compId == cust.compId}">
 											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
 											</c:when>
-											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
+											<c:otherwise><option value="${makeList.compId}" disabled="disabled">${makeList.compName}</option></c:otherwise>
 											</c:choose>
 											 </c:forEach>
 										</select>
@@ -207,27 +207,25 @@ div.scrollmenu {
 							<div class="form-group"></div>
 								<div class="row">
 
-									
-									<div class="col-md-2">Vehicle No.*</div>
+									<div class="col-md-2">VIN No.*</div>
 									<div class="col-md-4">
-										<input type="text" id="cust_veh_no" name="cust_veh_no" required
-										onkeyup="this.value = this.value.toUpperCase();"
-											style="width: 100%;" class="form-control" autocomplete="off"
-										maxlength="20"
-										value="${cust.custVehNo}"
-										/> <span
-											class="error" aria-live="polite"></span>					
+										<input type="text" id="cust_vin_no" name="cust_vin_no" required
+											style="width: 100%;" class="form-control" maxlength="17"
+											value="${cust.custVinNo}" autocomplete="off"
+											oninvalid="setCustomValidity('Please enter chasi no')"
+											onchange="try{setCustomValidity('')}catch(e){}" /> 
+											<span class="error"	aria-live="polite" id="chassis"></span>
 
 									</div>
 									
-									<div class="col-md-2">Customer Address*</div>
+									<div class="col-md-2">Customer Address</div>
 
 									<div class="col-md-4">
 										<textarea id="cust_address" name="cust_address" class="form-control"
 											style="width: 100%;" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter customer address')"
 											maxlength="200"
-											onchange="try{setCustomValidity('')}catch(e){}" required>${cust.custAddress}</textarea>
+											onchange="try{setCustomValidity('')}catch(e){}">${cust.custAddress}</textarea>
 									</div> 
 								</div>
 
@@ -235,7 +233,7 @@ div.scrollmenu {
 								<div class="row">
 
 
-									<div class="col-md-2">State*</div>
+									<div class="col-md-2">State</div>
 
 									<div class="col-md-4">
 										<input type="text" id="cust_state" name="cust_state"  class="form-control"
@@ -247,7 +245,7 @@ div.scrollmenu {
 
 									</div>	
 									
-									<div class="col-md-2">Email Id*</div>
+									<div class="col-md-2">Email Id</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_email" name="cust_email" 
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -261,7 +259,7 @@ div.scrollmenu {
 								
 								<div class="form-group"></div>
 								<div class="row">
-									<div class="col-md-2">GST No.*</div>
+									<div class="col-md-2">GST No.</div>
 							
 									<div class="col-md-4">
 										<input type="text" id="cust_gstn" name="cust_gstn"
@@ -276,29 +274,19 @@ div.scrollmenu {
 
 									</div>
 									
-										<div class="col-md-2">VIN No.*</div>
+											
+									<div class="col-md-2">Vehicle No.</div>
 									<div class="col-md-4">
-										<input type="text" id="cust_vin_no" name="cust_vin_no" 
-											style="width: 100%;" class="form-control" maxlength="17"
-											value="${cust.custVinNo}" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter chasi no')"
-											onchange="try{setCustomValidity('')}catch(e){}" /> 
-											<span class="error"	aria-live="polite" id="chassis"></span>
+										<input type="text" id="cust_veh_no" name="cust_veh_no"
+										onkeyup="this.value = this.value.toUpperCase();"
+											style="width: 100%;" class="form-control" autocomplete="off"
+										maxlength="20"
+										value="${cust.custVehNo}"
+										/> <span
+											class="error" aria-live="polite"></span>					
 
 									</div>
-								
-							<%--	<div class="col-md-2">PAN No.*</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_pan" name="cust_pan"
-											style="width: 100%;" class="form-control" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter PAN no')"
-											maxlength="10" value="${cust.custPan}"
-											pattern="[A-Za-z]{5}\d{4}[A-Za-z]{1}"
-											onkeydown="upperCaseF(this)"
-											onchange="try{setCustomValidity('')}catch(e){}" /> <span
-											class="error" aria-live="polite"></span>
-
-									</div>	 --%>			
+																	
 								</div> 
 								
 								<div class="form-group"></div>
@@ -434,8 +422,8 @@ div.scrollmenu {
     });
 	</script>
 
-<script type="text/javascript">
-	var minLength = 7;
+<!-- <script type="text/javascript">
+	var minLength = 1;
 	var maxLength = 50;
 	$(document).ready(function(){
 	    $('#cust_name').blur(function(){
@@ -451,26 +439,8 @@ div.scrollmenu {
 	        }
 	    });
 	});	
-	</script>
+	</script> -->
 
-<script type="text/javascript">
-	var minLength = 10;
-	var maxLength = 50;
-	$(document).ready(function(){
-	    $('#cust_regis_no').blur(function(){
-	        var field = $(this).val();
-	        var charLength = $(this).val().length;
-	        if(charLength < minLength){
-	            $('#reg').text('Registration Number is short, minimum '+minLength+' required.');
-	        }else if(charLength > maxLength){
-	            $('#reg').text('Registration Number is not valid, maximum '+maxLength+' allowed.');
-	            $(this).val(field.substring(0, maxLength));
-	        }else{
-	            $('#reg').text('');
-	        }
-	    });
-	});	
-	</script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -481,28 +451,6 @@ $(document).ready(function(){
     });
 });
 </script>
-
-<script type="text/javascript">
-	var minLength = 10;
-	var maxLength = 50;
-	$(document).ready(function(){
-	    $('#cust_chasi_no').blur(function(){
-	        var field = $(this).val();
-	        var charLength = $(this).val().length;
-	        if(charLength < minLength){
-	            $('#chassis').text('Chassis Number is short, minimum '+minLength+' required.');
-	        }else if(charLength > maxLength){
-	            $('#chassis').text('Chassis Number is not valid, maximum '+maxLength+' allowed.');
-	            $(this).val(field.substring(0, maxLength));
-	        }else{
-	            $('#chassis').text('');
-	        }
-	    });
-	});	
-	</script>
-
-
-
 
 	<script>
 		jQuery(document).ready(function() {

@@ -220,6 +220,26 @@
 									</div>
 								</div>
 
+									<div class="form-group"></div>
+								<div class="row">
+									<div class="col-md-2">Select User*</div>
+									<div class="col-md-4">
+										 <select name="userType" id="userType" class="standardSelect" tabindex="6" required  > 
+											<option value="">Select User Type</option>
+											<option value="1">Admin</option>
+											<option value="0">Normal</option>
+											<%-- <c:forEach items="${compList}" var="makeList"> 
+											<c:choose>
+											<c:when test="${makeList.compId == editLoc.companyId}">
+											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
+											</c:when>
+											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
+											</c:choose>
+											 </c:forEach> --%>
+										</select>
+										
+									</div>
+									</div>
 								
 									<div class="form-group"></div>
 								<div class="col-lg-4"></div>
@@ -407,26 +427,32 @@
 	
 <script type="text/javascript">
     $(function () {
+    	
+    	   var locId = $("#locId");
+    	   var compId = $("#compId");
+    	   var userType = $("#userType");
+    	   
         $("#submitButton").click(function () {
-            var ddlFruits = $("#compId");
-            if (ddlFruits.val() == "") {
+         
+            if (compId.val() == "") {
                 //If the "Please Select" option is selected display error.
                 alert("Please select an company!");
                 return false;
             }
-            return true;
-        });
-    });
-    
-    $(function () {
-        $("#submitButton").click(function () {
-            var ddlFruits = $("#locId");
-            if (ddlFruits.val() == "") {
+          
+            else if (locId.val() == "") {
                 //If the "Please Select" option is selected display error.
                 alert("Please select an location!");
                 return false;
             }
+            else if (userType.val() == "") {
+                //If the "Please Select" option is selected display error.
+                alert("Please select an user!");
+                return false;
+            }
+            
             return true;
+            
         });
     });
 </script>

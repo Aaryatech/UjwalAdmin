@@ -158,7 +158,7 @@
 									
 										<div class="col-md-2">Company Name*</div>
 										<div class="col-md-4">
-											<select name="compId" id="compId" class="chosen-select" style="width:99% !important;"  tabindex="6" 
+											<select name="compId" id="compId" class="standardSelect" style="width:99% !important;"  tabindex="6" 
 											onchange="getCompId()" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
@@ -179,7 +179,7 @@
 									</div>
 										<div class="col-md-2">Customer Name</div>
 									<div class="col-md-4">
-											<select id="cust_id" name="cust_id" style="width: 100%;" class="chosen-select" style="width:99% !important;" 
+											<select id="cust_id" name="cust_id" style="width: 100%;" class="standardSelect" style="width:99% !important;" 
 										
 											onchange="getData()">
 											<option value="">Select Customer</option>
@@ -187,15 +187,15 @@
 											<c:forEach items="${custList}" var="cust">
 											<c:choose>
 											<c:when test="${cust.custId==bill.custId}">
-												<option value="${cust.custId}" selected>${cust.custName}</option>
+												<option value="${cust.custId}" selected>${cust.custName} </option>
 											</c:when>
 											<c:otherwise>
 											<c:if test="${isEditBill==1}">
-						  <option value="${cust.custId}" disabled="disabled">${cust.custName}</option>
+						  <option value="${cust.custId}" disabled="disabled">${cust.custName} </option>
 											
 											</c:if>
 											<c:if test="${isEditBill==0}">
-						  <option value="${cust.custId}">${cust.custName}</option>					
+						  <option value="${cust.custId}">${cust.custName} - ${cust.custVinNo} - ${cust.custVehNo}</option>					
 											</c:if>
 											</c:otherwise>
 											</c:choose>
@@ -218,18 +218,8 @@
 										<span class="error" aria-live="polite"></span>
 
 									</div>
-									<!--	oninvalid="setCustomValidity('Please enter correct mob no')"
-											pattern="^[1-9]{1}[0-9]{9}$" maxlength="10"
-											onchange="try{setCustomValidity('')}catch(e){}" <div class="col-md-2">Customer Address</div>
-
-									<div class="col-md-4">
-										<input id="cust_address" name="cust_address" class="form-control"  style="height:30px;"
-											style="width: 100%;" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter customer address')"
-											maxlength="200"
-											onchange="try{setCustomValidity('')}catch(e){}" required/>
-									</div> -->
-	<div class="col-md-2">Email Id</div>
+								
+								<div class="col-md-2">Email Id</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_email" name="cust_email"   style="height:30px;"
 											style="width: 100%;" class="form-control" autocomplete="off"
@@ -238,27 +228,7 @@
 											onchange="try{setCustomValidity('')}catch(e){}" /> 
 									</div>
 								</div>
-<!-- 
-oninvalid="setCustomValidity('Please enter email')"
-											pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-								<div class="form-group"></div>
-								<div class="row">
 
-	
-								
-									<div class="col-md-2">State</div>
-
-									<div class="col-md-4">
-										<input type="text" id="cust_state" name="cust_state"  style="height:30px;" class="form-control"
-											oninvalid="setCustomValidity('Please enter correct customer state')"
-											onchange="try{setCustomValidity('')}catch(e){}"
-											pattern="^[A-Za-z\s]+$" value=""
-											style="width: 100%;" autocomplete="off"
-											required>
-
-									</div>	
-								
-								</div> -->
 								
 								
 								<div class="form-group"></div>
@@ -274,36 +244,7 @@ oninvalid="setCustomValidity('Please enter email')"
 											class="error" aria-live="polite"></span>
 
 									</div>
-								<!--oninvalid="setCustomValidity('Please enter GST no')"
-											maxlength="20" value=""
-											pattern="^([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-7]{1})([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$"
-											 <div class="col-md-2">Customer Id</div>
-									<div class="col-md-2">
-										<input type="text" id="cust_regis_no" name="cust_regis_no" required  style="height:30px;"
-											style="width: 100%;" class="form-control"
-										
-											value="" autocomplete="off"
-											/> <span
-											class="error" aria-live="polite"></span>
-									</div>
-								<div class="col-md-2">PAN No</div>
-									<div class="col-md-2">
-										<input type="text" id="cust_pan" name="cust_pan" required  style="height:30px;"
-											style="width: 100%;" class="form-control" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter PAN no')"
-											maxlength="10" value=""
-											pattern="[A-Za-z]{5}\d{4}[A-Za-z]{1}"
-											onkeydown="upperCaseF(this)"
-											onchange="try{setCustomValidity('')}catch(e){}" /> <span
-											class="error" aria-live="polite"></span>
-
-									</div>
 								
-								</div>
-								
-								<div class="form-group"></div>
-
-								<div class="row"> -->
 									
 									<div class="col-md-2">Vehicle No</div>
 									<div class="col-md-2">
@@ -316,17 +257,7 @@ oninvalid="setCustomValidity('Please enter email')"
 
 									</div>
 								
-<!-- 
-									<div class="col-md-2">Model No</div>
-									<div class="col-md-2">
-										<input type="text" id="cust_ro_no" name="cust_ro_no"   style="height:30px;"
-											style="width: 100%;" class="form-control" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter Ro No')"
-											value="" maxlength="30"
-											onchange="try{setCustomValidity('')}catch(e){}" /> <span
-											class="error" aria-live="polite"></span>
-
-									</div>	 -->						
+				
 									
 											<div class="col-md-2">VIN No.</div>
 									<div class="col-md-2">
@@ -671,7 +602,7 @@ oninvalid="setCustomValidity('Please enter email')"
 					for (var i = 0; i < len; i++) {
 
 						html += '<option value="' + data[i].custId + '">'
-								+data[i].custName+ '</option>';
+								+ data[i].custName +"'--'"+'</option>';
 
 					}
 					html += '</option>';

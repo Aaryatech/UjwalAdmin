@@ -125,8 +125,8 @@
 									<div class="col-md-2">Measurement Unit*</div>
 									<div class="col-md-4">
 										<input type="text" id="uomName" name="uomName"
-											pattern="[a-zA-Z][a-zA-Z]*" value="${editUom.uomName}"
-											class="form-control" onblur="getUomNameCheck()"
+											pattern="/^[ A-Za-z0-9()[\]+-*/%]*$/" value="${editUom.uomName}"
+											class="form-control" 
 											autocomplete="off"
 											oninvalid="setCustomValidity('Please enter correct Uom Name')"
 											onchange="try{setCustomValidity('')}catch(e){}" required

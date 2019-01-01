@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -57,7 +58,7 @@
 }
 </style>
 </head>
-<body>
+<body onload="getCompId()">
 
 
 	<!-- Left Panel -->
@@ -132,13 +133,13 @@
 									<div class="col-md-4">
 									 <select name="compId" id="compId" class="standardSelect" tabindex="6" required
 									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId()"> 
-											<option value="">Select Company</option>
+										<option value="${compid}">${companyName}</option>
 											<c:forEach items="${compList}" var="makeList"> 
 											<c:choose>
 											<c:when test="${makeList.compId == partList.compId}">
 											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
 											</c:when>
-											<c:otherwise><option value="${makeList.compId}">${makeList.compName}</option></c:otherwise>
+											<c:otherwise><option value="${makeList.compId}" disabled="disabled">${makeList.compName}</option></c:otherwise>
 											</c:choose>
 											 </c:forEach>
 										</select>
@@ -277,92 +278,7 @@
 							
 						</div>
 						
-						<%-- <div class="card-body card-block">
-							<form
-								action="${pageContext.request.contextPath}/deleteRecordofPart"
-								method="post">
-
-
-								<table id="bootstrap-data-table"
-									class="table table-striped table-bordered">
-									<thead>
-										<tr>
-											<th class="check" style="text-align: center; width: 5%;"><input
-												type="checkbox" name="selAll" id="selAll" /> Select All</th>
-											<th style="text-align: center; width: 5%;">Sr No</th>
-											<th style="text-align: center">Part Name</th>
-											<th style="text-align: center">Part No</th>
-											<th style="text-align: center">Registration No.</th>
-											<th style="text-align: center">Part UOM Name</th>
-											<th style="text-align: center">Part Specification</th>
-											<th style="text-align: center">Tax Description</th>
-											<th style="text-align: center">Part MRP</th>
-											<th style="text-align: center">Ro. No.</th>
-										
-											
-											
-
-									
-
-											<th style="text-align: center; width: 5%;">Action</th>
-
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach items="${pList}" var="pList" varStatus="count">
-											<tr>
-												<td><input type="checkbox" class="chk"
-													name="partIds" id="partIds${count.index+1}"
-													value="${pList.partId}" /></td>
-												<td style="text-align: center">${count.index+1}</td>
-
-
-												<td style="text-align: left"><c:out
-														value="${pList.partName}" /></td>
-
-												<td style="text-align: left"><c:out
-														value="${pList.partNo}" /></td>
-
-												
-
-												<td style="text-align: left"><c:out
-														value="${pList.partRegisterNo}" /></td>
-														
-														<td style="text-align: left"><c:out
-														value="${pList.partUomId}" /></td>
-														<td style="text-align: left"><c:out
-														value="${pList.partSpecification}" /></td>
-												
-														<td style="text-align: left"><c:out
-														value="${pList.partTaxId}" /></td>
-														<td style="text-align: left"><c:out
-														value="${pList.partMrp}" /></td>
-														<td style="text-align: left"><c:out
-														value="${pList.partRoNo}" /></td>
-																										
-												<td style="text-align: center"><a
-													href="${pageContext.request.contextPath}/editPart/${pList.partId}"><i
-														class="fa fa-edit" title="Edit"></i> <span class="text-muted"></span></a>
-													&nbsp; <a
-													href="${pageContext.request.contextPath}/deletePart/${pList.partId}"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-														class="fa fa-trash-o" title="Delete"></i></a></td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-								<div class="col-lg-1">
-
-									<input type="submit" class="btn btn-primary" value="Delete"
-										id="deleteId"
-										onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to delete record');}"
-										style="align-content: center; width: 113px; margin-left: 40px;">
-
-
-								</div>
-							</form>
-
-						</div> --%>
+					
 						
 					</div>
 				</div>
@@ -417,61 +333,41 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
-
-	<script>
-	$(function () {
-        $("#submitButton").click(function () {
-            var compId = $("#compId");
-            if (compId.val() == "") {
-                //If the "Please Select" option is selected display error.
-                alert("Please select an company!");
-                return false;
-            }
-            return true;
-        });
-    });
-	</script>
 	
 	<script>
 	$(function () {
-        $("#submitButton").click(function () {
-            var cust_model_no = $("#cust_model_no");
-            if (cust_model_no.val() == "") {
-                //If the "Please Select" option is selected display error.
-                alert("Please select an model!");
-                return false;
-            }
-            return true;
-        });
-    });
-	</script>
-	
-	<script>
-	$(function () {
-        $("#submitButton").click(function () {
-            var measurement_of_unit = $("#measurement_of_unit");
-            if (measurement_of_unit.val() == "") {
-                //If the "Please Select" option is selected display error.
-                alert("Please select an uom!");
-                return false;
-            }
-            return true;
-        });
-    });
-	</script>
-	
-	<script>
-	$(function () {
-        $("#submitButton").click(function () {
-            var part_tax_id = $("#part_tax_id");
-            if (part_tax_id.val() == "") {
-                //If the "Please Select" option is selected display error.
-                alert("Please select an tax!");
-                return false;
-            }
-            return true;
-        });
-    });
+		 var compId = $("#compId");
+		 var measurement_of_unit = $("#measurement_of_unit");
+		 var cust_model_no = $("#cust_model_no");
+		 var part_tax_id = $("#part_tax_id");
+    
+		 $("#submitButton").click(function () {
+           if (cust_model_no.val() == "") {
+               //If the "Please Select" option is selected display error.
+               alert("Please select an model!");
+               return false;
+           }
+           else  if (measurement_of_unit.val() == "") {
+               //If the "Please Select" option is selected display error.
+               alert("Please select an uom!");
+               return false;
+           }
+           
+           else if (part_tax_id.val() == "") {
+               //If the "Please Select" option is selected display error.
+               alert("Please select an tax!");
+               return false;
+           }
+           else if (compId.val() == "") {
+               //If the "Please Select" option is selected display error.
+               alert("Please select an company!");
+               return false;
+           }
+           else{
+           return true;
+       }
+       });
+   });
 	</script>
 	
 	<script type="text/javascript">

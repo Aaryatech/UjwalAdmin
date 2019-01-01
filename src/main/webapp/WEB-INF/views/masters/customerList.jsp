@@ -103,7 +103,7 @@
 											<th style="text-align: center; width: 5%;">Sr</th>
 											<th style="text-align: center">Customer Name</th>
 											<th style="text-align: center">Mobile No.</th>
-											<!-- <th style="text-align: center">Email</th> -->
+											 <th style="text-align: center">VIN No.</th>
 											<!-- <th style="text-align: center">Company Name</th> -->
 											<th style="text-align: center">Vehicle No</th>
 											<!-- <th style="text-align: center">Registration No.</th>
@@ -139,8 +139,8 @@
 										<%-- 	<td style="text-align: left"><c:out
 														value="${cust.custEmail}" /></td> --%>
 												
-										<%-- 	<td style="text-align: left"><c:out
-														value="${cust.compName}" /></td> --%>
+											<td style="text-align: left"><c:out
+														value="${cust.custVinNo}" /></td>
 														
 											<td style="text-align: left"><c:out
 														value="${cust.custVehNo}" /></td>
@@ -270,52 +270,6 @@ $('#selAll').click(function(e){
 		});
 	</script>
 
-
-	<!-- <script type="text/javascript">
-	
-	function editComp(compId){
-		
-		//alert(catId);
-		
-		$.getJSON('${getEditCompany}',{
-			
-			compId : compId,
-			
-			ajax : 'true',
-
-		},
-		
-		function(data){
-			//document.getElementById('addDiv').style.display = "block";
-			$("#usrname_mr").val(data.msMarName);
-			$("#usrname_eng").val(data.msEngName);
-        	
-			//hidden field msId
-			$("#ms_id").val(data.msId);
-			
-			$("#contact_no").val(data.msContactNo);
-			 document.getElementById("contact_no").readOnly = true; 
-			$("#usr_pass").val(data.msPwd); 
-			$("#conf_pass").val(data.msPwd); 
-			document.getElementById("usr_role").options.selectedIndex =data.isAdmin;
-			$("#usr_role").trigger("chosen:updated");
-			var temp=new Array();
-			
-			temp=(data.hubIds).split(",");
-			//alert(temp);
-			$("#sel_hub").val(temp); 
-			$("#sel_hub").trigger("chosen:updated");
-
-			//$('#sel_hub').formcontrol('refresh');
-	 		document.getElementById('submitButton').disabled = false;
-
-
-		});
-		
-	}
-	
-	</script>
- -->
 
 	<script type="text/javascript">
 		$(document)
