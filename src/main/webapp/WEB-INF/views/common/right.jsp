@@ -14,9 +14,9 @@
 
 					<strong class="card-title">Ujjwal Billing Software </strong>
 					
-					<span style="margin-left: 10%;">Company : </span><strong>${sessionScope.companyName} </strong>
+					<span style="margin-left: 10%;">Company : </span><strong>${sessionScope.companyName} -- <!-- </strong>
 					
-					<%-- <span style="margin-left: 10%;">Location : </span><strong>${sessionScope.locationName} </strong> --%>
+					 <span style="margin-left: 10%;">Location : </span><strong> -->${sessionScope.locationName} </strong>
 					<!-- <div class="dropdown for-notification">
 						<button class="btn btn-secondary dropdown-toggle" type="button"
 							id="notification" data-toggle="dropdown" aria-haspopup="true"

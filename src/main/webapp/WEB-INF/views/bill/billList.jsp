@@ -192,7 +192,16 @@
 											onchange="getCompId()" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
-												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											<c:choose>
+											<c:when test="${makeList.compId==compId}">
+					<option value="${makeList.compId}" selected><c:out value="${makeList.compName}"></c:out> </option>
+											
+											</c:when>
+											<c:otherwise>
+		<option value="${makeList.compId}" disabled="disabled"><c:out value="${makeList.compName}"></c:out> </option>
+											
+											</c:otherwise>
+											</c:choose>
 											 </c:forEach>
 										</select> 
 									</div>
@@ -215,6 +224,7 @@
 											
 											oninvalid="setCustomValidity('Please select customer')"
 											onchange="getCustInfo()">
+												<option value="0">All</option>
                                      <c:forEach items="${custList}" var="cust">
 												<option value="${cust.custId}">${cust.custName}</option>
 											</c:forEach>
@@ -273,12 +283,38 @@
 												<th style="text-align: center"><!-- <input type="checkbox" id="selectAll" />  -->Sr.</th>
 												<th style="text-align: center">Bill No</th>
 												<th style="text-align: center">Bill Date</th>
-												<th style="text-align: center">Customer Name</th>
+												<th style="text-align: center">Customer</th>
+													<th style="text-align: center">Mobile</th>
+														<th style="text-align: center">Veh. No</th>
+														<th style="text-align: center">Grand Total</th>
 <!-- 												<th style="text-align: center">Status</th>
  -->												<th style="text-align: center">Action</th>
 											</tr>
 										</thead>
+                                       <tbody>
+                                       	<c:forEach items="${billList}" var="bill" varStatus="count">
+											<tr>
+												<td><input type="checkbox" class="chk"
+													name="select_to_print" id="select_to_print${count.index+1}"
+													value="${bill.billHeaderId}" />
+												${count.index+1}</td>
 
+
+												<td style="text-align: left"><c:out
+														value="${bill.invoiceNo}" /></td>
+
+												<td style="text-align: left"><c:out
+														value="${bill.billDate}" /></td>
+
+												<td style="text-align: center">${bill.custName}</td>
+												<td style="text-align: center">${bill.custPhone}</td>
+												<td style="text-align: center">${bill.custVehNo}</td>
+													<td style="text-align: center">${bill.grandTotal}</td>
+												<td style="text-align: center">;<a href="#" class="action_btn" onclick="callEdit(${bill.billHeaderId},${count.index})"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="singleBillPdf(${bill.billHeaderId})"><i class="fa fa-file-pdf-o"></i></a></td>
+
+											</tr>
+										</c:forEach>
+                                       </tbody>
 									</table>
 								</div>
 
@@ -365,7 +401,7 @@
 					
 					var len = data.length;
 					//alert("data " +JSON.stringify(data));
-					var html='<option value="-1">All</option>';
+					var html='<option value=""> Select</option>';
 
 					for (var i = 0; i < len; i++) {
 
@@ -482,7 +518,7 @@
 					dataTable.clear().draw();
 
 					$.each(data, function(i, v) {
-  						alert("hello");									
+  													
 						dataTable.row.add(
 								[ i + 1,
 								  v.billDetailId,
@@ -566,7 +602,7 @@
 
 							$.each(data,function(i, v) {
 												//alert("hdjfh");
-										
+											
 var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v.billHeaderId+' class="chk"  value='+v.billHeaderId+' >'
 //var ordQty = '<input  type="text"  class="form-control"  id="ordQty'+v.itemId+'" name="ordQty'+v.itemId+'" onchange="calTotal('+v.itemId+','+v.poRate+','+v.poDetailId+','+v.poRemainingQty+')"/>'
 //var itemTotal = '<input  type="text" readonly  class="form-control"  id="itemTotal'+v.itemId+'" name='+v.itemId+'/>'
@@ -574,16 +610,17 @@ var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v
 														+ v.billHeaderId
 														+ ','
 														+ i
-														+ ')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+														+ ')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="singleBillPdf('
+															+ v.billHeaderId+ ')"><i class="fa fa-file-pdf-o"></i></a>';
  
 												dataTable.row
 														.add(
 																[
 																	checkB+''+ (i + 1),
-																		v.billDetailId,
+																		v.invoiceNo,
 																		v.billDate,
-																		v.custName,
-																		acButton
+																		v.custName,v.custPhone,v.custVehNo,
+																		  v.grandTotal,	acButton
 																		 ])
 														.draw();
 											}); 
@@ -600,7 +637,13 @@ var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v
 		
 	}
 	</script>
-	
+	<script type="text/javascript">
+	function singleBillPdf(id)
+	{
+		  window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillsPdf/'+id);
+		
+	}
+	</script>
 		
 <script type="text/javascript">
 function billPdf()

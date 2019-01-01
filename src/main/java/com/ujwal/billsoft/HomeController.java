@@ -119,14 +119,14 @@ public class HomeController {
 							map.add("id", companyId);
 							MCompany mComp = rest.postForObject(Constants.url + "/ujwal/getCompanyById", map, MCompany.class);
 							System.out.println("Company is="+mComp.getCompName());
-							
-							/*map.add("id", locationId);
+							map = new LinkedMultiValueMap<String, Object>();
+							map.add("id", locationId);
 							MLocation mLoc = rest.postForObject(Constants.url +"/ujwal/getLocationById", map, MLocation.class);
 							System.out.println("Data="+mLoc.toString());
-							System.out.println("Location is="+mLoc.getLocation_name());*/
+							System.out.println("Location is="+mLoc.getLocation_name());
 							
 							session.setAttribute("companyName", mComp.getCompName());
-							//session.setAttribute("locationName", mLoc.getLocation_name());
+							session.setAttribute("locationName", mLoc.getLocation_name());
 
 							return mav;
 						} else {

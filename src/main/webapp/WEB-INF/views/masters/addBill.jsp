@@ -18,7 +18,7 @@
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
 <c:url var="getCustomerListById" value="/getCustomerListById" />
 <c:url var="getItemForEdit" value="/getItemForEdit" />
-
+<c:url var="getPartListByModelId" value="/getPartListByModelId" />
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -46,9 +46,12 @@
 	href="${pageContext.request.contextPath}/resources/assets/css/lib/chosen/chosen.min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/assets/scss/style.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/assets/css/lib/chosen/chosen.min.css">
 
+
+<!----------------------------------------Dropdown With Search----------------------------------------------- -->
+
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/assets/css/lib/chosen/chosen.css">
+<!--------------------------------------------------------------------------------------- -->
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/assets/css/lib/datatable/dataTables.bootstrap.min.css">
@@ -92,7 +95,7 @@
 
 								<button type="button" class="close" data-dismiss="alert"
 									aria-label="Close">
-									<span aria-hidden="true">Ã—</span>
+									<span aria-hidden="true"></span>
 								</button>
 								<strong>Data not Submitted</strong>
 							</div>
@@ -115,50 +118,57 @@
 
 				</c:choose>
 
-				<div class="col-xs-12 col-sm-12">
+				<div class="col-xs-12 col-sm-12"><form action="${pageContext.request.contextPath}/insertBill"
+								id="submitForm" method="post">
 					<div class="card">
 						<div class="card-header">
 							<%-- <div class="col-md-2">
 								<strong>${title}</strong>
 								
-							</div> --%>		<div class="col-md-8"><div class="col-md-3">Invoice No:</div>
+							</div> --%>		<div class="col-md-10"><div class="col-md-3"><b>Invoice No:</b></div>
 									<div class="col-md-3">
-									<c:if test="${isEditBill==1}">  ${bill.invoiceNo} </c:if><c:if test="${isEditBill==0}"> ${doc.docPrefix}${doc.srNo}</c:if>
+									<c:if test="${isEditBill==1}">  ${bill.invoiceNo} </c:if><c:if test="${isEditBill==0}"> ${doc.docPrefix}/${year}/${srNo}</c:if>
 									
 								</div>
-						
-						<%-- 	<div class="col-md-3">Invoice No:</div>
+						<div class="col-md-2">Date</div>
 									<div class="col-md-3">
-									<c:if test="${isEditBill==1}"> ${bill.invoiceNo} </c:if><c:if test="${isEditBill==0}">	${doc.srNo}</c:if>
+										<input type="text" id="date" name="date"  style="height:25px;"
+											style="width: 100%;" class="form-control" 
+											value="${date}" autocomplete="off" /> <span class="error" aria-live="polite"></span>
 									
-								</div> --%>
+								</div>
+					
 							</div>
-							<div class="col-md-2" align="left">
+							<div class="col-md-2" align="right">
 								<a href="${pageContext.request.contextPath}/showBillList"><strong>Bill List</strong></a>
 							</div>
 
 						</div>
 						
 						<div class="card-body card-block">
-							<form action="${pageContext.request.contextPath}/insertBill"
-								id="submitForm" method="post">
+							
 							<input type="hidden" name="isEditBill" id="isEditBill" value="${isEditBill}"/>
-
+ 							<input type="hidden" id="isEdit" name="isEdit" value="0">
+        				   <input type="hidden" id="index" name="index" value="0">
+        				     <input type="hidden" id="CGST" name="CGST" value="0">
+        				      <input type="hidden" id="SGST" name="SGST" value="0">
+        				      <input type="hidden" id="IGST" name="IGST" value="0">
+        				     
 							<div class="row">
 									
 										<div class="col-md-2">Company Name*</div>
 										<div class="col-md-4">
-											<select name="compId" id="compId" class="form-control chosen" tabindex="6" 
+											<select name="compId" id="compId" class="chosen-select" style="width:99% !important;"  tabindex="6" 
 											onchange="getCompId()" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
 											<c:choose>
-											<c:when test="${makeList.compId==bill.companyId}">
+											<c:when test="${makeList.compId==companyId}">
 								<option value="${makeList.compId}" selected><c:out value="${makeList.compName}"></c:out> </option>
 											
 											</c:when>
 											<c:otherwise>
-											<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
+											<option value="${makeList.compId}" disabled="disabled"><c:out value="${makeList.compName}"></c:out> </option>
 											
 											</c:otherwise>
 											</c:choose>
@@ -167,15 +177,9 @@
 											 </c:forEach>
 										</select> 
 									</div>
-									
-								</div>
-								<div class="form-group"></div>
-
-								<div class="row">
-
-									<div class="col-md-2">Customer Name</div>
+										<div class="col-md-2">Customer Name</div>
 									<div class="col-md-4">
-											<select id="cust_id" name="cust_id" style="width: 100%;" class="form-control"
+											<select id="cust_id" name="cust_id" style="width: 100%;" class="chosen-select" style="width:99% !important;" 
 										
 											onchange="getData()">
 											<option value="">Select Customer</option>
@@ -186,7 +190,13 @@
 												<option value="${cust.custId}" selected>${cust.custName}</option>
 											</c:when>
 											<c:otherwise>
-											    <option value="${cust.custId}">${cust.custName}</option>
+											<c:if test="${isEditBill==1}">
+						  <option value="${cust.custId}" disabled="disabled">${cust.custName}</option>
+											
+											</c:if>
+											<c:if test="${isEditBill==0}">
+						  <option value="${cust.custId}">${cust.custName}</option>					
+											</c:if>
 											</c:otherwise>
 											</c:choose>
 												
@@ -194,64 +204,52 @@
 										</select>
 
 									</div>
-									
-									<div class="col-md-2">Date</div>
-									<div class="col-md-2">
-										<input type="text" id="date" name="date" 
-											style="width: 100%;" class="form-control" 
-											value="${date}" autocomplete="off" /> <span class="error" aria-live="polite"></span>
-									
 								</div>
-								
-					 			</div>
+							
 								<div class="form-group"></div>
 								<div class="row">
 
-
 								<div class="col-md-2">Mobile No</div>
 									<div class="col-md-4">
-										<input type="text" id="cust_phone" name="cust_phone"
+										<input type="text" id="cust_phone" name="cust_phone" style="height:30px;"
 											style="width: 100%;" class="form-control"
 											value="" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter correct mob no')"
-											pattern="^[1-9]{1}[0-9]{9}$" maxlength="10"
-											onchange="try{setCustomValidity('')}catch(e){}" required />
+										 />
 										<span class="error" aria-live="polite"></span>
 
 									</div>
-									<div class="col-md-2">Customer Address</div>
+									<!--	oninvalid="setCustomValidity('Please enter correct mob no')"
+											pattern="^[1-9]{1}[0-9]{9}$" maxlength="10"
+											onchange="try{setCustomValidity('')}catch(e){}" <div class="col-md-2">Customer Address</div>
 
 									<div class="col-md-4">
-										<textarea id="cust_address" name="cust_address" class="form-control"
+										<input id="cust_address" name="cust_address" class="form-control"  style="height:30px;"
 											style="width: 100%;" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter customer address')"
 											maxlength="200"
-											onchange="try{setCustomValidity('')}catch(e){}" required></textarea>
+											onchange="try{setCustomValidity('')}catch(e){}" required/>
+									</div> -->
+	<div class="col-md-2">Email Id</div>
+									<div class="col-md-4">
+										<input type="text" id="cust_email" name="cust_email"   style="height:30px;"
+											style="width: 100%;" class="form-control" autocomplete="off"
+											
+											maxlength="50" value=""
+											onchange="try{setCustomValidity('')}catch(e){}" /> 
 									</div>
-
-
-									
-									
 								</div>
-
-
+<!-- 
+oninvalid="setCustomValidity('Please enter email')"
+											pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
 								<div class="form-group"></div>
 								<div class="row">
 
 	
-									<div class="col-md-2">Email Id</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_email" name="cust_email" required
-											style="width: 100%;" class="form-control" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter email')"
-											pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-											maxlength="50" value=""
-											onchange="try{setCustomValidity('')}catch(e){}" /> 
-									</div>
+								
 									<div class="col-md-2">State</div>
 
 									<div class="col-md-4">
-										<input type="text" id="cust_state" name="cust_state"  class="form-control"
+										<input type="text" id="cust_state" name="cust_state"  style="height:30px;" class="form-control"
 											oninvalid="setCustomValidity('Please enter correct customer state')"
 											onchange="try{setCustomValidity('')}catch(e){}"
 											pattern="^[A-Za-z\s]+$" value=""
@@ -260,43 +258,37 @@
 
 									</div>	
 								
-								</div>
+								</div> -->
 								
 								
 								<div class="form-group"></div>
 								<div class="row">
 									<div class="col-md-2">GST No</div>
 							
-									<div class="col-md-4">
-										<input type="text" id="cust_gstn" name="cust_gstn" required
+									<div class="col-md-2">
+										<input type="text" id="cust_gstn" name="cust_gstn"   style="height:30px;"
 											onblur="getCheck()" style="width: 100%;" class="form-control"
 											autocomplete="off"
-											oninvalid="setCustomValidity('Please enter GST no')"
-											maxlength="20" value=""
-											pattern="^([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-7]{1})([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$"
 											onkeydown="upperCaseF(this)"
 											onchange="try{setCustomValidity('')}catch(e){}" /> <span
 											class="error" aria-live="polite"></span>
 
 									</div>
-								<div class="col-md-2">Registration No</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_regis_no" name="cust_regis_no" required
+								<!--oninvalid="setCustomValidity('Please enter GST no')"
+											maxlength="20" value=""
+											pattern="^([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-7]{1})([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$"
+											 <div class="col-md-2">Customer Id</div>
+									<div class="col-md-2">
+										<input type="text" id="cust_regis_no" name="cust_regis_no" required  style="height:30px;"
 											style="width: 100%;" class="form-control"
 										
 											value="" autocomplete="off"
 											/> <span
 											class="error" aria-live="polite"></span>
 									</div>
-								
-								</div>
-								
-								<div class="form-group"></div>
-
-								<div class="row">
-									<div class="col-md-2">PAN No</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_pan" name="cust_pan" required
+								<div class="col-md-2">PAN No</div>
+									<div class="col-md-2">
+										<input type="text" id="cust_pan" name="cust_pan" required  style="height:30px;"
 											style="width: 100%;" class="form-control" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter PAN no')"
 											maxlength="10" value=""
@@ -306,10 +298,16 @@
 											class="error" aria-live="polite"></span>
 
 									</div>
+								
+								</div>
+								
+								<div class="form-group"></div>
 
+								<div class="row"> -->
+									
 									<div class="col-md-2">Vehicle No</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_veh_no" name="cust_veh_no" 
+									<div class="col-md-2">
+										<input type="text" id="cust_veh_no" name="cust_veh_no"   style="height:30px;"
 											style="width: 100%;" class="form-control" autocomplete="off"
 										maxlength="20"
 										value=""
@@ -317,27 +315,22 @@
 											class="error" aria-live="polite"></span>
 
 									</div>
-								</div>
-          <input type="hidden" id="isEdit" name="isEdit" value="0">
-           <input type="hidden" id="index" name="index" value="0">
-								<div class="form-group"></div>
-
-								<div class="row">
-
+								
+<!-- 
 									<div class="col-md-2">Model No</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_ro_no" name="cust_ro_no" 
+									<div class="col-md-2">
+										<input type="text" id="cust_ro_no" name="cust_ro_no"   style="height:30px;"
 											style="width: 100%;" class="form-control" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter Ro No')"
 											value="" maxlength="30"
 											onchange="try{setCustomValidity('')}catch(e){}" /> <span
 											class="error" aria-live="polite"></span>
 
-									</div>							
+									</div>	 -->						
 									
 											<div class="col-md-2">VIN No.</div>
-									<div class="col-md-4">
-										<input type="text" id="cust_chasi_no" name="cust_chasi_no" 
+									<div class="col-md-2">
+										<input type="text" id="cust_chasi_no" name="cust_chasi_no"   style="height:30px;"
 											style="width: 100%;" class="form-control"
 											value="" autocomplete="off"
 											oninvalid="setCustomValidity('Please enter chasi no')"
@@ -347,17 +340,27 @@
 
 									</div>
 									</div>
-									
-									<h3 style="margin-top:10px;margin-bottom:20px; font-style:bold">Add Part</h3>
+									<hr>
+							
 								<div class="form-group"></div>
 							
 								<div class="row">
-							
-									<div class="col-md-2">Part</div>
+							<div class="col-md-1">Model</div>
+
+									<div class="col-md-3">
+										<select id="model_id" name="model_id" class="chosen-select" style="width:99% !important;"  style="width:90%;"										
+											onchange="onModelChange(this.value)">
+											<option value="">Select Model</option>
+												<c:forEach items="${modelList}" var="model">
+												<option value="${model.modelId}">${model.modelName}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class="col-md-1">Part</div>
 
 									<div class="col-md-4">
-										<select id="part_id" name="part_id" class="form-control" style="width:90%;"										
-											onchange="getPartDetail()">
+										<select id="part_id" name="part_id" class="chosen-select" style="width:99% !important;"  style="width:90%;"										
+											onchange="getPartDetail(this.value)">
 											<option value="">Select Part</option>
 												<c:forEach items="${pList}" var="part">
 												<option value="${part.partId}">${part.partName}</option>
@@ -368,43 +371,56 @@
 
 									<div class="col-md-2">
 									
-										<input type="text" id="part_mrp" name="part_mrp"   value="0.0"
-											style="width: 50%;" class="form-control" autocomplete="off"/> 
+										<input type="text" id="part_mrp" name="part_mrp"   value="0.0"  style="height:30px;" onchange="cal()"
+											style="width: 40%;" class="form-control" autocomplete="off"/> 
 								
 									</div>
-									<div class="col-md-1">Qty</div>
-
-									<div class="col-md-2">
-										<input type="number" id="qty" name="qty"  value="0" min="0"
-											style="width: 50%;" class="form-control" autocomplete="off"/> 
-									</div>
+									
 								</div>
 									
 	                 			
 								<div class="form-group"></div>
 							
 								<div class="row">
-								
-									<div class="col-md-2">Disc %</div>
+								<div class="col-md-1">Qty</div>
 
 									<div class="col-md-2">
-										<input type="text" id="disc" name="disc"  value="0.0"
-											style="width: 50%;" class="form-control" autocomplete="off"/> 
+										<input type="number" id="qty" name="qty"  value="1" min="0"  style="height:30px;"  onchange="cal()"
+											style="width: 30%;" class="form-control" autocomplete="off"/> 
 									</div>
-							<!-- 	
-								<div class="col-md-2">Disc Amt</div>
+									<div class="col-md-1">Disc %</div>
 
 									<div class="col-md-2">
-										<input type="text" id="disc_amt" name="disc_amt"  value="0.0"
-											style="width: 50%;" readonly class="form-control" autocomplete="off"/> 
+										<input type="text" id="disc" name="disc"  value="0.0"  style="height:30px;" onchange="cal()"
+											style="width: 40%;" class="form-control" autocomplete="off"/> 
 									</div>
-								 -->
 								
-								<div class="col-md-2">Remark</div>
+								<div class="col-md-1">Dis Amt</div>
 
 									<div class="col-md-2">
 									
-										<input type="text" id="remark" name="remark"  value="NA"
+										<input type="text" id="disc_amt" name="disc_amt"  value="0.0" readonly style="height:30px;"
+											style="width:50%;" class="form-control" autocomplete="off"/> 
+								
+									</div>	
+										<div class="col-md-1">Taxable</div>
+
+									<div class="col-md-2">
+									
+										<input type="text" id="taxable_amt" name="taxable_amt"  value="0.0" readonly style="height:30px;"
+											style="width:50%;" class="form-control" autocomplete="off"/> 
+								
+									</div>	
+									</div>
+										<div class="form-group"></div>
+							
+								<div class="row">
+								
+									<div class="col-md-1">Tax Amt</div>
+
+									<div class="col-md-2">
+									
+										<input type="text" id="tax_amt" name="tax_amt"  value="0.0" readonly style="height:30px;"
 											style="width:50%;" class="form-control" autocomplete="off"/> 
 								
 									</div>	
@@ -510,9 +526,9 @@
 						</div>
 					
 					
-						</form>
+						
 					
-					</div>
+					</div></form>
 						
 						
 					
@@ -568,7 +584,62 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
+<script
+		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/init.js"
+		type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+		function onModelChange(modelId,partId)
+		{
+			var valid = true;
+			if (modelId == null || modelId == "") {
+				valid = false;
+				alert("Please select Model");
+				var html='<option value="">Select Part</option>';
+				html += '</option>';
+				$('#part_id').html(html);
+				$("#part_id").trigger("chosen:updated");
+			}
+			if (valid == true) {
 
+				$.getJSON('${getPartListByModelId}', {
+					modelId : modelId,
+					ajax : 'true',
+				},
+
+				function(data) {
+					
+					var len = data.length;
+					//alert("data " +JSON.stringify(data));
+					var html='<option value="">Select Part</option>';
+				
+					for (var i = 0; i < len; i++) {
+					
+						if(partId==data[i].partId){
+						html += '<option value="' + data[i].partId + ' "selected>'
+								+data[i].partName+ '</option>';
+						}
+						else
+							{
+							html += '<option value="' + data[i].partId + '">'
+							+data[i].partName+ '</option>';
+							}
+					}
+					html += '</option>';
+					$('#part_id').html(html);
+					$("#part_id").trigger("chosen:updated");
+				
+				});
+				
+			}
+			
+			
+			
+		}
+		</script>
 	<script type="text/javascript">
 			function getCompId() { 
 		
@@ -576,7 +647,12 @@
 			var valid = true;
 			if (compId == null || compId == "") {
 				valid = false;
-				alert("Please select Part Name");
+				alert("Please select Company");
+				
+				var html='<option value="">Select Customer</option>';
+				html += '</option>';
+				$('#cust_id').html(html);
+				$("#cust_id").trigger("chosen:updated");
 			}
 
 			if (valid == true) {
@@ -651,15 +727,15 @@
 
 				function(data) {
 					document.getElementById("cust_email").value=data.custEmail
-					document.getElementById("cust_address").value=data.custAddress
+					//document.getElementById("cust_address").value=data.custAddress
 					document.getElementById("cust_phone").value=data.custPhone
-					document.getElementById("cust_state").value=data.custState
+					//document.getElementById("cust_state").value=data.custState
 					document.getElementById("cust_gstn").value=data.custGstn
 					document.getElementById("cust_regis_no").value=data.custRegisNo
-					document.getElementById("cust_pan").value=data.custPan
+					//document.getElementById("cust_pan").value=data.custPan
 					document.getElementById("cust_veh_no").value=data.custVehNo
-					document.getElementById("cust_ro_no").value=data.custModelNo
-					document.getElementById("cust_chasi_no").value=data.custVinNo
+					//document.getElementById("cust_ro_no").value=data.custModelNo
+					//document.getElementById("cust_chasi_no").value=data.custVinNo
 				
 				
 		
@@ -671,9 +747,9 @@
 		}
 	</script>
 <script type="text/javascript">
-			function getPartDetail() { 
+			function getPartDetail(partId) { 
 		
-			var partId = document.getElementById("part_id").value;
+			//var partId = document.getElementById("part_id").value;
 			var valid = true;
 
 			if (partId == null || partId == "") {
@@ -689,23 +765,68 @@
 				},
 
 				function(data) {
-					document.getElementById("part_mrp").value=data.partMrp
-				
+					document.getElementById("part_mrp").value=data.partMrp;
+					document.getElementById("CGST").value=data.cgstPer;
+					document.getElementById("SGST").value=data.sgstPer;
+					document.getElementById("IGST").value=data.igstPer;
+					
+					cal(data.partMrp);
 				});
 			}//end of if
 
 		}
 	</script>
+	
+	<script type="text/javascript">
+	function cal()
+	{
+		var mrp =parseFloat(document.getElementById("part_mrp").value);
+		var cgstPer =parseFloat(document.getElementById("CGST").value);
+		var sgstPer =parseFloat(document.getElementById("SGST").value);
+		var igstPer =parseFloat(document.getElementById("IGST").value);
+		var discPer =parseFloat(document.getElementById("disc").value);
+		var qty =parseFloat(document.getElementById("qty").value);
+		
+		var mrpBaseRate=(mrp*100)/(100+sgstPer+cgstPer);
+		mrpBaseRate=(mrpBaseRate).toFixed(2);
+		
+		var taxableAmt =  mrpBaseRate * qty;	
+		
+		var discAmt = ((taxableAmt * discPer) / 100);		
+		document.getElementById("disc_amt").value =discAmt.toFixed(2);
+		
+		taxableAmt = taxableAmt - discAmt;	
+
+		var sgstRs = parseFloat((taxableAmt * sgstPer) / 100);	
+		
+		
+		var cgstRs = parseFloat((taxableAmt * cgstPer) / 100);	
+		
+		
+		var igstRs = parseFloat((taxableAmt * igstPer) / 100);		
+		
+		
+		var totalTax = sgstRs + cgstRs;
+		
+		var grandTotal = parseFloat(totalTax + taxableAmt);		
+		grandTotal=(grandTotal).toFixed(2);
+		
+		document.getElementById("tax_amt").value = totalTax.toFixed(2);
+		
+		document.getElementById("taxable_amt").value = taxableAmt.toFixed(2);
+	
+	}
+	</script>
 <script type="text/javascript">
 function add(){
 	
-	var partId= document.getElementById("part_id").value;
-	var qty = document.getElementById("qty").value;
-	var isEdit = document.getElementById("isEdit").value;
-	var index= document.getElementById("index").value;
-	var partMrp = document.getElementById("part_mrp").value;
-	var disc = document.getElementById("disc").value;
-	var remark = document.getElementById("remark").value;
+	var partId=parseInt(document.getElementById("part_id").value);
+	var qty =parseFloat(document.getElementById("qty").value);
+	var isEdit = parseInt(document.getElementById("isEdit").value);
+	var index= parseInt(document.getElementById("index").value);
+	var partMrp =parseFloat(document.getElementById("part_mrp").value);
+	var disc =parseFloat(document.getElementById("disc").value);
+	var modelId =parseInt(document.getElementById("model_id").value);
 	 
 	$.getJSON('${addPartDetail}',
 					{
@@ -715,7 +836,7 @@ function add(){
 						 qty:qty,
 						 partMrp:partMrp,
 						 disc:disc,
-						 remark:remark,
+						 modelId:modelId,
 						 ajax:'true',
 					},
 				 	function(data) {
@@ -764,12 +885,21 @@ function add(){
 						} 
 					
 	);
-	document.getElementById("part_id").value = "";
-	document.getElementById("qty").value = "0";
+	 document.getElementById("part_id").value = "";
+		$("#part_id").trigger("chosen:updated");
+		document.getElementById("model_id").value = "";
+		$("#model_id").trigger("chosen:updated");
+	document.getElementById("qty").value = "1";
 	document.getElementById("part_mrp").value = "0.0";
 	document.getElementById("disc").value = "0.0";
-	document.getElementById("remark").value = "NA";   
+	//document.getElementById("remark").value = "NA";   
 	document.getElementById("isEdit").value = 0;
+	document.getElementById("tax_amt").value = "0.0";
+	document.getElementById("taxable_amt").value = "0.0";
+	document.getElementById("disc_amt").value = "0.0";
+	document.getElementById("CGST").value="0.0";
+	document.getElementById("SGST").value="0.0";
+	document.getElementById("IGST").value="0.0";
 	}
 	
 	
@@ -788,14 +918,21 @@ function callEdit(billDetailId, index) {
 
 					},
 					function(data) {
-
-						 document.getElementById("part_id").value = data.partId;
-						$("#part_id").trigger("chosen:updated");
+						onModelChange(data.ex_int1,data.partId);
+						
+						document.getElementById("model_id").value =data.ex_int1;
+						$("#model_id").trigger("chosen:updated");
+				
+					
 						document.getElementById("qty").value = data.qty;
-						document.getElementById("remark").value = data.remark;
+						//document.getElementById("remark").value = data.remark;
 						document.getElementById("isEdit").value = 1;
-						document.getElementById("part_mrp").value = data.mrp; 
-						document.getElementById("disc").value = data.discPer; 
+
+						getPartDetail(data.partId);
+						
+						document.getElementById("disc").value =data.discPer; 
+						
+						
 					});
 
 }

@@ -3,7 +3,6 @@ package com.ujwal.billsoft.models;
 import java.io.Serializable;
 import java.util.List;
 
-
 public class GetBillHeader implements Serializable{
 
 	private int billHeaderId;  
@@ -18,9 +17,9 @@ public class GetBillHeader implements Serializable{
 	private String custPan;
 	private String custEmail;
 	private String custVehNo;
-	private String custChasiNo;
+	private String custModelNo;
 	private String custRegisNo;
-	private String custRoNo;
+	private String custVinNo;
 	private int companyId;
 	private String compName;
 	private int locId;
@@ -47,8 +46,6 @@ public class GetBillHeader implements Serializable{
 	private float exFloat2;
 	
 	List<GetBillDetail> getBillDetail;
-	
-	
 	
 	public String getCustAddress() {
 		return custAddress;
@@ -86,11 +83,18 @@ public class GetBillHeader implements Serializable{
 	public void setCustVehNo(String custVehNo) {
 		this.custVehNo = custVehNo;
 	}
-	public String getCustChasiNo() {
-		return custChasiNo;
+	
+	public String getCustModelNo() {
+		return custModelNo;
 	}
-	public void setCustChasiNo(String custChasiNo) {
-		this.custChasiNo = custChasiNo;
+	public void setCustModelNo(String custModelNo) {
+		this.custModelNo = custModelNo;
+	}
+	public String getCustVinNo() {
+		return custVinNo;
+	}
+	public void setCustVinNo(String custVinNo) {
+		this.custVinNo = custVinNo;
 	}
 	public String getCustRegisNo() {
 		return custRegisNo;
@@ -98,12 +102,7 @@ public class GetBillHeader implements Serializable{
 	public void setCustRegisNo(String custRegisNo) {
 		this.custRegisNo = custRegisNo;
 	}
-	public String getCustRoNo() {
-		return custRoNo;
-	}
-	public void setCustRoNo(String custRoNo) {
-		this.custRoNo = custRoNo;
-	}
+    
 	public int getExInt1() {
 		return exInt1;
 	}
@@ -294,15 +293,18 @@ public class GetBillHeader implements Serializable{
 	@Override
 	public String toString() {
 		return "GetBillHeader [billHeaderId=" + billHeaderId + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate
-				+ ", billDateTime=" + billDateTime + ", custId=" + custId + ", custName=" + custName + ", companyId="
-				+ companyId + ", compName=" + compName + ", locId=" + locId + ", locationName=" + locationName
-				+ ", userId=" + userId + ", userName=" + userName + ", taxPer=" + taxPer + ", taxableAmt=" + taxableAmt
-				+ ", sgstAmt=" + sgstAmt + ", cgstAmt=" + cgstAmt + ", igstAmt=" + igstAmt + ", discAmt=" + discAmt
-				+ ", roundOff=" + roundOff + ", totaTax=" + totaTax + ", grandTotal=" + grandTotal + ", status="
-				+ status + ", remark=" + remark + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2="
-				+ exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exFloat1=" + exFloat1 + ", exFloat2="
-				+ exFloat2 + ", getBillDetailList=" + getBillDetail + "]";
+				+ ", billDateTime=" + billDateTime + ", custId=" + custId + ", custName=" + custName + ", custAddress="
+				+ custAddress + ", custPhone=" + custPhone + ", custGstn=" + custGstn + ", custPan=" + custPan
+				+ ", custEmail=" + custEmail + ", custVehNo=" + custVehNo + ", custModelNo=" + custModelNo
+				+ ", custRegisNo=" + custRegisNo + ", custVinNo=" + custVinNo + ", companyId=" + companyId
+				+ ", compName=" + compName + ", locId=" + locId + ", locationName=" + locationName + ", userId="
+				+ userId + ", userName=" + userName + ", taxPer=" + taxPer + ", taxableAmt=" + taxableAmt + ", sgstAmt="
+				+ sgstAmt + ", cgstAmt=" + cgstAmt + ", igstAmt=" + igstAmt + ", discAmt=" + discAmt + ", roundOff="
+				+ roundOff + ", totaTax=" + totaTax + ", grandTotal=" + grandTotal + ", status=" + status + ", remark="
+				+ remark + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1="
+				+ exVar1 + ", exVar2=" + exVar2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2
+				+ ", getBillDetail=" + getBillDetail + "]";
 	}
-	
+    
  
 }

@@ -19,8 +19,8 @@ contentType="text/html; charset=ISO8859_1"%>
 <table width="100%" border="0"  cellpadding="0" cellspacing="0" style="border-left:1px solid #313131;border-right:1px solid #313131;border-top:1px solid #313131;">
   <tr>
     <td colspan="6" rowspan="2" width="50%" style="border-bottom:1px solid #313131; padding:10px;color:#FFF; font-size:15px;">
-     <p style="color:black; font-size:20px; text-align:left; margin:0px;font-weight: bold;">Hyundai Sales & Service - Ujjwal Hyundai, Ambad</p>
- <p style="color:#000; font-size:11px; text-align:left;margin:0px;"> B-89, Opp Phalake Smark, Ambad - Uttam Nagar Rd, MIDC,  <br></br> Nashik, Maharashtra 422010 <br></br>GSTIN/UIN:  27ABUFS9787K1ZR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra ,Code: 27  <br></br> Phone: 0253 238 4883 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Email: ujjwal@gmail.com</p>
+     <p style="color:black; font-size:20px; text-align:left; margin:0px;font-weight: bold;">${billHeaderRes.compName}</p>
+ <p style="color:#000; font-size:11px; text-align:left;margin:0px;"> Plot No.G-4*4.5 - Trimbak Rd, MIDC Area,Satpur-422007  <br></br> Nashik, Maharashtra 422007 <br></br>GSTIN/UIN:  27ABUFS9787K1ZR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra ,Code: 27  <br></br> Phone: 0253 238 4883 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Email: ujjwal@gmail.com</p>
 
 </td>
 
@@ -60,17 +60,17 @@ contentType="text/html; charset=ISO8859_1"%>
     <td width="25%" colspan="3" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:10px;color:#000; font-size:15px; text-align:center">
     	<p style="color:#000; font-size:11px; text-align:left;margin:0px;">Vehicle No.<!-- </p> 
       	<p style="color:#000; font-size:11px; text-align:left;margin:0px;"> --><b>${billHeaderRes.custVehNo}</b></p> 
-  
+ 
  </td>
     <td colspan="3" width="25%" style="border-left:1px solid #313131; border-bottom:1px solid #313131; padding:10px;color:#FFF; font-size:15px;">
-   <p style="color:#000; font-size:11px; text-align:left;margin:0px;">Chassi No.<!-- </p> 
-      	<p style="color:#000; font-size:11px; text-align:left;margin:0px;"> --><b>${billHeaderRes.custChasiNo}</b></p> 
+   <p style="color:#000; font-size:11px; text-align:left;margin:0px;">Model No.<!-- </p> 
+      	<p style="color:#000; font-size:11px; text-align:left;margin:0px;"> --><b>${billHeaderRes.custModelNo}</b></p> 
     </td>
     
   </tr>
  <tr>
      <td width="25%" colspan="3" style="border-left:1px solid #313131; padding:10px;color:#000; font-size:15px; text-align:center">
-    	<p style="color:#000; font-size:11px; text-align:left;margin:0px;">RO No:  ${billHeaderRes.custRoNo}</p> 
+    	<p style="color:#000; font-size:11px; text-align:left;margin:0px;">VIN No:  ${billHeaderRes.custVinNo}</p> 
      	<!-- <p style="color:#000; font-size:11px; text-align:left;margin:0px;">-</p>  -->
  </td>
      <td width="25%" colspan="3" style="border-left:1px solid #313131; padding:10px;color:#000; font-size:15px; text-align:center">
@@ -221,7 +221,7 @@ contentType="text/html; charset=ISO8859_1"%>
 								maxFractionDigits="2" minFractionDigits="2" value="${totalDisc}"/></b></td>
    
 	<td align="right" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;"><b><fmt:formatNumber type="number"
-								maxFractionDigits="2" minFractionDigits="2" value="${totalAmt}"/></b></td>
+								maxFractionDigits="2" minFractionDigits="2" value="${totalAmt}" var="wtotal"/> ${wtotal}</b></td>
 	  				
   </tr>  
    <tr>
@@ -243,17 +243,16 @@ contentType="text/html; charset=ISO8859_1"%>
   
  
     
-   <tr>
+   <%-- <tr>
   <fmt:formatNumber type="number"	maxFractionDigits="2" minFractionDigits="2" value="${totalCgst+totalSgst}" var="wtax"/>
   
     <td colspan="8" width="50%" style=" padding:8px;color:#000; font-size:12px;">Tax Amt(in words):
      <p style="color:#000; font-size:12px; text-align:left;margin:0px;"><b>${currency.convertToIndianCurrency(wtax)}</b></p>
 </td>
-<fmt:formatNumber type="number"	maxFractionDigits="2" minFractionDigits="2" value="${totalAmt}" var="wtotal"/>
     <td colspan="4" width="50%" rowspan="2" style="padding:8px;color:#000;border-left:1px solid #313131; font-size:12px;">Amt.Chargeble (in words): <p style="color:#000; font-size:12px; text-align:left;margin:0px;">
-   <b> ${currency.convertToIndianCurrency(wtotal)}</b></p>
+   <b>${currency.convertToIndianCurrency(wtotal)} </b></p>
     </td>
-  </tr>
+  </tr> --%>
   
      <tr>
     <td colspan="4" width="25%"  style="text-align:center; border-top:1px solid #313131; padding:8px;color:#000; font-size:12px;"></td>
@@ -297,4 +296,4 @@ Declaration: We declare that this invoice shows actual price of goods described 
  </c:forEach> 
 
 </body>
-</html> --%>
+</html> 

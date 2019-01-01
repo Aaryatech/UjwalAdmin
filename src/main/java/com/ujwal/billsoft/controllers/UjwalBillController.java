@@ -43,6 +43,7 @@ import com.ujwal.billsoft.models.BillReport;
 import com.ujwal.billsoft.models.MCompany;
 import com.ujwal.billsoft.models.MCustomer;
 import com.ujwal.billsoft.models.MGetPart;
+import com.ujwal.billsoft.models.MModelBean;
 import com.ujwal.billsoft.models.MPart;
 import com.ujwal.billsoft.models.MUser;
 import com.ujwal.billsoft.models.Document;
@@ -56,7 +57,7 @@ public class UjwalBillController {
 	BillHeader billHeader=new BillHeader();
 
 	@RequestMapping(value="/showAddBill", method=RequestMethod.GET)
-	public ModelAndView addShowBillForm() {
+	public ModelAndView addShowBillForm(HttpServletRequest request, HttpServletResponse response) {
 		
 		ModelAndView mav = new ModelAndView("masters/addBill");
 	try {
@@ -66,21 +67,50 @@ public class UjwalBillController {
 		List<MCompany> compList = rest.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
 		mav.addObject("compList", compList);
 		
-		/*List<MCustomer> custList = rest.getForObject(Constants.url + "/ujwal/getCustomerListById", List.class);
-		mav.addObject("custList", custList);*/
+		HttpSession session = request.getSession();
+		MUser userResponse = (MUser) session.getAttribute("userBean");
+			
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("id", userResponse.getCompanyId());
 		
-		List<MPart> partList = rest.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
+		List<MCustomer> custList = rest.postForObject(Constants.url + "/ujwal/getCustomerByCompId",map, List.class);
+		System.out.println("Response List= "+custList);
+		mav.addObject("custList", custList);
+		
+		map = new LinkedMultiValueMap<>();
+		map.add("companyId", userResponse.getCompanyId());
+		List<MModelBean> modelList = rest.postForObject(Constants.url+ "/ujwal/getModelByCompanyId",map, List.class);
+		mav.addObject("modelList", modelList);
+	/*	
+		List<MPart> partList = rest.getForObject(Constants.url + "/ujwal/getAllPartByCompanyId", List.class);
 		mav.addObject("pList", partList);
 		
-		
+		*/
 		mav.addObject("date", dateFormat.format(date));
 		mav.addObject("title", "Add Bill");
+		mav.addObject("user",userResponse);
+		mav.addObject("companyId", userResponse.getCompanyId());
 		mav.addObject("isEditBill",0);
-		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
+		 map = new LinkedMultiValueMap<String, Object>();
+	
 		map.add("docCode", 1);
+		map.add("locationId", userResponse.getLocationId());
+	
 		Document doc = rest.postForObject(Constants.url + "getDocument", map, Document.class);
 		mav.addObject("doc", doc);
+		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+		     int year = Integer.parseInt(df.format(Calendar.getInstance().getTime()));
+            String yearFin="";
+		    int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		    if (month < 3) {
+		    	yearFin=(year - 1) + "-" + year;
+		    } else {
+		    	yearFin=year + "-" + (year + 1);
+		    }
+	     
+	     mav.addObject("year",yearFin );
+	     mav.addObject("srNo",String.format("%05d", doc.getSrNo()));
+
 		System.err.println(doc.toString()+"getDocument");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -108,22 +138,42 @@ public @ResponseBody MCustomer getCustById(HttpServletRequest request, HttpServl
 
  }
 @RequestMapping(value = "/getPartListById", method = RequestMethod.GET)
-public @ResponseBody MPart getPartById(HttpServletRequest request, HttpServletResponse response) {
+public @ResponseBody MGetPart getPartById(HttpServletRequest request, HttpServletResponse response) {
 	
-	MPart part=null;
+	MGetPart part=null;
 	try {
 		
 		int partId = Integer.parseInt(request.getParameter("partId"));
 
-	MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-	map.add("id", partId);
-
-	part = rest.postForObject(Constants.url + "/ujwal/getPartById", map, MPart.class);
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("id", partId);
+		part = rest.postForObject(Constants.url + "GetPartInfo", map, MGetPart.class);
 	}
 	catch (Exception e) {
 		e.printStackTrace();
 	}
 	return part;
+
+}
+
+
+
+@RequestMapping(value = "/getPartListByModelId", method = RequestMethod.GET)
+public @ResponseBody List<MPart> getPartListByModelId(HttpServletRequest request, HttpServletResponse response) {
+	
+	List<MPart> partList=null;
+	try {
+		
+		int modelId = Integer.parseInt(request.getParameter("modelId"));
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("modelId", modelId);
+		 partList = rest.postForObject(Constants.url + "/ujwal/getAllPartByModelId",map, List.class);
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+	}
+	return partList;
 
 }
 @RequestMapping(value = "/editBill/{billHeadId}", method = RequestMethod.GET)
@@ -167,13 +217,17 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 		List<MCompany> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
 		model.addObject("custList", custList);
 		
-		List<MPart> partList = rest.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
-		model.addObject("pList", partList);
-		
+	/*	List<MPart> partList = rest.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
+		model.addObject("pList", partList);*/
+		map = new LinkedMultiValueMap<>();
+		map.add("companyId", billHeader.getCompanyId());
+		List<MModelBean> modelList = rest.postForObject(Constants.url+ "/ujwal/getModelByCompanyId",map, List.class);
+		model.addObject("modelList", modelList);
+	
 		model.addObject("date",bill.getBillDate());		
 		model.addObject("bill", billHeader);
 		model.addObject("isEditBill", 1);
-
+		model.addObject("companyId", billHeader.getCompanyId());
 		model.addObject("title", "Edit Bill");
 
 	} catch (Exception e) {
@@ -196,9 +250,9 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 			float qty = Float.parseFloat(request.getParameter("qty"));
 			float partMrp = Float.parseFloat(request.getParameter("partMrp"));
 			float discPer =Float.parseFloat(request.getParameter("disc"));
-			String remark = request.getParameter("remark");
+			int modelId = Integer.parseInt(request.getParameter("modelId"));
 			
-			System.out.println("partId: "+partId+" index: "+index+" qty: "+qty+" isEdit: "+isEdit+" partMrp: "+partMrp+" disc"+discPer+" remark"+remark);
+			System.out.println("partId: "+partId+" index: "+index+" qty: "+qty+" isEdit: "+isEdit+" partMrp: "+partMrp+" disc"+discPer+" remark");
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("id", partId);
@@ -257,7 +311,7 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 				detailList.get(index).setDiscPer(discPer);
 				detailList.get(index).setDiscRs(discAmt);
 				detailList.get(index).setTaxDesc(parttax.getTaxDesc());
-				detailList.get(index).setRemark(remark);
+				detailList.get(index).setRemark("");
 				detailList.get(index).setMrp(partMrp);
 				detailList.get(index).setBaseRate(mrpBaseRate);
 				detailList.get(index).setUomName(parttax.getUomName());
@@ -279,6 +333,7 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 				
 				detailList.get(index).setGrandTotal(grandTotal);
 				detailList.get(index).setDelStatus(0);
+				detailList.get(index).setEx_int1(modelId);
 
 			}else {
 			BillDetails bill = new BillDetails();
@@ -294,7 +349,7 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 			bill.setDiscPer(discPer);
 			bill.setDiscRs(discAmt);
 			
-			bill.setRemark(remark);
+			bill.setRemark("");
 			bill.setMrp(partMrp);
 			
 			bill.setBaseRate(mrpBaseRate); 
@@ -320,6 +375,7 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 			
 			
 			bill.setGrandTotal(grandTotal);
+			bill.setEx_int1(modelId);
 			bill.setDelStatus(0);
 			
 			detailList.add(bill);
@@ -390,7 +446,7 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String curDate = dateFormat.format(new Date());
 		String date=request.getParameter("date");
-		
+		int compId=Integer.parseInt(request.getParameter("compId"));
 		String remark=request.getParameter("remark_new");
 		System.out.println("Date: "+date);
 		model = new ModelAndView("masters/addBill");
@@ -399,16 +455,28 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		BillHeader header= new BillHeader();
 		
 		if(isEditBill==1) {
-		   header.setBillHeaderId(billHeader.getBillHeaderId());
+		   
+			header.setBillHeaderId(billHeader.getBillHeaderId());
+		    header.setCustId(custId);
+		    header.setCompanyId(compId);
+		    header.setUserId(billHeader.getUserId());
+		    header.setLocId(billHeader.getLocId());
+
+			header.setBillDate(date);
+			header.setBillDateTime(billHeader.getBillDateTime());
 		}else
 		{
-		   header.setBillHeaderId(0);
+		    header.setBillHeaderId(0);
+		    header.setCustId(custId);
+		    header.setCompanyId(compId);
+		    header.setUserId(userResponse.getUserId());
+		    header.setLocId(userResponse.getLocationId());
+
+			header.setBillDate(date);
+			header.setBillDateTime(date);
 		}
 	
-		header.setCustId(custId);
-	    header.setCompanyId(userResponse.getCompanyId());
-	    header.setUserId(userResponse.getUserId());
-	    header.setLocId(userResponse.getLocationId());
+		
 		
 	    float grandTotal = 0;
 		float taxableAmt=0;
@@ -428,8 +496,6 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 			totalTaxPer=totalTaxPer+(detailList.get(i).getCgstPer()+detailList.get(i).getSgstPer());
 			}
 		}
-		header.setBillDate(date);
-		header.setBillDateTime(curDate);
 		header.setCgstAmt(roundUp(cgstAmtTotal));
 		header.setSgstAmt(roundUp(sgstAmtTotal));
 		header.setIgstAmt(roundUp(igstAmtTotal));
@@ -445,11 +511,22 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		if(isEditBill==1) {
 			header.setInvoiceNo(billHeader.getInvoiceNo());
 		}else {
+			DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+		     int year = Integer.parseInt(df.format(Calendar.getInstance().getTime()));
+           String yearFin="";
+		    int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		    if (month < 3) {
+		    	yearFin=(year - 1) + "-" + year;
+		    } else {
+		    	yearFin=year + "-" + (year + 1);
+		    }
+	     
+	  
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("docCode", 1);
-
+		map.add("locationId", userResponse.getLocationId());
 		doc = rest.postForObject(Constants.url + "/getDocument", map, Document.class);
-		header.setInvoiceNo(doc.getDocPrefix() + "" + doc.getSrNo());
+		header.setInvoiceNo(doc.getDocPrefix() + "/"+yearFin+"/" + String.format("%05d", doc.getSrNo()));
 		}
 		header.setBillDetailList(detailList);
 		BillHeader insertbillHeadRes = rest.postForObject(Constants.url + "saveBill", header,BillHeader.class);
@@ -464,7 +541,7 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 
 			map.add("srNo", doc.getSrNo() + 1);
 			map.add("docCode", doc.getDocCode());
-
+			map.add("locationId", userResponse.getLocationId());
 			Info updateDocSr = rest.postForObject(Constants.url + "updateDocSrNo", map, Info.class);
 			  
 			}
@@ -498,32 +575,38 @@ public ModelAndView showBillList(HttpServletRequest request, HttpServletResponse
 			
 		/*List<MCompany> custList = rest.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
 		model.addObject("custList", custList);*/
-
+		HttpSession session = request.getSession();
+		MUser userResponse = (MUser) session.getAttribute("userBean");
+	 
+		model.addObject("compId", userResponse.getCompanyId());
+		
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("id", userResponse.getCompanyId());
+		
+		List<MCustomer> custList = rest.postForObject(Constants.url + "/ujwal/getCustomerByCompId",map, List.class);
+		System.out.println("Response List= "+custList);
+		model.addObject("custList", custList);
+	
+		
+		
 		String fromDate = null, toDate = null;
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.DAY_OF_MONTH, 1);
 
-		if (request.getParameter("fromDate") == null || request.getParameter("fromDate") == "") {
+		Date firstDate = date.getTime();
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY");
+		fromDate = dateFormat.format(firstDate);
+		toDate = dateFormat.format(new Date());
+		
 
-			System.err.println("onload call  ");
+		map.add("custId", 0);
+		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+		map.add("toDate", DateConvertor.convertToYMD(toDate));
+		map.add("compId", userResponse.getCompanyId());
 
-			Calendar date = Calendar.getInstance();
-			date.set(Calendar.DAY_OF_MONTH, 1);
-
-			Date firstDate = date.getTime();
-
-			DateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY");
-
-			fromDate = dateFormat.format(firstDate);
-
-			toDate = dateFormat.format(new Date());
-			System.err.println("cu Date  " + fromDate + "todays date   " + toDate);
-
-		} else {
-
-			System.err.println("After page load call");
-			fromDate = request.getParameter("fromDate");
-			toDate = request.getParameter("toDate");
-
-		}
+		List<GetBillHeader> billList = rest.postForObject(Constants.url + "getBillHeadersByDate", map,
+				List.class);
+		model.addObject("billList", billList);
 		model.addObject("fromDate", fromDate);
 		model.addObject("toDate", toDate);
 
@@ -538,23 +621,26 @@ public ModelAndView showBillList(HttpServletRequest request, HttpServletResponse
 	return model;
 }
 @RequestMapping(value = "/getBillListBetDate", method = RequestMethod.GET)
-public @ResponseBody List<BillReport> getBillListBetDate(HttpServletRequest request,
+public @ResponseBody List<GetBillHeader> getBillListBetDate(HttpServletRequest request,
 		HttpServletResponse response) {
 
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 	int custId = Integer.parseInt(request.getParameter("custId"));
 	String fromDate = request.getParameter("fromDate");
 	String toDate = request.getParameter("toDate");
-	
+	HttpSession session = request.getSession();
+	MUser userResponse = (MUser) session.getAttribute("userBean");
+		
 	System.out.println("Data Get = "+custId+" "+fromDate+" "+toDate);
  
 	map.add("custId", custId);
 	map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 	map.add("toDate", DateConvertor.convertToYMD(toDate));
+	map.add("compId", userResponse.getCompanyId());
 
-	BillReport[] ordHeadArray = rest.postForObject(Constants.url + "getBillHeadersByDate", map,
-			BillReport[].class);
-	List<BillReport> getBillList = new ArrayList<BillReport>(Arrays.asList(ordHeadArray));
+	GetBillHeader[] ordHeadArray = rest.postForObject(Constants.url + "getBillHeadersByDate", map,
+			GetBillHeader[].class);
+	List<GetBillHeader> getBillList = new ArrayList<GetBillHeader>(Arrays.asList(ordHeadArray));
 	System.out.println("List 2 Found = "+getBillList);
 	return getBillList;
 }
@@ -640,7 +726,7 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 	System.out.println("URL " + url);
 	// http://monginis.ap-south-1.elasticbeanstalk.com
 	// File f = new File("/report.pdf");
-	File f = new File("/home/ats-12/bill.pdf");
+	File f = new File("/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf");
 	// File f = new
 	// File("/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf");
 
@@ -659,7 +745,7 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 	String appPath = context.getRealPath("");
 	String filename = "ordermemo221.pdf";
 	// String filePath = "/report.pdf";
-	String filePath = "/home/ats-12/bill.pdf";
+	String filePath = "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf";
 	// String filePath =
 	// "/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf";
 
