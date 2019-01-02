@@ -106,15 +106,18 @@ public class HomeController {
 							
 							MUser userResponse = (MUser) session.getAttribute("userBean");
 							
+							session.setAttribute("userType", userResponse.getEx_int());
+							
 							System.out.println("User Cred="+userResponse.getUserName()+" "+userResponse.getCompanyId()+" "+userResponse.getUserId());
 							
 							
 							int locationId = userResponse.getLocationId();
 							int companyId = userResponse.getCompanyId();
-							System.out.println("Compannyy IDSS = "+companyId+" "+locationId);
+						
+							int userType = (int) session.getAttribute("userType");
+							System.out.println("Compannyy User Data = "+companyId+" "+locationId+" "+userType);
 							
 							RestTemplate rest = new RestTemplate();
-							
 							
 							map.add("id", companyId);
 							MCompany mComp = rest.postForObject(Constants.url + "/ujwal/getCompanyById", map, MCompany.class);
@@ -128,7 +131,7 @@ public class HomeController {
 							session.setAttribute("conpanyId",mComp.getCompId());
 							session.setAttribute("companyName", mComp.getCompName());
 							session.setAttribute("locationName", mLoc.getLocation_name());
-
+									
 							return mav;
 						} else {
 
