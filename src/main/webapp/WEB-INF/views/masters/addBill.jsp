@@ -251,8 +251,7 @@
 										<input type="text" id="cust_veh_no" name="cust_veh_no"   style="height:30px;"
 											style="width: 100%;" class="form-control" autocomplete="off"
 										maxlength="20"
-										value=""
-										/> <span
+										value=""/> <span
 											class="error" aria-live="polite"></span>
 
 									</div>
@@ -279,7 +278,7 @@
 							<div class="col-md-1">Model</div>
 
 									<div class="col-md-3">
-										<select id="model_id" name="model_id" class="chosen-select" style="width:99% !important;"  style="width:90%;"										
+										<select id="model_id" name="model_id" class="standardSelect" style="width:99% !important;"  style="width:90%;"										
 											onchange="onModelChange(this.value)">
 											<option value="">Select Model</option>
 												<c:forEach items="${modelList}" var="model">
@@ -290,7 +289,7 @@
 									<div class="col-md-1">Part</div>
 
 									<div class="col-md-4">
-										<select id="part_id" name="part_id" class="chosen-select" style="width:99% !important;"  style="width:90%;"										
+										<select id="part_id" name="part_id" class="standardSelect" style="width:99% !important;"  style="width:90%;"										
 											onchange="getPartDetail(this.value)">
 											<option value="">Select Part</option>
 												<c:forEach items="${pList}" var="part">
@@ -356,16 +355,12 @@
 								
 									</div>	
 									<div class="col-lg-2">
-	<input type="button" class="btn btn-primary" value="Add" id="AddButton"
-		style="width: 63px;" onclick="add()">
+									<input type="button" class="btn btn-primary" value="Add" id="AddButton"
+									style="width: 63px;" onclick="add()">
 
 								</div>
 									</div>
-									
-							
-						
-							
-						
+								
 						
 						
 						<div class="card-body card-block">
@@ -662,11 +657,11 @@
 					document.getElementById("cust_phone").value=data.custPhone
 					//document.getElementById("cust_state").value=data.custState
 					document.getElementById("cust_gstn").value=data.custGstn
-					document.getElementById("cust_regis_no").value=data.custRegisNo
+					//document.getElementById("cust_regis_no").value=data.custRegisNo
 					//document.getElementById("cust_pan").value=data.custPan
 					document.getElementById("cust_veh_no").value=data.custVehNo
 					//document.getElementById("cust_ro_no").value=data.custModelNo
-					//document.getElementById("cust_chasi_no").value=data.custVinNo
+					document.getElementById("cust_chasi_no").value=data.custVinNo
 				
 				
 		

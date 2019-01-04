@@ -119,14 +119,14 @@
 							<div class="row">
 								<div class="col-md-2">From Date</div>
 								<div class="col-md-4">
-									<input type="text" autocomplete="off" id="from_date"
+									<input type="date" autocomplete="off" id="from_date"
 										name="from_date" required style="width: 100%;"
 										class="form-control" value="${fromDate}"> <span
 										class="error" aria-live="polite"></span>
 								</div>
 								<div class="col-md-2">To Date</div>
 								<div class="col-md-4">
-									<input type="text" autocomplete="off" id="to_date"
+									<input type="date" autocomplete="off" id="to_date"
 										name="to_date" style="width: 100%;" class="form-control"
 										value="${toDate}"> <span class="error"
 										aria-live="polite"></span>
@@ -308,8 +308,6 @@
 		// onclick of submit to search order 
 		function showReport(){
 
-			alert("Hi View Report");
-			
 			var compId = document.getElementById("compId").value;
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;

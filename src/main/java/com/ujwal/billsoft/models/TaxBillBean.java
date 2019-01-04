@@ -21,6 +21,7 @@ public class TaxBillBean {
 	private float taxPer;
 	private String invoiceNo;
 	private float billAmount;
+	private float grandTotal;
 	
 	
 	public float getCgstPer() {
@@ -124,6 +125,12 @@ public class TaxBillBean {
 	}
 	public void setTaxableAmount(float taxableAmount) {
 		this.taxableAmount = taxableAmount;
+	}	
+	public float getGrandTotal() {
+		return grandTotal;
+	}
+	public void setGrandTotal(float grandTotal) {
+		this.grandTotal = grandTotal;
 	}
 	@Override
 	public String toString() {
@@ -131,8 +138,10 @@ public class TaxBillBean {
 				+ companyId + ", custId=" + custId + ", custGstn=" + custGstn + ", billDate=" + billDate + ", custName="
 				+ custName + ", cgstPer=" + cgstPer + ", sgstPer=" + sgstPer + ", cgst=" + cgst + ", sgst=" + sgst
 				+ ", igst=" + igst + ", igstPer=" + igstPer + ", taxableAmount=" + taxableAmount + ", taxPer=" + taxPer
-				+ ", invoiceNo=" + invoiceNo + ", billAmount=" + billAmount + "]";
+				+ ", invoiceNo=" + invoiceNo + ", billAmount=" + billAmount + ", grandTotal=" + grandTotal + "]";
 	}
+	
+	
 	
 	
 	

@@ -132,7 +132,7 @@ public class BillTaxReportController {
 			rowData.add("" + getList.get(i).getIgst());
 			rowData.add("" + getList.get(i).getTaxPer());
 			rowData.add("" + getList.get(i).getTaxableAmount());
-			rowData.add("" + getList.get(i).getBillAmount());
+			rowData.add("" + getList.get(i).getGrandTotal());
 			
 		
 			expoExcel.setRowData(rowData);

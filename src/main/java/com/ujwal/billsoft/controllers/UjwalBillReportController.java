@@ -833,15 +833,14 @@ public class UjwalBillReportController {
 		String fromDate = request.getParameter("fromDate");
 		String toDate = request.getParameter("toDate");
 		int custId =Integer.parseInt(request.getParameter("custId"));
+		int compId =Integer.parseInt(request.getParameter("compId"));
 		
-
-		System.out.println(fromDate +"  "+toDate);
+		System.out.println(custId+" "+fromDate +"  "+toDate+" "+compId);
 
 		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 		map.add("toDate", DateConvertor.convertToYMD(toDate));
-
 		map.add("custId", custId);
-
+		map.add("compId", compId);
 		
 		
 		CustReport[] ordHeadArray = rest.postForObject(Constants.url + "/ujwal/getCustomerBetweenDate", map,CustReport[].class);

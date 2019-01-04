@@ -5,7 +5,6 @@ public class MTax {
 	private int taxId;
 	private String hsnCode;
 	private String taxDesc;
-
 	private float taxPer;
 	private float cgstPer;
 	private float sgstPer;
@@ -15,6 +14,7 @@ public class MTax {
 	private int exInt1;
 	private int exInt2;
 	private boolean exBool1;
+	
 	
 	public String getTaxDesc() {
 		return taxDesc;

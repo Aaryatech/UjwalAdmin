@@ -111,16 +111,7 @@
 								<div class="col-md-2">Select Customer</div>
 
 								<div class="col-md-4">
-									<%-- <select id="custId" name="custId" class="standardSelect"
-										multiple tabindex="1" required
-										oninvalid="setCustomValidity('Please select company')"
-										onchange="getData()">
-										<option value="">Select</option>
-										<option value="0">All</option>
-										<c:forEach items="${custList}" var="cust">
-											<option value="${cust.custId}">${cust.custName}</option>
-										</c:forEach>
-									</select> --%>
+									
 										<select id="cust_id" name="cust_id" style="width: 100%;" class="standardSelect"
 										
 											
@@ -132,19 +123,7 @@
 											</c:forEach>
 										</select>
 								</div>
-								<%-- <div class="col-md-2">Select Plant*</div>
-
-								<div class="col-md-4">
-									<select id="plantId" name="plantId" class="standardSelect"
-										multiple tabindex="1" required onchange="getData()">
-										<option value="">Select</option>
-
-										<option value="0">All</option>
-										<c:forEach items="${plantList}" var="plant">
-											<option value="${plant.plantId}">${plant.plantName}</option>
-										</c:forEach>
-									</select>
-								</div> --%>
+							
 							</div>
 						
 						<div class="form-group"></div>
@@ -357,7 +336,8 @@
 		function showQuot() {
 
 			//alert("Hi View Orders  ");
-
+			
+			var compId = document.getElementById("compId").value;
 			var custId = document.getElementById("cust_id").value;
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
@@ -366,7 +346,12 @@
 
 			var valid = true;
 
-			if (custId == null || custId == "") {
+			if (compId == null || compId == "") {
+				valid = false;
+				alert("Please select company");
+			}
+			
+			else if (custId == null || custId == "") {
 				valid = false;
 				alert("Please select customer");
 			}
@@ -393,6 +378,7 @@
 						.getJSON(
 								'${getCustListBetweenDate}',
 								{
+									compId : compId,
 									custId : custId,
 									fromDate : fromDate,
 									toDate : toDate,
@@ -435,8 +421,8 @@
 																				v.custName,
 																				v.custGstn,
 																				v.cgstRs,
-																				v.igstRs,
 																				v.sgstRs,
+																				v.igstRs,
 																				v.totalTax,
 																				v.taxableAmount,
 																				v.grandTotal

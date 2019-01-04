@@ -204,7 +204,7 @@
 											onchange="try{setCustomValidity('')}catch(e){}" /> 
 									</div>
 								
-								<div class="col-md-2">CESS* (Optional)</div>
+								<div class="col-md-2">CESS (Optional)</div>
 							
 									<div class="col-md-4">
 										<input type="text" id="cess_per" name="cess_per" 

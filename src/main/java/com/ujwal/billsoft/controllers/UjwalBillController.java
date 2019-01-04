@@ -242,15 +242,16 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 	
 	
 	try {
-			
-		    int partId = Integer.parseInt(request.getParameter("partId"));
+			int modelId = 0;
+			int partId = 0;
+		    partId = Integer.parseInt(request.getParameter("partId"));
 			int isEdit = Integer.parseInt(request.getParameter("isEdit"));
 			int index = Integer.parseInt(request.getParameter("index"));
 			
 			float qty = Float.parseFloat(request.getParameter("qty"));
 			float partMrp = Float.parseFloat(request.getParameter("partMrp"));
 			float discPer =Float.parseFloat(request.getParameter("disc"));
-			int modelId = Integer.parseInt(request.getParameter("modelId"));
+			modelId = Integer.parseInt(request.getParameter("modelId"));
 			
 			System.out.println("partId: "+partId+" index: "+index+" qty: "+qty+" isEdit: "+isEdit+" partMrp: "+partMrp+" disc"+discPer+" remark");
 			

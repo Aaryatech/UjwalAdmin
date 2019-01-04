@@ -263,8 +263,7 @@ public @ResponseBody List<MModelBean> getModelName(HttpServletRequest req, HttpS
 			System.out.println("Company No="+companyId);
 		}catch(Exception e) {
 		companyId = 0;
-	}
-			
+	}		
 
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 	restTamplate = new RestTemplate();
