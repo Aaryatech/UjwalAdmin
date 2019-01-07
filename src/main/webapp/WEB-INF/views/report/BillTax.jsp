@@ -117,14 +117,14 @@
 							<div class="row">
 								<div class="col-md-2">From Date</div>
 								<div class="col-md-4">
-									<input type="date" autocomplete="off" id="from_date"
-										name="from_date" required style="width: 100%;"
+									<input type="text" autocomplete="off" id="from_date"
+										name="from_date" required style="width: 100%;" placeholder="From Date"
 										class="form-control" value="${fromDate}"> <span
 										class="error" aria-live="polite"></span>
 								</div>
 								<div class="col-md-2">To Date</div>
 								<div class="col-md-4">
-									<input type="date" autocomplete="off" id="to_date"
+									<input type="text" autocomplete="off" id="to_date" placeholder="To Date"
 										name="to_date" style="width: 100%;" class="form-control"
 										value="${toDate}"> <span class="error"
 										aria-live="polite"></span>
@@ -153,7 +153,7 @@
 									<thead>
 										<tr>
 											<th style="text-align: center; width: 5%;">Sr No</th>
-											<th style="text-align: center">Bill No.</th>
+											<th style="text-align: center">Invoice No.</th>
 											<th style="text-align: center">Bill Date </th>
 											<th style="text-align: center">Customer Name</th>
 											<th style="text-align: center">GST No.</th>
@@ -344,8 +344,9 @@
 					$.each(data, function(i, v) {
 					
 						dataTable.row.add(
-								[ i + 1, v.billDetailId, v.billDate, v.custName,
-										 v.custGstn, v.cgstPer,v.sgstPer,v.igstPer,v.taxPer,v.taxableAmount,v.grandTotal									
+								[ i + 1, v.invoiceNo, v.billDate, v.custName,
+										 v.custGstn, v.cgstAmt,v.sgstAmt,v.igstAmt,
+										 v.taxPer,v.taxableAmt,v.grandTotal									
 
 								]).draw();
 					});

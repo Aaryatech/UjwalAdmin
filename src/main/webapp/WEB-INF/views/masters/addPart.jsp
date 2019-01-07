@@ -58,7 +58,7 @@
 }
 </style>
 </head>
-<body onload="getCompId()">
+<body onload="getCompId(${partRoNo})">
 
 
 	<!-- Left Panel -->
@@ -132,7 +132,7 @@
 										<div class="col-md-2">Company Name*</div>
 									<div class="col-md-4">
 									 <select name="compId" id="compId" class="standardSelect" tabindex="6" required
-									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId()"> 
+									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId(0)"> 
 										<option value="${compid}">${companyName}</option>
 											<c:forEach items="${compList}" var="makeList"> 
 											<c:choose>
@@ -150,16 +150,16 @@
 										
 											<select name="cust_model_no" id="cust_model_no" class="standardSelect" tabindex="6" required>
 											<option value="">Select Model</option>
-											<c:forEach items="${modBean}" var="modelList">
+											<%-- <c:forEach items="${modBean}" var="modelList">
 											<c:choose>
-											<c:when test="${modelList.modelId ==  partList.partRoNo}">
-												<option value="${modelList.partRoNo}" selected="selected">${modelList.modelName}</option>
+											<c:when test="${modelList.modelId ==partList.partRoNo}">
+												<option value="${modelList.partRoNo}" selected>${modelList.modelName}</option>
 											</c:when>
 											<c:otherwise>
 												<option value="${modelList.partRoNo}">${modelList.modelName}</option>
 											</c:otherwise>
 											</c:choose>
-											 </c:forEach>
+											 </c:forEach> --%>
 										</select>  <span
 											class="error" aria-live="polite"></span>
 									</div>	
@@ -371,7 +371,7 @@
 	</script>
 	
 	<script type="text/javascript">
-	function getCompId() { 
+	function getCompId(modelno) { 
 
 	var companyId = document.getElementById("compId").value;
 	var valid = true;
@@ -395,8 +395,15 @@
 
 			for (var i = 0; i < len; i++) {
 
-				html += '<option value="' + data[i].modelId + '">'
+				if(modelno== data[i].modelId){
+				html += '<option value="' + data[i].modelId + '" selected>'
 						+data[i].modelName+ '</option>';
+				}
+				else
+					{
+					html += '<option value="' + data[i].modelId + '">'
+					+data[i].modelName+ '</option>';
+					}
 
 			}
 			html += '</option>';

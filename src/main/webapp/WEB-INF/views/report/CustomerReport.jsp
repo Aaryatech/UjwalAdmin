@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Ujwal Billing Software</title>
+<title>Ujjwal Billing Software</title>
 
 
 <c:url var="getCustListBetweenDate" value="/getCustListBetweenDate" />
@@ -58,9 +58,6 @@
 }
 </style>
 
-
-
-
 </head>
 <body>
 
@@ -86,7 +83,7 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="col-md-4">
-								<strong>Customer wise Report</strong>
+								<strong>Customer Wise Report</strong>
 							</div>
 						</div>
 
@@ -97,7 +94,7 @@
 							
 							<div class="row">
 							
-							<div class="col-md-2">Company Name*</div>
+							<div class="col-md-2">Company Name</div>
 										<div class="col-md-4">
 											<select name="compId" id="compId" class="standardSelect" tabindex="6" 
 											onchange="getCompId()" required>
@@ -130,14 +127,14 @@
 						<div class="row">
 								<div class="col-md-2">From Date</div>
 								<div class="col-md-4">
-									<input type="text" autocomplete="off" id="from_date"
+									<input type="text" autocomplete="off" id="from_date" placeholder="From Date"
 										name="from_date" required style="width: 100%;"
 										class="form-control" value="${fromDate}"> <span
 										class="error" aria-live="polite"></span>
 								</div>
 								<div class="col-md-2">To Date</div>
 								<div class="col-md-4">
-									<input type="text" autocomplete="off" id="to_date"
+									<input type="text" autocomplete="off" id="to_date" placeholder="To Date"
 										name="to_date" style="width: 100%;" class="form-control"
 										value="${toDate}"> <span class="error"
 										aria-live="polite"></span>
@@ -165,17 +162,16 @@
 									<thead>
 										<tr>
 											<th style="text-align: center; width: 5%;">Sr No.</th>
-										
+											<th style="text-align: center">Invoice No.</th> 
 											<th style="text-align: center">Bill Date</th> 
 											<th style="text-align: center">Customer Name</th>
 											<th style="text-align: center">Customer GST No.</th>
-
 											<th style="text-align: center">CGST Amt</th>
-												<th style="text-align: center">SGST Amount</th>
-												<th style="text-align: center">IGST Amount</th>
-										<th style="text-align: center">Tax Amount</th>
-										<th style="text-align: center">Taxable Amount</th>
-										<th style="text-align: center">Grand Total </th>
+											<th style="text-align: center">SGST Amount</th>
+											<th style="text-align: center">IGST Amount</th>
+											<th style="text-align: center">Tax Amount</th>
+											<th style="text-align: center">Taxable Amount</th>
+											<th style="text-align: center">Grand Total </th>
 
 										</tr>
 									</thead>
@@ -312,23 +308,20 @@
 		}
 	</script>	
 
-
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script>
+ 	
+ 	<script>
 		$(function() {
 			$('input[id$=from_date]').datepicker({
-				dateFormat : 'dd-mm-yy'
+				dateFormat : 'yy-mm-dd'
 			});
 
 			$('input[id$=to_date]').datepicker({
-				dateFormat : 'dd-mm-yy'
+				dateFormat : 'yy-mm-dd'
 			});
 
 		});
-	</script>
-
-
-
+	</script> 
 
 
 	<script type="text/javascript">
@@ -417,14 +410,15 @@
 																.add(
 																		[
 																				i + 1,
+																				v.invoiceNo,
 																				v.billDate,
 																				v.custName,
 																				v.custGstn,
-																				v.cgstRs,
-																				v.sgstRs,
-																				v.igstRs,
-																				v.totalTax,
-																				v.taxableAmount,
+																				v.cgstAmt,
+																				v.sgstAmt,
+																				v.igstAmt,
+																				v.totaTax,
+																				v.taxableAmt,
 																				v.grandTotal
 																				
 

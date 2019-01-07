@@ -46,6 +46,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.ujwal.billsoft.commons.Constants;
+import com.ujwal.billsoft.commons.DateConvertor;
 import com.ujwal.billsoft.commons.ExportToExcel;
 import com.ujwal.billsoft.models.CompReport;
 import com.ujwal.billsoft.models.CustReport;
@@ -86,8 +87,8 @@ public class BillTaxReportController {
 		System.out.println(fromDate+" "+toDate+" "+comp_id);
 		
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-		map.add("fromDate", fromDate);
-		map.add("toDate", toDate);
+		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+		map.add("toDate", DateConvertor.convertToYMD(toDate));
 		map.add("comp_id", comp_id);
 		
 		TaxBillBean[] taxList = restTamplate.postForObject(Constants.url + "/ujwal/getBillTaxReport", map, TaxBillBean[].class);
@@ -127,11 +128,11 @@ public class BillTaxReportController {
 			rowData.add("" + getList.get(i).getBillDate());
 			rowData.add("" + getList.get(i).getCustName());
 			rowData.add("" + getList.get(i).getCustGstn());
-			rowData.add("" + getList.get(i).getCgst());
-			rowData.add("" + getList.get(i).getSgst());
-			rowData.add("" + getList.get(i).getIgst());
+			rowData.add("" + getList.get(i).getCgstAmt());
+			rowData.add("" + getList.get(i).getSgstAmt());
+			rowData.add("" + getList.get(i).getIgstAmt());
 			rowData.add("" + getList.get(i).getTaxPer());
-			rowData.add("" + getList.get(i).getTaxableAmount());
+			rowData.add("" + getList.get(i).getTaxableAmt());
 			rowData.add("" + getList.get(i).getGrandTotal());
 			
 		
@@ -280,7 +281,7 @@ public class BillTaxReportController {
 				table.addCell(cell);
 
 				
-				cell = new PdfPCell(new Phrase("" + work.getCgst(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getCgstAmt(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
@@ -288,14 +289,14 @@ public class BillTaxReportController {
 				table.addCell(cell);
 				
 				
-				cell = new PdfPCell(new Phrase("" + work.getSgst(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getSgstAmt(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getIgst(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getIgstAmt(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
@@ -309,14 +310,14 @@ public class BillTaxReportController {
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getTaxableAmount(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getTaxableAmt(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getBillAmount(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getGrandTotal(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);

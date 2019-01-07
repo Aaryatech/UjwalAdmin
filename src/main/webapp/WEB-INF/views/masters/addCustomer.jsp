@@ -64,7 +64,7 @@ div.scrollmenu {
 
 </style>
 </head>
-<body onload="getCompId()">
+<body onload="getCompId(${modelno})">
 
 
 	<!-- Left Panel -->
@@ -136,7 +136,7 @@ div.scrollmenu {
 								<div class="col-md-2">Company Name*</div>
 									<div class="col-md-4">
 									 <select name="compId" id="compId" class="standardSelect" tabindex="6" required
-									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId()"> 
+									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId(0)"> 
 											<option value="${compid}">${companyName}</option>
 											<c:forEach items="${compList}" var="makeList"> 
 											<c:choose>
@@ -491,7 +491,7 @@ $(document).ready(function(){
 	
 	
  <script type="text/javascript">
-			function getCompId() { 
+			function getCompId(modelno) { 
 		
 			var companyId = document.getElementById("compId").value;
 			var valid = true;
@@ -514,10 +514,15 @@ $(document).ready(function(){
 					var html='<option value="">Select Model</option>';
 
 					for (var i = 0; i < len; i++) {
-
-						html += '<option value="' + data[i].modelId + '">'
+						if(modelno== data[i].modelId){
+							html += '<option value="' + data[i].modelId + '" selected>'
+									+data[i].modelName+ '</option>';
+							}
+							else
+								{
+								html += '<option value="' + data[i].modelId + '">'
 								+data[i].modelName+ '</option>';
-
+								}
 					}
 					html += '</option>';
 					$('#cust_model_no').html(html);

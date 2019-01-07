@@ -96,8 +96,8 @@ public class UjwalBillReportController {
 
 		System.out.println("Datesss"+fromDate +"  "+toDate+"  "+compId);
 
-		map.add("fromDate",fromDate);
-		map.add("toDate",toDate);
+		map.add("fromDate",DateConvertor.convertToYMD(fromDate));
+		map.add("toDate",DateConvertor.convertToYMD(toDate));
 
 		map.add("compId", compId);
 
@@ -607,35 +607,35 @@ public class UjwalBillReportController {
 				cell.setPadding(3);
 				table.addCell(cell);
 
-				cell = new PdfPCell(new Phrase("" + work.getCgstRs(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getCgstAmt(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getIgstRs(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getIgstAmt(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getSgstRs(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getSgstAmt(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getTotalTax(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getTotaTax(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
 				cell.setPadding(3);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("" + work.getTaxableAmount(), headFont));
+				cell = new PdfPCell(new Phrase("" + work.getTaxableAmt(), headFont));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				cell.setPaddingRight(2);
@@ -837,8 +837,8 @@ public class UjwalBillReportController {
 		
 		System.out.println(custId+" "+fromDate +"  "+toDate+" "+compId);
 
-		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-		map.add("toDate", DateConvertor.convertToYMD(toDate));
+		map.add("fromDate", fromDate);
+		map.add("toDate", toDate);
 		map.add("custId", custId);
 		map.add("compId", compId);
 		
@@ -878,11 +878,11 @@ public class UjwalBillReportController {
 			rowData.add("" + getListnew.get(i).getBillDate());
 			rowData.add("" + getListnew.get(i).getCustGstn());
 			rowData.add("" + getListnew.get(i).getCustName());
-			rowData.add("" + getListnew.get(i).getCgstRs());
-			rowData.add("" + getListnew.get(i).getSgstRs());
-			rowData.add("" + getListnew.get(i).getIgstRs());
-			rowData.add("" + getListnew.get(i).getTotalTax());
-			rowData.add("" + getListnew.get(i).getTaxableAmount());
+			rowData.add("" + getListnew.get(i).getCgstAmt());
+			rowData.add("" + getListnew.get(i).getSgstAmt());
+			rowData.add("" + getListnew.get(i).getIgstAmt());
+			rowData.add("" + getListnew.get(i).getTotaTax());
+			rowData.add("" + getListnew.get(i).getTaxableAmt());
 			rowData.add("" + getListnew.get(i).getGrandTotal());
 
 			expoExcel.setRowData(rowData);

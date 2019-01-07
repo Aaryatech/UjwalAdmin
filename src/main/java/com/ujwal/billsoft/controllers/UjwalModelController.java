@@ -181,8 +181,6 @@ public String deleteCustomer(@PathVariable("modelId") int modelId) {
 		
 		List<MModelBean> modelList = rest.postForObject(Constants.url + "/ujwal/getModelByCompanyId", map, List.class);
 		System.out.println("Response 1="+modelList);
-		System.out.println("Response 2="+modelList.toString());
-		
 		
 		return modelList;
 		

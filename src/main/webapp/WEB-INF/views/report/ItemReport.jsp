@@ -97,26 +97,6 @@
 							<div class="form-group"></div>
 
 							<div class="row">
-								<div class="col-md-2">From Date</div>
-								<div class="col-md-4">
-									<input type="text" autocomplete="off" id="from_date"
-										name="from_date" required style="width: 100%;"
-										class="form-control" value="${fromDate}"> <span
-										class="error" aria-live="polite"></span>
-								</div>
-								<div class="col-md-2">To Date</div>
-								<div class="col-md-4">
-									<input type="text" autocomplete="off" id="to_date"
-										name="to_date" style="width: 100%;" class="form-control"
-										value="${toDate}"> <span class="error"
-										aria-live="polite"></span>
-								</div>
-
-							</div>
-
-							<div class="form-group"></div>
-
-							<div class="row">
 
 
 								<div class="col-md-2">Item Name</div>
@@ -136,7 +116,29 @@
 
 
 							<div class="form-group"></div>
+							
+
 							<div class="row">
+								<div class="col-md-2">From Date</div>
+								<div class="col-md-4">
+									<input type="text" autocomplete="off" id="from_date" placeholder="From Date"
+										name="from_date" required style="width: 100%;"
+										class="form-control" value="${fromDate}"> <span
+										class="error" aria-live="polite"></span>
+								</div>
+								<div class="col-md-2">To Date</div>
+								<div class="col-md-4">
+									<input type="text" autocomplete="off" id="to_date" placeholder="To Date"
+										name="to_date" style="width: 100%;" class="form-control"
+										value="${toDate}"> <span class="error"
+										aria-live="polite"></span>
+								</div>
+
+							</div>
+
+							<div class="form-group"></div>
+
+														<div class="row">
 								<div class="col-md-6"></div>
 								<div class="col-md-2">
 									<input type="button" class="btn btn-primary" style="background-color: #272c33;"
@@ -153,17 +155,17 @@
 									<thead>
 										<tr>	
 											<th style="text-align: center; width: 5%;">Sr No</th>
-										
+											<!-- <th style="text-align: center">Invoice No.</th> -->
 											<th style="text-align: center">Item Name</th>
 											<th style="text-align: center">HSN Code</th>
 											<th style="text-align: center">Tax Rate</th>
-											<th style="text-align: center">Qty</th>
+											<th style="text-align: center">Qty.</th>
+											<th style="text-align: center">Taxble Amount</th>
 											<th style="text-align: center">CGST</th>
 											<th style="text-align: center">SGST</th>
 											<th style="text-align: center">IGST</th>
-											<th style="text-align: center">Tax Amount</th>
 											<th style="text-align: center">Total Tax</th>
-											<!-- <th style="text-align: center">Total Amount</th> -->
+											<th style="text-align: center">Total Amount</th>
 										
 										</tr>
 									</thead>
@@ -344,12 +346,14 @@
 					dataTable.clear().draw();
 
 					$.each(data, function(i, v) {
+							var igst = 0;
+							var taxRate=v.cgstPer+v.sgstPer; 
   							var totaltax=v.cgst+v.sgst;
-							//	alert
+  							var totalAmt=v.taxableAmount+totaltax; 
+							//alert("total="+totalAmt);
 						dataTable.row.add(
-								[ i + 1, v.partName, v.hsnCode, v.taxPer, v.qty,
-										 v.cgst, v.sgst, v.igst,
-										 v.taxableAmount, totaltax
+								[ i + 1, v.partName, v.hsnCode, taxRate, v.qty, v.taxableAmount,
+										 v.cgst, v.sgst, igst, totaltax, totalAmt
 
 								]).draw();
 					});

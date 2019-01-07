@@ -42,9 +42,11 @@ public class UjwalCustomerController {
 			
 		restTamplate = new RestTemplate();
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
-		//List<MModelBean> modBean = restTamplate.getForObject(Constants.url+ "/ujwal/getModelByDelStatus", List.class);
-		//mav.addObject("modelList", modBean);
 		mav.addObject("compList", compList);
+		
+		//List<MModelBean> modelList = restTamplate.getForObject(Constants.url+ "/ujwal/getModelByDelStatus", List.class);
+		//mav.addObject("modelList", modelList);
+		
 		mav.addObject("custState", "Maharashtra");
 		mav.addObject("compid", compId);
 		mav.addObject("companyName", companyName);
@@ -141,6 +143,7 @@ public class UjwalCustomerController {
 		
 		MCustomer cust = restTamplate.postForObject(Constants.url + "/ujwal/getCustomerById", map, MCustomer.class);
 		mav.addObject("cust", cust);
+		mav.addObject("modelno", cust.getCustModelNo());
 		
 		List<MCustomer> custList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCustomer", List.class);
 		mav.addObject("custList", custList);

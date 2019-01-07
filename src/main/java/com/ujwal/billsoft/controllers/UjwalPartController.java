@@ -144,6 +144,7 @@ public class UjwalPartController {
 		
 		MPart partList = restTamplate.postForObject(Constants.url + "/ujwal/getPartById", map, MPart.class);
 		mav.addObject("partList", partList);
+		mav.addObject("partRoNo", partList.getPartRoNo());
 		
 		List<MUom> muom = restTamplate.getForObject(Constants.url + "/ujwal/getAllMUom", List.class);
 		mav.addObject("muomList", muom);

@@ -102,7 +102,7 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="col-md-4">
-								<strong>Billwise Report</strong>
+								<strong>Bill Wise Report</strong>
 							</div>
 							<%-- <div class="col-md-8"></div>
 							<div class="col-md-2" align="left">
@@ -114,28 +114,7 @@
 						</div>
 						<div class="card-body card-block">
 
-							<div class="form-group"></div>
-
-							<div class="row">
-								<div class="col-md-2">From Date</div>
-								<div class="col-md-4">
-									<input type="date" autocomplete="off" id="from_date"
-										name="from_date" required style="width: 100%;"
-										class="form-control" value="${fromDate}"> <span
-										class="error" aria-live="polite"></span>
-								</div>
-								<div class="col-md-2">To Date</div>
-								<div class="col-md-4">
-									<input type="date" autocomplete="off" id="to_date"
-										name="to_date" style="width: 100%;" class="form-control"
-										value="${toDate}"> <span class="error"
-										aria-live="polite"></span>
-								</div>
-
-							</div>
-
-
-							<div class="form-group"></div>
+						<div class="form-group"></div>
 
 							<div class="row">
 
@@ -154,7 +133,30 @@
 									</select>
 								</div>
 							</div>
+						
 
+							<div class="form-group"></div>
+
+							<div class="row">
+								<div class="col-md-2">From Date</div>
+								<div class="col-md-4">
+									<input type="text" autocomplete="off" id="from_date" placeholder="From Date"
+										name="from_date" required style="width: 100%;"
+										class="form-control" value="${fromDate}"> <span
+										class="error" aria-live="polite"></span>
+								</div>
+								<div class="col-md-2">To Date</div>
+								<div class="col-md-4">
+									<input type="text" autocomplete="off" id="to_date" placeholder="To Date"
+										name="to_date" style="width: 100%;" class="form-control"
+										value="${toDate}"> <span class="error"
+										aria-live="polite"></span>
+								</div>
+
+							</div>
+
+
+							
 							<div class="form-group"></div>
 							<div class="row">
 								<div class="col-md-6"></div>

@@ -52,7 +52,7 @@ import com.ujwal.billsoft.models.Info;
 @Controller
 public class UjwalBillController {
 
-	RestTemplate rest=new RestTemplate();;
+	RestTemplate rest=new RestTemplate();
 	List<BillDetails> detailList = new ArrayList<BillDetails>();
 	BillHeader billHeader=new BillHeader();
 
