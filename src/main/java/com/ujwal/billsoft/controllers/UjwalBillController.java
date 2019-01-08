@@ -343,7 +343,7 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 			bill.setBillHeaderId(0);
 			bill.setPartId(partId);
 			bill.setPartName(parttax.getPartName());
-			bill.setHsnCode(parttax.getHsnCode());
+			bill.setEx_var1(parttax.getHsnCode());
 			bill.setTaxDesc(parttax.getTaxDesc());
 			bill.setQty(qty);
 			
@@ -449,6 +449,12 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		String date=request.getParameter("date");
 		int compId=Integer.parseInt(request.getParameter("compId"));
 		String remark=request.getParameter("remark_new");
+		String saleType=request.getParameter("sale_type");
+		String paymentMode=request.getParameter("payment_mode");
+		String refNo=request.getParameter("ref_no");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+	    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+	    date=sdf2.format(sdf.parse(date));
 		System.out.println("Date: "+date);
 		model = new ModelAndView("masters/addBill");
 
@@ -502,6 +508,9 @@ public String insertBill(HttpServletRequest request, HttpServletResponse respons
 		header.setIgstAmt(roundUp(igstAmtTotal));
 		header.setTotaTax(roundUp(totalTax));
 		header.setRemark(remark);
+		header.setSaleType(saleType);
+		header.setEx_var1(paymentMode);
+		header.setEx_var2(refNo);
 		header.setRoundOff(0);
 		header.setTaxPer(totalTaxPer);
 		header.setGrandTotal(roundUp(grandTotal));
@@ -727,7 +736,7 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 	System.out.println("URL " + url);
 	// http://monginis.ap-south-1.elasticbeanstalk.com
 	// File f = new File("/report.pdf");
-	File f = new File("/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf");
+	File f = new File("E:/AARYATech/bill.pdf");
 	// File f = new
 	// File("/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf");
 
@@ -746,7 +755,8 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 	String appPath = context.getRealPath("");
 	String filename = "ordermemo221.pdf";
 	// String filePath = "/report.pdf";
-	String filePath = "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf";
+	String filePath = "E://AARYATech/bill.pdf";
+			//"/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf";
 	// String filePath =
 	// "/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf";
 

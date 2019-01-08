@@ -153,10 +153,93 @@
         				     <input type="hidden" id="CGST" name="CGST" value="0">
         				      <input type="hidden" id="SGST" name="SGST" value="0">
         				      <input type="hidden" id="IGST" name="IGST" value="0">
+        				  
+        				 
+							<input type="hidden" name="compId" id="compId" value="${sessionScope.conpanyId }" onload="getCompId()">
         				     
 							<div class="row">
+							
+									<div class="col-md-2">Customer Name</div>
+									<div class="col-md-4">
+											<select id="cust_id" name="cust_id" style="width: 100%;" class="standardSelect" style="width:99% !important;" 
+										
+											onchange="getData()">
+											<option value="">Select Customer</option>
+
+											<c:forEach items="${custList}" var="cust">
+											<c:choose>
+											<c:when test="${cust.custId==bill.custId}">
+												<option value="${cust.custId}" selected>${cust.custName} </option>
+											</c:when>
+											<c:otherwise>
+											<c:if test="${isEditBill==1}">
+										  <option value="${cust.custId}" disabled="disabled">${cust.custName} </option>	
+											</c:if>
+											<c:if test="${isEditBill==0}">
+										  <option value="${cust.custId}">${cust.custName} - ${cust.custVinNo} - ${cust.custVehNo}</option>					
+											</c:if>
+											</c:otherwise>
+											</c:choose>
+												
+											</c:forEach>
+										</select>
+
+									</div>
 									
-										<div class="col-md-2">Company Name*</div>
+										<div class="col-md-2">Sale Type*</div>
+										<div class="col-md-4">
+											<select name="sale_type" id="sale_type" class="standardSelect" style="width:99% !important;"  tabindex="6" 
+											 required>
+											<option value="">Select Sale Type</option>
+											<option value="Counter Sale">Counter Sale</option>
+											<option value="Workshop Sale">Workshop Sale</option>
+											<option value="Accessories">Accessories</option>
+											<option value="Free Service">Free Service</option>
+											<option value="PDI">PDI </option>
+											<option value="Paid Service">Paid Service</option>
+											<option value="RF Accidental">RF Accidental</option>
+											<option value="RF Mechanical">RF Mechanical</option>
+											<option value="Running Repair">Running Repair</option>
+											
+										</select> 
+									</div>
+								</div>
+							
+								<div class="form-group"></div>
+							
+							 <div class="row">
+									
+										<div class="col-md-2">Mode Of Payment*</div>
+										<div class="col-md-4">
+											<select name="payment_mode" id="payment_mode" class="standardSelect" style="width:99% !important;"  tabindex="6" 
+											 required>
+											<option value="">Payment Mode</option>
+											<option value="Cash">Cash</option>
+											<option value="Credit">Credit</option>
+											<option value="NFT">NFT</option>
+											<option value="RTGS">RTGS</option>
+										
+											
+										</select> 
+									</div>
+							
+									<div class="col-md-2">Ref. No.*</div>
+									<div class="col-md-4">
+										<input type="text" id="ref_no" name="ref_no" style="height:30px;"
+											style="width: 100%;" class="form-control"
+											value="" autocomplete="off" />
+										<span class="error" aria-live="polite"></span>
+
+									</div>
+							
+								</div>
+							
+								<div class="form-group"></div>
+						
+							
+							<div class="row">
+									
+										<%-- <div class="col-md-2">Company Name*</div>
 										<div class="col-md-4">
 											<select name="compId" id="compId" class="standardSelect" style="width:99% !important;"  tabindex="6" 
 											onchange="getCompId()" required>
@@ -176,34 +259,9 @@
 											
 											 </c:forEach>
 										</select> 
-									</div>
-										<div class="col-md-2">Customer Name</div>
-									<div class="col-md-4">
-											<select id="cust_id" name="cust_id" style="width: 100%;" class="standardSelect" style="width:99% !important;" 
-										
-											onchange="getData()">
-											<option value="">Select Customer</option>
-
-											<c:forEach items="${custList}" var="cust">
-											<c:choose>
-											<c:when test="${cust.custId==bill.custId}">
-												<option value="${cust.custId}" selected>${cust.custName} </option>
-											</c:when>
-											<c:otherwise>
-											<c:if test="${isEditBill==1}">
-						  <option value="${cust.custId}" disabled="disabled">${cust.custName} </option>
-											
-											</c:if>
-											<c:if test="${isEditBill==0}">
-						  <option value="${cust.custId}">${cust.custName} - ${cust.custVinNo} - ${cust.custVehNo}</option>					
-											</c:if>
-											</c:otherwise>
-											</c:choose>
-												
-											</c:forEach>
-										</select>
-
-									</div>
+									</div> --%>
+									
+								
 								</div>
 							
 								<div class="form-group"></div>
@@ -218,7 +276,7 @@
 										<span class="error" aria-live="polite"></span>
 
 									</div>
-								
+								<!-- 
 								<div class="col-md-2">Email Id</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_email" name="cust_email"   style="height:30px;"
@@ -226,6 +284,17 @@
 											
 											maxlength="50" value=""
 											onchange="try{setCustomValidity('')}catch(e){}" /> 
+									</div> -->
+									<div class="col-md-2">GST No</div>
+							
+									<div class="col-md-4">
+										<input type="text" id="cust_gstn" name="cust_gstn"   style="height:30px;"
+											onblur="getCheck()" style="width: 100%;" class="form-control"
+											autocomplete="off"
+											onkeydown="upperCaseF(this)"
+											onchange="try{setCustomValidity('')}catch(e){}" /> <span
+											class="error" aria-live="polite"></span>
+
 									</div>
 								</div>
 
@@ -233,7 +302,7 @@
 								
 								<div class="form-group"></div>
 								<div class="row">
-									<div class="col-md-2">GST No</div>
+								<!-- 	<div class="col-md-2">GST No</div>
 							
 									<div class="col-md-2">
 										<input type="text" id="cust_gstn" name="cust_gstn"   style="height:30px;"
@@ -243,11 +312,11 @@
 											onchange="try{setCustomValidity('')}catch(e){}" /> <span
 											class="error" aria-live="polite"></span>
 
-									</div>
+									</div> -->
 								
 									
 									<div class="col-md-2">Vehicle No</div>
-									<div class="col-md-2">
+									<div class="col-md-4">
 										<input type="text" id="cust_veh_no" name="cust_veh_no"   style="height:30px;"
 											style="width: 100%;" class="form-control" autocomplete="off"
 										maxlength="20"
@@ -258,8 +327,8 @@
 								
 				
 									
-											<div class="col-md-2">VIN No.</div>
-									<div class="col-md-2">
+									<div class="col-md-2">VIN No.</div>
+									<div class="col-md-4">
 										<input type="text" id="cust_chasi_no" name="cust_chasi_no"   style="height:30px;"
 											style="width: 100%;" class="form-control"
 											value="" autocomplete="off"
@@ -570,6 +639,7 @@
 			function getCompId() { 
 		
 			var compId = document.getElementById("compId").value;
+			alert("id="+compId);
 			var valid = true;
 			if (compId == null || compId == "") {
 				valid = false;
@@ -636,7 +706,7 @@
 		function getData() { 
 		
 			var custId = document.getElementById("cust_id").value;
-			//alert(custId);
+			alert(custId);
 			var valid = true;
 
 			if (custId == null || custId == "") {
@@ -652,20 +722,13 @@
 				},
 
 				function(data) {
-					document.getElementById("cust_email").value=data.custEmail
-					//document.getElementById("cust_address").value=data.custAddress
+					alert(data.custVehNo+"- "+data.custVinNo+" -"+data.custGstn+" -"+data.custEmail+" -"+data.custPhone);
+					//document.getElementById("cust_email").value=data.custEmail
 					document.getElementById("cust_phone").value=data.custPhone
-					//document.getElementById("cust_state").value=data.custState
 					document.getElementById("cust_gstn").value=data.custGstn
-					//document.getElementById("cust_regis_no").value=data.custRegisNo
-					//document.getElementById("cust_pan").value=data.custPan
 					document.getElementById("cust_veh_no").value=data.custVehNo
-					//document.getElementById("cust_ro_no").value=data.custModelNo
 					document.getElementById("cust_chasi_no").value=data.custVinNo
 				
-				
-		
-					
 				
 				});
 			}//end of if

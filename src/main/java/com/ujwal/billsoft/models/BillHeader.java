@@ -32,6 +32,7 @@ public class BillHeader {
 	private String ex_var2;
 	private float ex_float1;
 	private float ex_float2;
+	private String saleType;
 	
 	List<BillDetails> billDetailList;
 	
@@ -41,6 +42,12 @@ public class BillHeader {
 	}
 	public void setBillDetailList(List<BillDetails> billDetailList) {
 		this.billDetailList = billDetailList;
+	}	
+	public String getSaleType() {
+		return saleType;
+	}
+	public void setSaleType(String saleType) {
+		this.saleType = saleType;
 	}
 	public int getBillHeaderId() {
 		return billHeaderId;
