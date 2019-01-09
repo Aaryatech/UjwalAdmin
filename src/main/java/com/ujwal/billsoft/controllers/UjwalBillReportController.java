@@ -837,8 +837,8 @@ public class UjwalBillReportController {
 		
 		System.out.println(custId+" "+fromDate +"  "+toDate+" "+compId);
 
-		map.add("fromDate", fromDate);
-		map.add("toDate", toDate);
+		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+		map.add("toDate", DateConvertor.convertToYMD(toDate));
 		map.add("custId", custId);
 		map.add("compId", compId);
 		

@@ -614,8 +614,7 @@ public ModelAndView showBillList(HttpServletRequest request, HttpServletResponse
 		map.add("toDate", DateConvertor.convertToYMD(toDate));
 		map.add("compId", userResponse.getCompanyId());
 
-		List<GetBillHeader> billList = rest.postForObject(Constants.url + "getBillHeadersByDate", map,
-				List.class);
+		List<GetBillHeader> billList = rest.postForObject(Constants.url + "getBillHeadersByDate", map, List.class);
 		model.addObject("billList", billList);
 		model.addObject("fromDate", fromDate);
 		model.addObject("toDate", toDate);
@@ -734,11 +733,9 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 
 	String url = request.getParameter("url");
 	System.out.println("URL " + url);
-	// http://monginis.ap-south-1.elasticbeanstalk.com
-	// File f = new File("/report.pdf");
-	File f = new File("E:/AARYATech/bill.pdf");
-	// File f = new
-	// File("/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf");
+	
+	File f = new File("/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf");
+	
 
 	System.out.println("I am here " + f.toString());
 	try {
@@ -754,13 +751,8 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 	ServletContext context = request.getSession().getServletContext();
 	String appPath = context.getRealPath("");
 	String filename = "ordermemo221.pdf";
-	// String filePath = "/report.pdf";
-	String filePath = "E://AARYATech/bill.pdf";
-			//"/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf";
-	// String filePath =
-	// "/Users/MIRACLEINFOTAINMENT/ATS/uplaods/reports/ordermemo221.pdf";
-
-	// construct the complete absolute path of the file
+	String filePath = "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf";
+			
 	String fullPath = appPath + filePath;
 	File downloadFile = new File(filePath);
 	FileInputStream inputStream = null;

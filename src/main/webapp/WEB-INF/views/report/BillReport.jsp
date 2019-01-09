@@ -163,7 +163,9 @@
 								<div class="col-md-2">
 									<input type="button" class="btn btn-primary" style="background-color: #272c33;"
 										onclick="showReport()" value="Submit">
+										
 								</div>
+								
 							</div>
 
 

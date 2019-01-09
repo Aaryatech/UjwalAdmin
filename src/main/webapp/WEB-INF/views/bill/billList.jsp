@@ -260,7 +260,7 @@
 								<div class="row">
 								<div class="col-md-6"></div>
 									<div class="col-md-3">
-										<input type="button" class="btn btn-primary"  onclick="showBill()" value="Submit">
+										<input type="button" class="btn btn-primary"  onclick="showBill()" value="Submit" style="background-color: #272c33;">
 									<button class="buttonload" id="loader">
                                    <i class="fa fa-spinner fa-spin"></i>Loading
                                    </button>
@@ -309,9 +309,19 @@
 												<td style="text-align: center">${bill.custName}</td>
 												<td style="text-align: center">${bill.custPhone}</td>
 												<td style="text-align: center">${bill.custVehNo}</td>
-													<td style="text-align: center">${bill.grandTotal}</td>
-												<td style="text-align: center">;<a href="#" class="action_btn" onclick="callEdit(${bill.billHeaderId},${count.index})"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="singleBillPdf(${bill.billHeaderId})"><i class="fa fa-file-pdf-o"></i></a></td>
-
+												<td style="text-align: center">${bill.grandTotal}</td>
+												<%--<td style="text-align: center">
+												 <a href="#" class="action_btn" onclick="callEdit(${bill.billHeaderId},${count.index})"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="singleBillPdf(${bill.billHeaderId})"><i class="fa fa-file-pdf-o"></i></a></td> --%>
+												
+												
+												<td style="text-align: center">
+												<a	href="#" onclick="callEdit(${bill.billHeaderId},${count.index})"><i
+														class="fa fa-edit" title="Edit"></i> </a>	<span class="text-muted"></span>
+												 &nbsp;&nbsp; 
+												 <a	href="#" onclick="singleBillPdf(${bill.billHeaderId})"><i
+														class="fa fa-file-pdf-o" title="pdf"></i></a>
+												 														
+												</td>
 											</tr>
 										</c:forEach>
                                        </tbody>
@@ -606,11 +616,11 @@
 var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v.billHeaderId+' class="chk"  value='+v.billHeaderId+' >'
 //var ordQty = '<input  type="text"  class="form-control"  id="ordQty'+v.itemId+'" name="ordQty'+v.itemId+'" onchange="calTotal('+v.itemId+','+v.poRate+','+v.poDetailId+','+v.poRemainingQty+')"/>'
 //var itemTotal = '<input  type="text" readonly  class="form-control"  id="itemTotal'+v.itemId+'" name='+v.itemId+'/>'
-										 var acButton = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callEdit('
+										 var acButton = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callEdit('
 														+ v.billHeaderId
 														+ ','
 														+ i
-														+ ')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="singleBillPdf('
+														+ ')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#" class="action_btn" onclick="singleBillPdf('
 															+ v.billHeaderId+ ')"><i class="fa fa-file-pdf-o"></i></a>';
  
 												dataTable.row

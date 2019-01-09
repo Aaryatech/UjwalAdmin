@@ -121,14 +121,14 @@
 							<div class="row">
 								<div class="col-md-2">From Date</div>
 								<div class="col-md-4">
-									<input type="text" autocomplete="off" id="from_date" placeholder="From Date"
+									<input type="text" autocomplete="off" id="from_date" 
 										name="from_date" required style="width: 100%;"
 										class="form-control" value="${fromDate}"> <span
 										class="error" aria-live="polite"></span>
 								</div>
 								<div class="col-md-2">To Date</div>
 								<div class="col-md-4">
-									<input type="text" autocomplete="off" id="to_date" placeholder="To Date"
+									<input type="text" autocomplete="off" id="to_date" 
 										name="to_date" style="width: 100%;" class="form-control"
 										value="${toDate}"> <span class="error"
 										aria-live="polite"></span>

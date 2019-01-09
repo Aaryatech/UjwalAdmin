@@ -190,7 +190,6 @@
 										<div class="col-md-4">
 											<select name="sale_type" id="sale_type" class="standardSelect" style="width:99% !important;"  tabindex="6" 
 											 required>
-											<option value="">Select Sale Type</option>
 											<option value="Counter Sale">Counter Sale</option>
 											<option value="Workshop Sale">Workshop Sale</option>
 											<option value="Accessories">Accessories</option>
@@ -213,7 +212,7 @@
 										<div class="col-md-4">
 											<select name="payment_mode" id="payment_mode" class="standardSelect" style="width:99% !important;"  tabindex="6" 
 											 required>
-											<option value="">Payment Mode</option>
+											
 											<option value="Cash">Cash</option>
 											<option value="Credit">Credit</option>
 											<option value="NFT">NFT</option>
@@ -384,7 +383,7 @@
 								<div class="col-md-1">Qty</div>
 
 									<div class="col-md-2">
-										<input type="number" id="qty" name="qty"  value="1" min="0"  style="height:30px;"  onchange="cal()"
+										<input type="text" id="qty" name="qty"  value="1" min="0"  style="height:30px;"  onchange="cal()"
 											style="width: 30%;" class="form-control" autocomplete="off"/> 
 									</div>
 									<div class="col-md-1">Disc %</div>
@@ -425,7 +424,7 @@
 									</div>	
 									<div class="col-lg-2">
 									<input type="button" class="btn btn-primary" value="Add" id="AddButton"
-									style="width: 63px;" onclick="add()">
+									style="width: 63px; background-color: #272c33;" onclick="add()">
 
 								</div>
 									</div>
@@ -515,7 +514,7 @@
 								<div class="row"><div class="col-lg-3"></div><div class="col-lg-3"></div>	<div class="col-lg-3"></div>	<div class="col-lg-3">
 									<input type="submit" class="btn btn-primary" value="Submit"
 										id="submitButton"
-										style="align-content: center; width: 113px; margin-left: 40px;">
+										style="align-content: center; width: 113px; margin-left: 40px; background-color: #272c33;">
 
 								</div></div>
 						</div>
@@ -582,6 +581,61 @@
 <script
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.js"
 		type="text/javascript"></script>
+
+
+<script type="text/javascript">
+$(function () {
+	 var cust_id = $("#cust_id");
+	 var cust_model_no = $("#ref_no");
+	
+
+	 $("#submitButton").click(function () {
+		 if (cust_id.val() == "") {
+	          //If the "Please Select" option is selected display error.
+	          alert("Please select customer !");
+	          return false;
+	      }   
+		 else if (cust_model_no.val() == "") {
+          //If the "Please Select" option is selected display error.
+          alert("Please enter reference No. !");
+          return false;
+      }    
+      else{
+          return true;
+      }
+    });
+});
+
+</script>
+
+	<script>
+	$("#part_mrp").on("keypress keyup blur",function (event) {
+        //this.value = this.value.replace(/[^0-9\.]/g,'');
+ $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+	
+	$("#disc").on("keypress keyup blur",function (event) {
+        //this.value = this.value.replace(/[^0-9\.]/g,'');
+ $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+	
+	$("#qty").on("keypress keyup blur",function (event) {
+        //this.value = this.value.replace(/[^0-9\.]/g,'');
+ $(this).val($(this).val().replace(/[^0-9\.]/g,''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+	
+	</script>
+	`
+
 	<script
 		src="${pageContext.request.contextPath}/resources/init.js"
 		type="text/javascript" charset="utf-8"></script>
@@ -706,7 +760,7 @@
 		function getData() { 
 		
 			var custId = document.getElementById("cust_id").value;
-			alert(custId);
+			//alert(custId);
 			var valid = true;
 
 			if (custId == null || custId == "") {
@@ -722,7 +776,7 @@
 				},
 
 				function(data) {
-					alert(data.custVehNo+"- "+data.custVinNo+" -"+data.custGstn+" -"+data.custEmail+" -"+data.custPhone);
+				//	alert(data.custVehNo+"- "+data.custVinNo+" -"+data.custGstn+" -"+data.custEmail+" -"+data.custPhone);
 					//document.getElementById("cust_email").value=data.custEmail
 					document.getElementById("cust_phone").value=data.custPhone
 					document.getElementById("cust_gstn").value=data.custGstn
