@@ -170,10 +170,14 @@ public String deleteCustomer(@PathVariable("modelId") int modelId) {
 	
 	public @ResponseBody List<MModelBean>  getModelById(HttpServletRequest req, HttpServletResponse resp) {
 		
-		
-		int companyId = Integer.parseInt(req.getParameter("companyId"));
-		System.out.println("Company No="+companyId);
-		
+		int companyId = 0;
+		try {
+			
+			companyId = Integer.parseInt(req.getParameter("companyId"));
+		 	System.out.println("Company No="+companyId);
+		}catch(Exception e) {
+			companyId = 0;
+		}
 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 

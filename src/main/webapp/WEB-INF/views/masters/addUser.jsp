@@ -58,7 +58,7 @@
 }
 </style>
 </head>
-<body>
+<body onload="getCompId(${locationId})">
 
 
 	<!-- Left Panel -->
@@ -133,7 +133,7 @@
 									<div class="col-md-4">
 									
 										 <select name="compId" id="compId" class="standardSelect" tabindex="6" required 
-										 onchange="getCompId()" > 
+										 onchange="getCompId(0)" > 
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
 											<c:choose>
@@ -387,7 +387,7 @@
 		src="${pageContext.request.contextPath}/resources/assets/js/lib/chosen/chosen.jquery.min.js"></script>
 
 	<script type="text/javascript">
-			function getCompId() { 
+			function getCompId(locationId) { 
 		
 			var companyId = document.getElementById("compId").value;
 			var valid = true;
@@ -410,11 +410,15 @@
 					var html='<option value="">Select Location</option>';
 
 					for (var i = 0; i < len; i++) {
-
-						html += '<option value="' + data[i].locationId + '">'
+						if(locationId== data[i].locationId){
+						html += '<option value="' + data[i].locationId + '" selected>'
 								+data[i].location_name+ '</option>';
-
+						}else{
+							html += '<option value="' + data[i].locationId + '">'
+							+data[i].location_name+ '</option>';
+						}
 					}
+						
 					html += '</option>';
 					$('#locId').html(html);
 					$("#locId").trigger("chosen:updated");

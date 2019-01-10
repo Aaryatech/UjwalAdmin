@@ -218,11 +218,11 @@ html {
 								href="${pageContext.request.contextPath}/showCustomerReport">Customer Wise
 									Report</a></li>
 
-								<%-- <li class="active"><i class="fa fa-plus"></i><a
+						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/billTaxreport">Bill
-								Tax Report</a></li> --%>
+								Tax Report</a></li> 
 							
-								<li class="active"><i class="fa fa-plus"></i><a
+						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showBillwiseReport">Bill Wise Report</a></li>
 							
 

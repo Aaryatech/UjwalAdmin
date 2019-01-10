@@ -169,9 +169,13 @@ public String deleteRecordofLocation(HttpServletRequest request, HttpServletResp
 	@RequestMapping(value = "/getLocation", method = RequestMethod.GET)
 	public @ResponseBody List<MLocation> getLocation(HttpServletRequest req, HttpServletResponse resp){
 		
-		int companyId = Integer.parseInt(req.getParameter("companyId"));
-	
-		System.out.println("IDss="+companyId);
+		int companyId = 0;
+		try {
+			companyId = Integer.parseInt(req.getParameter("companyId"));
+			System.out.println("IDss="+companyId);
+		}catch(Exception e) {
+			 companyId = 0;
+		}
 		restTamplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 		map.add("companyId", companyId);

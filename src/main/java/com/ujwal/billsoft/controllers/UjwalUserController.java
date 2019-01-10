@@ -104,6 +104,7 @@ RestTemplate restTamplate = null;
 		map.add("id", id);
 		MUser usr= restTamplate.postForObject(Constants.url + "/ujwal/getUserById", map, MUser.class);	
 		mav.addObject("editLoc", usr);
+		mav.addObject("locationId", usr.getLocationId());
 	
 		
 		//List<MLocation> locList = restTamplate.getForObject(Constants.url + "/ujwal/getAllLocations", List.class);
