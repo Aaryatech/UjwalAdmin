@@ -185,11 +185,25 @@
 										</select>
 
 									</div>
-									
+									<c:set var = "saleType" scope="session" value="${sessionScope.conpanyId}"></c:set>
+ 					
+ 					
 										<div class="col-md-2">Sale Type*</div>
 										<div class="col-md-4">
 											<select name="sale_type" id="sale_type" class="standardSelect" style="width:99% !important;"  tabindex="6" 
 											 required>
+											 <c:choose>
+ 						<c:when test="${saleType==5 }">
+											<option value="Customer Paid">Customer Paid</option>
+											<option value="Goodwill">Goodwill</option>
+											<option value="Insurance">Insurance</option>
+											<option value="Warranty">Warranty</option>
+											<option value="Dealer FOC">Dealer FOC </option>
+											<option value="Recall">Recall</option>
+											<option value="Warranty Deposit">Warranty Deposit</option>
+											</c:when>
+							<c:otherwise>
+											
 											<option value="Counter Sale">Counter Sale</option>
 											<option value="Workshop Sale">Workshop Sale</option>
 											<option value="Accessories">Accessories</option>
@@ -200,8 +214,12 @@
 											<option value="RF Mechanical">RF Mechanical</option>
 											<option value="Running Repair">Running Repair</option>
 											
+								
+							</c:otherwise>
+							</c:choose>
 										</select> 
 									</div>
+									
 								</div>
 							
 								<div class="form-group"></div>
