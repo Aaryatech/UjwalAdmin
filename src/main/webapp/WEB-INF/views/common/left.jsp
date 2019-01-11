@@ -30,8 +30,8 @@ html {
 					aria-expanded="false" aria-label="Toggle navigation">
 					<i class="fa fa-bars"></i>
 				</button>
-				<a class="navbar-brand" href="./getLogin"> Ujjwal Admin</a> <a
-					class="navbar-brand hidden" href="./"> </a>
+				<a class="navbar-brand" href="#"> Ujjwal Admin</a> <a
+					class="navbar-brand hidden" href="#"> </a>
 			</div>
 
 			<div id="main-menu" class="main-menu collapse navbar-collapse">
