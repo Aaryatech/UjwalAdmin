@@ -159,7 +159,7 @@
         				     
 							<div class="row">
 							
-									<div class="col-md-2">Customer Name</div>
+									<div class="col-md-2">Customer Name*</div>
 									<div class="col-md-4">
 											<select id="cust_id" name="cust_id" style="width: 100%;" class="standardSelect" style="width:99% !important;" 
 										
@@ -193,7 +193,7 @@
 											<select name="sale_type" id="sale_type" class="standardSelect" style="width:99% !important;"  tabindex="6" 
 											 required>
 											 <c:choose>
- 						<c:when test="${saleType==5 }">
+ 						<c:when test="${saleType==11 }">
 											<option value="Customer Paid">Customer Paid</option>
 											<option value="Goodwill">Goodwill</option>
 											<option value="Insurance">Insurance</option>
@@ -379,7 +379,7 @@
 											onchange="getPartDetail(this.value)">
 											<option value="">Select Part</option>
 												<c:forEach items="${pList}" var="part">
-												<option value="${part.partId}">${part.partName}</option>
+												<option value="${part.partId}">${part.partName} - ${part.partNo}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -687,12 +687,12 @@ $(function () {
 					
 						if(partId==data[i].partId){
 						html += '<option value="' + data[i].partId + ' "selected>'
-								+data[i].partName+ '</option>';
+								+data[i].partName+' - -'+data[i].partNo+ '</option>';
 						}
 						else
 							{
 							html += '<option value="' + data[i].partId + '">'
-							+data[i].partName+ '</option>';
+							+data[i].partName+' - - '+data[i].partNo+ '</option>';
 							}
 					}
 					html += '</option>';
