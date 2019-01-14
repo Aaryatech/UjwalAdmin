@@ -55,7 +55,8 @@ public class UjwalBillController {
 	RestTemplate rest=new RestTemplate();
 	List<BillDetails> detailList = new ArrayList<BillDetails>();
 	BillHeader billHeader=new BillHeader();
-
+	List<MModelBean> modelList = new ArrayList<>();
+	
 	@RequestMapping(value="/showAddBill", method=RequestMethod.GET)
 	public ModelAndView addShowBillForm(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -79,7 +80,9 @@ public class UjwalBillController {
 		
 		map = new LinkedMultiValueMap<>();
 		map.add("companyId", userResponse.getCompanyId());
-		List<MModelBean> modelList = rest.postForObject(Constants.url+ "/ujwal/getModelByCompanyId",map, List.class);
+		MModelBean[] mModelBean = rest.postForObject(Constants.url+ "/ujwal/getModelByCompanyId",map, MModelBean[].class);
+		
+		modelList = new ArrayList<>(Arrays.asList(mModelBean));
 		mav.addObject("modelList", modelList);
 	/*	
 		List<MPart> partList = rest.getForObject(Constants.url + "/ujwal/getAllPartByCompanyId", List.class);
@@ -237,6 +240,28 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 	return model;
 }
 
+@RequestMapping(value = "/getTaxByModelId", method = RequestMethod.GET)
+public @ResponseBody String findModelId(HttpServletRequest request,HttpServletResponse response) {
+	String extraTax=null;
+	try {
+		int modelId=0;
+		modelId = Integer.parseInt(request.getParameter("modelId"));
+		 System.out.println("Value TAxxxxx="+modelId);
+		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
+		map.add("id", modelId);
+		MModelBean modb = rest.postForObject(Constants.url + "/ujwal/getModelById", map, MModelBean.class);
+	    extraTax=String.valueOf(modb.getExtraTax());
+	    System.out.println("Value TAx="+extraTax);
+	}catch(Exception e){
+		System.out.println(e);
+	}
+	
+	return extraTax;
+	
+}
+
+
+
 	@RequestMapping(value = "/addPartDetail", method = RequestMethod.GET)
 	public @ResponseBody List<BillDetails> addPartDetail(HttpServletRequest request,HttpServletResponse response) {
 	
@@ -244,6 +269,7 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 	try {
 			int modelId = 0;
 			int partId = 0;
+			float mrpBaseRate=0;
 		    partId = Integer.parseInt(request.getParameter("partId"));
 			int isEdit = Integer.parseInt(request.getParameter("isEdit"));
 			int index = Integer.parseInt(request.getParameter("index"));
@@ -252,15 +278,34 @@ public ModelAndView editBill(HttpServletRequest request, HttpServletResponse res
 			float partMrp = Float.parseFloat(request.getParameter("partMrp"));
 			float discPer =Float.parseFloat(request.getParameter("disc"));
 			modelId = Integer.parseInt(request.getParameter("modelId"));
+			 
+			int flag=0;
 			
+			for(int i = 0 ; i < modelList.size() ; i++) {
+				
+				if(modelId==modelList.get(i).getModelId()) {
+					
+					flag = modelList.get(i).getExtraTax();
+					System.out.println("Flag Data="+flag);
+					
+				}
+				
+			}
+			System.out.println("Flag Data="+flag);
 			System.out.println("partId: "+partId+" index: "+index+" qty: "+qty+" isEdit: "+isEdit+" partMrp: "+partMrp+" disc"+discPer+" remark");
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("id", partId);
 			MGetPart parttax = rest.postForObject(Constants.url + "GetPartInfo", map, MGetPart.class);
-		
-			float mrpBaseRate=(partMrp*100)/(100+parttax.getCgstPer()+parttax.getSgstPer());
-			
+			if(flag==1) {
+				 mrpBaseRate=partMrp;
+				 mrpBaseRate=roundUp(mrpBaseRate);
+					System.out.println("Base Rate without tax: "+mrpBaseRate);
+			}else {
+			mrpBaseRate=(partMrp*100)/(100+parttax.getCgstPer()+parttax.getSgstPer());
+			mrpBaseRate=roundUp(mrpBaseRate);
+			System.out.println("Base Rate with tax: "+mrpBaseRate);
+			}
 			mrpBaseRate=roundUp(mrpBaseRate);
 			System.out.println("Base Rate: "+mrpBaseRate);
 			
@@ -733,7 +778,7 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 
 	String url = request.getParameter("url");
 	System.out.println("URL " + url);
-	
+	//File f = new File("E:/AARYATech/bill.pdf");
 	File f = new File("/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf");
 	
 
@@ -751,6 +796,7 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 	ServletContext context = request.getSession().getServletContext();
 	String appPath = context.getRealPath("");
 	String filename = "ordermemo221.pdf";
+	//String filePath = "E://AARYATech/bill.pdf";
 	String filePath = "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf";
 			
 	String fullPath = appPath + filePath;

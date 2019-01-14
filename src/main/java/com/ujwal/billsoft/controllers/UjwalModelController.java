@@ -62,7 +62,8 @@ public class UjwalModelController {
 		String modelNo = req.getParameter("model_no");
 		String model_name = req.getParameter("model_name");
 		String productionDate = req.getParameter("production_date");
-		
+		int extraTax = Integer.parseInt(req.getParameter("extraTax"));
+		System.out.println("Extra Tax="+extraTax);
 		
 		MModelBean mod = new MModelBean();
 		mod.setModelId(modelId);
@@ -70,10 +71,11 @@ public class UjwalModelController {
 		mod.setModelNo(modelNo);
 		mod.setProductionDate(productionDate);
 		mod.setCompanyId(compId);
+		mod.setExtraTax(extraTax);
 		
-		map = new LinkedMultiValueMap<>();
-		map.add("mod", mod);
-		
+		/*map = new LinkedMultiValueMap<>();
+		map.add("mod", mod);*/
+		System.out.println(mod);
 		MModelBean modb = rest.postForObject(Constants.url + "/ujwal/insertNewModel", mod, MModelBean.class); 
 		
 		if(modb!=null) {
