@@ -12,7 +12,7 @@
 
 <c:url var="getCustById" value="/getCustById" />
 <c:url var="addPartDetail" value="/addPartDetail" />
-
+<c:url var="getTaxByModelId" value="/getTaxByModelId" />
 <c:url var="getPartListById" value="/getPartListById" />
 <c:url var="getItemForDelete" value="/getItemForDelete" />
 <c:url var="getUniqueCompanyCheck" value="/getUniqueCompanyCheck" />
@@ -359,7 +359,7 @@
 									<hr>
 							
 								<div class="form-group"></div>
-							
+								
 								<div class="row">
 							<div class="col-md-1">Model</div>
 
@@ -846,35 +846,51 @@ $(function () {
 		var sgstPer =parseFloat(document.getElementById("SGST").value);
 		var igstPer =parseFloat(document.getElementById("IGST").value);
 		var discPer =parseFloat(document.getElementById("disc").value);
-		var qty =parseFloat(document.getElementById("qty").value);
+		var qty = parseFloat(document.getElementById("qty").value);
+		var modelId = document.getElementById("model_id").value ;
 		
-		var mrpBaseRate=(mrp*100)/(100+sgstPer+cgstPer);
-		mrpBaseRate=(mrpBaseRate).toFixed(2);
-		
-		var taxableAmt =  mrpBaseRate * qty;	
-		
-		var discAmt = ((taxableAmt * discPer) / 100);		
-		document.getElementById("disc_amt").value =discAmt.toFixed(2);
-		
-		taxableAmt = taxableAmt - discAmt;	
+		$.getJSON('${getTaxByModelId}',
+				{
+					modelId : modelId, 
+					 ajax:'true',
+				},
+			 	function(data) {
+					//alert(data);
+					var mrpBaseRate = 0;
+					if(data==1){
+						 mrpBaseRate=mrp;
+					}else{
+					mrpBaseRate=(mrp*100)/(100+sgstPer+cgstPer);
+					mrpBaseRate=(mrpBaseRate).toFixed(2);
+					}
+					var taxableAmt =  mrpBaseRate * qty;	
+					
+					var discAmt = ((taxableAmt * discPer) / 100);		
+					document.getElementById("disc_amt").value =discAmt.toFixed(2);
+					
+					taxableAmt = taxableAmt - discAmt;	
 
-		var sgstRs = parseFloat((taxableAmt * sgstPer) / 100);	
+					var sgstRs = parseFloat((taxableAmt * sgstPer) / 100);	
+					
+					
+					var cgstRs = parseFloat((taxableAmt * cgstPer) / 100);	
+					
+					
+					var igstRs = parseFloat((taxableAmt * igstPer) / 100);		
+					
+					
+					var totalTax = sgstRs + cgstRs;
+					
+					var grandTotal = parseFloat(totalTax + taxableAmt);		
+					grandTotal=(grandTotal).toFixed(2);
+					
+					document.getElementById("tax_amt").value = totalTax.toFixed(2);
+					
+					document.getElementById("taxable_amt").value = taxableAmt.toFixed(2);
+				 
+			 		 
+					});
 		
-		
-		var cgstRs = parseFloat((taxableAmt * cgstPer) / 100);	
-		
-		
-		var igstRs = parseFloat((taxableAmt * igstPer) / 100);		
-		
-		
-		var totalTax = sgstRs + cgstRs;
-		
-		var grandTotal = parseFloat(totalTax + taxableAmt);		
-		grandTotal=(grandTotal).toFixed(2);
-		
-		document.getElementById("tax_amt").value = totalTax.toFixed(2);
-		
-		document.getElementById("taxable_amt").value = taxableAmt.toFixed(2);
 	
 	}
 	</script>

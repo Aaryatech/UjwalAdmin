@@ -195,6 +195,17 @@ function validate(){
 									</div>
 
 								<div class="form-group"></div>
+								<div class="row">
+									<div class="col-md-2">Extra Tax*</div>
+									<div class="col-md-4">
+										 <select name="extraTax" id="extraTax" class="standardSelect" tabindex="6" required  > 
+											<option value="">Tax Excluded</option>
+											<option value="0">No</option>
+											<option value="1">Yes</option>
+										</select>
+										
+									</div>
+									</div>
 
 								<div class="form-group"></div>
 								<div class="col-lg-4"></div>

@@ -1,5 +1,4 @@
-<%@page
-contentType="text/html; charset=ISO8859_1"%>
+<%@page contentType="text/html; charset=ISO8859_1"%>
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
  <jsp:useBean id="currency" scope="session"
              class="com.ujwal.billsoft.commons.Currency"/>
@@ -20,8 +19,15 @@ contentType="text/html; charset=ISO8859_1"%>
   <tr>
     <td colspan="6" rowspan="2" width="50%" style="border-bottom:1px solid #313131; padding:10px;color:#FFF; font-size:15px;">
      <p style="color:black; font-size:20px; text-align:left; margin:0px;font-weight: bold;">${billHeaderRes.compName}</p>
- <p style="color:#000; font-size:11px; text-align:left;margin:0px;"> Plot No.G-4*4.5 - Trimbak Rd, MIDC Area,Satpur-422007  <br></br> Nashik, Maharashtra 422007 <br></br>GSTIN/UIN :  27ABUFS9787K1ZR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra ,Code: 27  <br></br> Phone : 0253 238 4883 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Email : ujjwal@gmail.com</p>
-
+ <c:set var = "saleType" scope="session" value="${sessionScope.conpanyId}"></c:set>
+ 					 <c:choose>
+ 						<c:when test="${billHeaderRes.companyId==11 }">
+ <p style="color:#000; font-size:11px; text-align:left;margin:0px;"> Trambakeshwar Rd, MIDC, Satpur Colony,<br></br> Nashik, Maharashtra 422007 <br></br>GSTIN/UIN :  27AAAFU5959J1ZN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra ,Code: 27  <br></br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Email : ujjwalnashik@gmail.com</p>
+</c:when>
+<c:otherwise>
+	<p style="color:#000; font-size:11px; text-align:left;margin:0px;">Ujjwal Auto Wheels Pvt.Ltd<br><br/>B-89, MIDC Ambad</br><br/> Nashik, Maharashtra 422010 <br></br>GSTIN/UIN :  27AAACU8358G1Z1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra ,Code: 27  <br></br> Phone : 0253 250826 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Email : ujjwalhyundai@yahoo.com</p>
+</c:otherwise>
+</c:choose>	
 </td>
 
     <td width="25%" colspan="3" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:10px;color:#000; font-size:15px; text-align:center">
@@ -284,9 +290,22 @@ Declaration: We declare that this invoice shows actual price of goods described 
      <p style="color:#000; font-size:12px; text-align:center;margin:0px;">Customer's Seal & Signature<br /></p>
 </td>
     <td  align="center" colspan="4" width="40%" style="border-bottom:1px solid #313131;border-top:1px solid #313131;border-left:1px solid #313131; padding:10px;color:#000;font-size:12px;">
-  <b>  for Hyundai Sales & Service - Ujjwal</b><br /><br /><br />
+ 
+ 					  <c:choose>
+ 						<c:when test="${billHeaderRes.companyId==11 }">
+ 
+  <b>  for Ujjwal Force Motors Sales & Service - Ujjwal</b><br /><br /><br />
     
-    Authorised Signature</td>
+    Authorised Signature
+    </c:when>
+    <c:otherwise>
+     <b>  for Ujjwal Auto Wheels Pvt.Ltd</b><br /><br /><br />
+    
+    Authorised Signature
+ 
+    </c:otherwise>
+    </c:choose>
+    </td>
   </tr>
   
 </table>
