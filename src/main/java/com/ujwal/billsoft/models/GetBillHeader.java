@@ -45,6 +45,11 @@ public class GetBillHeader implements Serializable{
 	private float exFloat1;
 	private float exFloat2;
 	private String saleType; 
+	private String logo;
+	private String email;
+	private String phoneNo;
+	private String gstid;
+	private String address;
 	
 	List<GetBillDetail> getBillDetail;
 	
@@ -297,6 +302,37 @@ public class GetBillHeader implements Serializable{
 	public void setSaleType(String saleType) {
 		this.saleType = saleType;
 	}
+	
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+	public String getGstid() {
+		return gstid;
+	}
+	public void setGstid(String gstid) {
+		this.gstid = gstid;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	@Override
 	public String toString() {
 		return "GetBillHeader [billHeaderId=" + billHeaderId + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate
@@ -310,7 +346,8 @@ public class GetBillHeader implements Serializable{
 				+ roundOff + ", totaTax=" + totaTax + ", grandTotal=" + grandTotal + ", status=" + status + ", remark="
 				+ remark + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1="
 				+ exVar1 + ", exVar2=" + exVar2 + ", exFloat1=" + exFloat1 + ", exFloat2=" + exFloat2 + ", saleType="
-				+ saleType + ", getBillDetail=" + getBillDetail + "]";
+				+ saleType + ", logo=" + logo + ", email=" + email + ", phoneNo=" + phoneNo + ", gstid=" + gstid
+				+ ", address=" + address + ", getBillDetail=" + getBillDetail + "]";
 	}
 	
     

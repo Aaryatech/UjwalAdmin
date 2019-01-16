@@ -742,6 +742,7 @@ public ModelAndView showBillsPdf(@PathVariable("billHeadId") String[] billTempId
 			strBillTempIds = strBillTempIds + "," + billTempIds[i];
 		}
 		strBillTempIds = strBillTempIds.substring(1);
+		
 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("billTempIds", strBillTempIds);
@@ -750,10 +751,11 @@ public ModelAndView showBillsPdf(@PathVariable("billHeadId") String[] billTempId
 		ArrayList<GetBillHeader> billHeaders = new ArrayList<GetBillHeader>(Arrays.asList(billHeaderRes));
 
 		System.err.println(billHeaders.toString());
-
+	
 		HttpSession httpSession = request.getSession();
 		httpSession.setAttribute("Currency", new Currency());
 		model.addObject("billHeaderList", billHeaders);
+		model.addObject("imgUrl", Constants.SHOW_IMG);
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
@@ -778,6 +780,7 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 
 	String url = request.getParameter("url");
 	System.out.println("URL " + url);
+	
 	//File f = new File("E:/AARYATech/bill.pdf");
 	File f = new File("/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf");
 	

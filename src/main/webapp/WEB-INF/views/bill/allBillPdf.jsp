@@ -18,16 +18,11 @@
 <table width="100%" border="0"  cellpadding="0" cellspacing="0" style="border-left:1px solid #313131;border-right:1px solid #313131;border-top:1px solid #313131;">
   <tr>
     <td colspan="6" rowspan="2" width="50%" style="border-bottom:1px solid #313131; padding:10px;color:#FFF; font-size:15px;">
+   <p><img src="file:///${imgUrl}${billHeaderRes.logo}" alt="Smiley face" style="height:130px; width:250px;"></img>
+</p> 
      <p style="color:black; font-size:20px; text-align:left; margin:0px;font-weight: bold;">${billHeaderRes.compName}</p>
- <c:set var = "saleType" scope="session" value="${sessionScope.conpanyId}"></c:set>
- 					 <c:choose>
- 						<c:when test="${billHeaderRes.companyId==11 }">
- <p style="color:#000; font-size:11px; text-align:left;margin:0px;"> Trambakeshwar Rd, MIDC, Satpur Colony,<br></br> Nashik, Maharashtra 422007 <br></br>GSTIN/UIN :  27AAAFU5959J1ZN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra ,Code: 27  <br></br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Email : ujjwalnashik@gmail.com</p>
-</c:when>
-<c:otherwise>
-	<p style="color:#000; font-size:11px; text-align:left;margin:0px;">Ujjwal Auto Wheels Pvt.Ltd<br><br/>B-89, MIDC Ambad</br><br/> Nashik, Maharashtra 422010 <br></br>GSTIN/UIN :  27AAACU8358G1Z1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra ,Code: 27  <br></br> Phone : 0253 250826 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Email : ujjwalhyundai@yahoo.com</p>
-</c:otherwise>
-</c:choose>	
+ <%-- <p style="color:#000; font-size:11px; text-align:left;margin:0px;">${billHeaderRes.address} ,<br></br> Nashik, Maharashtra 422007 <br></br>GSTIN/UIN :  ${billHeaderRes.gstid} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra, Code: 27  <br></br>Phone :  ${billHeaderRes.phoneNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right;">Email : ${billHeaderRes.email}</span></p>
+ --%>
 </td>
 
     <td width="25%" colspan="3" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:10px;color:#000; font-size:15px; text-align:center">
@@ -42,8 +37,11 @@
     
   </tr>
  <tr>
-     <td width="25%" colspan="3" style="border-left:1px solid #313131;border-bottom:1px solid #313131;  padding:10px;color:#000; font-size:15px; text-align:center">
-    	<p style="color:#000; font-size:11px; text-align:left;margin:0px;">Delivery Note</p> 
+     <td width="30%" colspan="3" style="border-left:1px solid #313131;border-bottom:1px solid #313131;  padding:30px;color:#000; font-size:15px; text-align:center">
+    	<p style="color:#000; font-size:15px; text-align:left; margin:0px;">Customer :  <b>${billHeaderRes.custName}</b></p> 
+       <p style="color:#000; font-size:12px; text-align:left; margin:0px;"> GSTIN/UIN : ${billHeaderRes.custGstn}</p>
+        <p style="color:#000; font-size:12px; text-align:left; margin:0px;">State :  Maharashtra, Code: 27</p>
+            <p style="color:#000; font-size:12px; text-align:left; margin:0px;">Contact : ${billHeaderRes.custPhone}</p> 
   
  </td>
     <td colspan="3" width="25%" style="border-left:1px solid #313131;border-bottom:1px solid #313131;  padding:10px;color:#FFF; font-size:15px;">
@@ -54,12 +52,8 @@
     </tr>
   <tr>
     <td width="50%"  rowspan="4" colspan="6" style="padding:8px;color:#FFF; font-size:14px;">
-        <p style="color:#000; font-size:15px; text-align:;left;margin:0px;"><b>Customer :  </b>&nbsp;&nbsp;&nbsp;<!-- </p>
-       <p style="color:#000; font-size:13px; text-align:left;margin:0px;"> -->${billHeaderRes.custName}</p>
-       <p style="color:#000; font-size:12px; text-align:left;margin:0px;"> GSTIN/UIN : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${billHeaderRes.custGstn}</p>
-        <p style="color:#000; font-size:12px; text-align:left;margin:0px;">State : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Maharashtra ,Code: 27</p>
-            <p style="color:#000; font-size:12px; text-align:left;margin:0px;">Contact :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${billHeaderRes.custPhone}</p>
-    
+        <p style="color:#000; font-size:11px; text-align:left;margin:0px;">${billHeaderRes.address} ,<br></br> Nashik, Maharashtra 422007 <br></br>GSTIN/UIN :  ${billHeaderRes.gstid} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra, Code: 27  <br></br>Phone :  ${billHeaderRes.phoneNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email : ${billHeaderRes.email}</p>
+
     </td>
 
     
@@ -290,21 +284,10 @@ Declaration: We declare that this invoice shows actual price of goods described 
      <p style="color:#000; font-size:12px; text-align:center;margin:0px;">Customer's Seal & Signature<br /></p>
 </td>
     <td  align="center" colspan="4" width="40%" style="border-bottom:1px solid #313131;border-top:1px solid #313131;border-left:1px solid #313131; padding:10px;color:#000;font-size:12px;">
- 
- 					  <c:choose>
- 						<c:when test="${billHeaderRes.companyId==11 }">
- 
-  <b>  for Ujjwal Force Motors Sales & Service - Ujjwal</b><br /><br /><br />
+  <b>  for ${billHeaderRes.compName}</b><br /><br /><br />
     
     Authorised Signature
-    </c:when>
-    <c:otherwise>
-     <b>  for Ujjwal Auto Wheels Pvt.Ltd</b><br /><br /><br />
     
-    Authorised Signature
- 
-    </c:otherwise>
-    </c:choose>
     </td>
   </tr>
   
