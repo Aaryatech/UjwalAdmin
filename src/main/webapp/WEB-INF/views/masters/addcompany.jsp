@@ -204,9 +204,7 @@ function validate(){
 									<input type="text" id="mob_no" name="mob_no"
 											style="width: 100%;" class="form-control"
 											value="${editComp.phoneNo}" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter correct mob no')"
-											pattern="^[1-9]{1}[0-9]{9}$" 
-											onchange="try{setCustomValidity('')}catch(e){}" required />
+											required />
 										<span class="error" aria-live="polite"></span>
 
 									</div>

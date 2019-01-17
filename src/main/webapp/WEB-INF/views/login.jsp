@@ -44,12 +44,12 @@
 
 
 
-	<div align="right" style="margin-right: 15px;">
+<!-- 	<div align="right" style="margin-right: 15px;">
 
 		<a href="?lang=en" style="color: #fff;"> English | </a> <a
 			href="?lang=mr" style="color: #fff;"> मराठी</a>
 
-	</div>
+	</div> -->
 
 
 

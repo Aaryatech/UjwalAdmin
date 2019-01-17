@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class VpsImageUpload {
 
-	public static final String COMPANY_FOLDER = "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/comp/";
+	public static final String COMPANY_FOLDER = "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/";
 	
 
 	private static String curTimeStamp = null;

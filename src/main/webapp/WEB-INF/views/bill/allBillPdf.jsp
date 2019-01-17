@@ -18,7 +18,7 @@
 <table width="100%" border="0"  cellpadding="0" cellspacing="0" style="border-left:1px solid #313131;border-right:1px solid #313131;border-top:1px solid #313131;">
   <tr>
     <td colspan="6" rowspan="2" width="50%" style="border-bottom:1px solid #313131; padding:10px;color:#FFF; font-size:15px;">
-   <p><img src="file:///${imgUrl}${billHeaderRes.logo}" alt="Smiley face" style="height:130px; width:250px;"></img>
+   <p><img src="${imgUrl}${billHeaderRes.logo}" alt="COMPANY" style="height:130px; width:250px;"></img>
 </p> 
      <p style="color:black; font-size:20px; text-align:left; margin:0px;font-weight: bold;">${billHeaderRes.compName}</p>
  <%-- <p style="color:#000; font-size:11px; text-align:left;margin:0px;">${billHeaderRes.address} ,<br></br> Nashik, Maharashtra 422007 <br></br>GSTIN/UIN :  ${billHeaderRes.gstid} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra, Code: 27  <br></br>Phone :  ${billHeaderRes.phoneNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right;">Email : ${billHeaderRes.email}</span></p>
