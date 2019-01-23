@@ -1,3 +1,4 @@
+
 package com.ujwal.billsoft.controllers;
 
 import java.awt.Dimension;
@@ -278,6 +279,8 @@ public @ResponseBody String findModelId(HttpServletRequest request,HttpServletRe
 			float partMrp = Float.parseFloat(request.getParameter("partMrp"));
 			float discPer =Float.parseFloat(request.getParameter("disc"));
 			modelId = Integer.parseInt(request.getParameter("modelId"));
+			String saleType = request.getParameter("sale_type");
+			System.out.println("Sale Type="+saleType); 
 			 
 			int flag=0;
 			
@@ -292,7 +295,7 @@ public @ResponseBody String findModelId(HttpServletRequest request,HttpServletRe
 				
 			}
 			System.out.println("Flag Data="+flag);
-			System.out.println("partId: "+partId+" index: "+index+" qty: "+qty+" isEdit: "+isEdit+" partMrp: "+partMrp+" disc"+discPer+" remark");
+			System.out.println("tempList = partId: "+partId+" index: "+index+" qty: "+qty+" isEdit: "+isEdit+" partMrp: "+partMrp+" disc"+discPer+" saleType"+saleType);
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("id", partId);
@@ -423,6 +426,7 @@ public @ResponseBody String findModelId(HttpServletRequest request,HttpServletRe
 			bill.setGrandTotal(grandTotal);
 			bill.setEx_int1(modelId);
 			bill.setDelStatus(0);
+			bill.setEx_var2(saleType);
 			
 			detailList.add(bill);
 			}
@@ -658,6 +662,8 @@ public ModelAndView showBillList(HttpServletRequest request, HttpServletResponse
 		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 		map.add("toDate", DateConvertor.convertToYMD(toDate));
 		map.add("compId", userResponse.getCompanyId());
+		map.add("locId", userResponse.getLocationId());
+		System.out.println("LOCID=="+userResponse.getLocationId());
 
 		List<GetBillHeader> billList = rest.postForObject(Constants.url + "getBillHeadersByDate", map, List.class);
 		model.addObject("billList", billList);
@@ -691,7 +697,7 @@ public @ResponseBody List<GetBillHeader> getBillListBetDate(HttpServletRequest r
 	map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 	map.add("toDate", DateConvertor.convertToYMD(toDate));
 	map.add("compId", userResponse.getCompanyId());
-
+	map.add("locId", userResponse.getLocationId());	
 	GetBillHeader[] ordHeadArray = rest.postForObject(Constants.url + "getBillHeadersByDate", map,
 			GetBillHeader[].class);
 	List<GetBillHeader> getBillList = new ArrayList<GetBillHeader>(Arrays.asList(ordHeadArray));

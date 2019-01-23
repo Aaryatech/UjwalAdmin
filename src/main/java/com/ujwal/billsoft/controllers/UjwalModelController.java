@@ -123,6 +123,7 @@ public class UjwalModelController {
 public String deleteCustomer(@PathVariable("modelId") int modelId) {
 	
 	try {
+		System.out.println("ModId:"+modelId);
 	rest = new RestTemplate();
 	MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
 	map.add("modelId", modelId);
@@ -143,7 +144,7 @@ public String deleteCustomer(@PathVariable("modelId") int modelId) {
 		try {
 			RestTemplate rest = new RestTemplate();
 			String[] modelIds = request.getParameterValues("modelIds");
-
+				
 			StringBuilder sb = new StringBuilder();
 
 			for (int i = 0; i < modelIds.length; i++) {

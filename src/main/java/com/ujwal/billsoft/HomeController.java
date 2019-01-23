@@ -130,6 +130,7 @@ public class HomeController {
 							
 							session.setAttribute("conpanyId",mComp.getCompId());
 							session.setAttribute("companyName", mComp.getCompName());
+							session.setAttribute("locationId", mLoc.getLocationId());
 							session.setAttribute("locationName", mLoc.getLocation_name());
 									
 							return mav;

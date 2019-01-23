@@ -189,7 +189,7 @@
 										<input type="text" id="part_name" name="part_name"
 											oninvalid="setCustomValidity('Please enter correct part name')"
 											onchange="try{setCustomValidity('')}catch(e){}"
-											pattern="^[A-Za-z\s]+$" value="${partList.partName}"
+											value="${partList.partName}"
 											style="width: 100%;" autocomplete="off" class="form-control"
 											required>
 

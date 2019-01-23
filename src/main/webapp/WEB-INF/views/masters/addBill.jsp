@@ -185,7 +185,7 @@
 										</select>
 
 									</div>
-									<c:set var = "saleType" scope="session" value="${sessionScope.conpanyId}"></c:set>
+									<%-- <c:set var = "saleType" scope="session" value="${sessionScope.conpanyId}"></c:set>
  					
  					
 										<div class="col-md-2">Sale Type*</div>
@@ -218,7 +218,7 @@
 							</c:otherwise>
 							</c:choose>
 										</select> 
-									</div>
+									</div> --%>
 									
 								</div>
 							
@@ -440,11 +440,50 @@
 											style="width:50%;" class="form-control" autocomplete="off"/> 
 								
 									</div>	
+									
+									<c:set var = "saleType" scope="session" value="${sessionScope.conpanyId}"></c:set>
+ 					
+ 					
+										<div class="col-md-2">Sale Type*</div>
+										<div class="col-md-4">
+											<select name="sale_type" id="sale_type" class="standardSelect" style="width:99% !important; margin-left: -10%;"  tabindex="6" 
+											 required>
+											 <c:choose>
+ 						<c:when test="${saleType==11 }">
+											<option value="Customer Paid">Customer Paid</option>
+											<option value="Goodwill">Goodwill</option>
+											<option value="Insurance">Insurance</option>
+											<option value="Warranty">Warranty</option>
+											<option value="Dealer FOC">Dealer FOC </option>
+											<option value="Recall">Recall</option>
+											<option value="Warranty Deposit">Warranty Deposit</option>
+											</c:when>
+							<c:otherwise>
+											
+											<option value="Counter Sale">Counter Sale</option>
+											<option value="Workshop Sale">Workshop Sale</option>
+											<option value="Accessories">Accessories</option>
+											<option value="Free Service">Free Service</option>
+											<option value="PDI">PDI </option>
+											<option value="Paid Service">Paid Service</option>
+											<option value="RF Accidental">RF Accidental</option>
+											<option value="RF Mechanical">RF Mechanical</option>
+											<option value="Running Repair">Running Repair</option>
+											
+								
+							</c:otherwise>
+							</c:choose>
+										</select> 
+									</div>
+									
 									<div class="col-lg-2">
 									<input type="button" class="btn btn-primary" value="Add" id="AddButton"
 									style="width: 63px; background-color: #272c33;" onclick="add()">
 
 								</div>
+								
+								
+								
 									</div>
 								
 						
@@ -904,7 +943,8 @@ function add(){
 	var partMrp =parseFloat(document.getElementById("part_mrp").value);
 	var disc =parseFloat(document.getElementById("disc").value);
 	var modelId =parseInt(document.getElementById("model_id").value);
-	 
+	var sale_type =document.getElementById("sale_type").value; 
+	
 	$.getJSON('${addPartDetail}',
 					{
 						 isEdit:isEdit,
@@ -914,6 +954,7 @@ function add(){
 						 partMrp:partMrp,
 						 disc:disc,
 						 modelId:modelId,
+						 sale_type:sale_type,
 						 ajax:'true',
 					},
 				 	function(data) {

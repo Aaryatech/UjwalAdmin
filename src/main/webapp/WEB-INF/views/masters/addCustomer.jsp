@@ -181,7 +181,7 @@ div.scrollmenu {
 										<input type="text" id="cust_name" name="cust_name"
 											oninvalid="setCustomValidity('Please enter correct customer name')"
 											onchange="try{setCustomValidity('')}catch(e){}"
-											pattern="^[A-Za-z\s]+$" value="${cust.custName}"
+											 value="${cust.custName}"
 											style="width: 100%;" autocomplete="off" class="form-control"
 											required>
 									<span id="cName"></span>
@@ -191,14 +191,12 @@ div.scrollmenu {
 
 
 									
-									<div class="col-md-2">Mobile No*</div>
+									<div class="col-md-2">Mobile No</div>
 									<div class="col-md-4">
 										<input type="text" id="cust_phone" name="cust_phone"
 											style="width: 100%;" class="form-control"
 											value="${cust.custPhone}" autocomplete="off"
-											oninvalid="setCustomValidity('Please enter correct mob no')"
-											pattern="^[1-9]{1}[0-9]{9}$" maxlength="10"
-											onchange="try{setCustomValidity('')}catch(e){}" required />
+										 />
 										<span class="error" aria-live="polite"></span>
 
 									</div>
@@ -239,7 +237,7 @@ div.scrollmenu {
 										<input type="text" id="cust_state" name="cust_state"  class="form-control"
 											oninvalid="setCustomValidity('Please enter correct customer state')"
 											onchange="try{setCustomValidity('')}catch(e){}"
-											pattern="^[A-Za-z\s]+$" value="${custState}"
+											 value="${custState}"
 											style="width: 100%;" autocomplete="off"
 											>
 

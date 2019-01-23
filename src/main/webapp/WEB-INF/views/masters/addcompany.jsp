@@ -146,8 +146,8 @@ function validate(){
 									<div class="col-md-4">
 											<input type="text" id="comp_name" name="comp_name"
 											oninvalid="setCustomValidity('Please enter correct company name')"
-											onchange="try{setCustomValidity('')}catch(e){}" maxlength="50"
-											pattern="^[A-Za-z\s]+$" value="${editComp.compName}" 
+											onchange="try{setCustomValidity('')}catch(e){}" maxlength="100"
+											value="${editComp.compName}" 
 											style="width: 100%;" autocomplete="off" class="form-control"
 											required>
 												<span id="cName"></span>
@@ -160,7 +160,7 @@ function validate(){
 									<textarea id="comp_add" name="comp_add" class="form-control"
 											style="width: 100%;" autocomplete="off" 
 											oninvalid="setCustomValidity('Please enter Company address')"
-											maxlength="200"	onchange="try{setCustomValidity('')}catch(e){}" 
+											maxlength="250"	onchange="try{setCustomValidity('')}catch(e){}" 
 											required>${editComp.address}</textarea>
 									</div>
 								</div>

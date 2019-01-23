@@ -18,9 +18,19 @@
 <table width="100%" border="0"  cellpadding="0" cellspacing="0" style="border-left:1px solid #313131;border-right:1px solid #313131;border-top:1px solid #313131;">
   <tr>
     <td colspan="6" rowspan="2" width="50%" style="border-bottom:1px solid #313131; padding:10px;color:#FFF; font-size:15px;">
-   <p><img src="${imgUrl}${billHeaderRes.logo}" alt="COMPANY" style="height:130px; width:250px;"></img>
+   <p><img src="${imgUrl}${billHeaderRes.logo}" alt="COMPANY" style="height:40px; width:72px; margin-bottom: -25px;"></img>
 </p> 
-     <p style="color:black; font-size:20px; text-align:left; margin:0px;font-weight: bold;">${billHeaderRes.compName}</p>
+ <c:choose>
+ 	<c:when test="${billHeaderRes.companyId==11 }">
+ 	 <p style="color:black; font-size:20px; text-align:left; margin:0px;font-weight: bold;"> Ujjwal Agencies</p>
+		<p style="color:black; font-size:12px; text-align:left; margin:0px;font-weight: bold;">Authorised Dealer Of Force Motors</p>
+ 	</c:when>
+ 	<c:otherwise>
+ 		 <p style="color:black; font-size:20px; text-align:left; margin:0px;font-weight: bold;">${billHeaderRes.compName}</p>
+ 	 </c:otherwise>
+ </c:choose>
+ 					
+    
  <%-- <p style="color:#000; font-size:11px; text-align:left;margin:0px;">${billHeaderRes.address} ,<br></br> Nashik, Maharashtra 422007 <br></br>GSTIN/UIN :  ${billHeaderRes.gstid} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State : Maharashtra, Code: 27  <br></br>Phone :  ${billHeaderRes.phoneNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="float:right;">Email : ${billHeaderRes.email}</span></p>
  --%>
 </td>
@@ -37,18 +47,18 @@
     
   </tr>
  <tr>
-     <td width="30%" colspan="3" style="border-left:1px solid #313131;border-bottom:1px solid #313131;  padding:30px;color:#000; font-size:15px; text-align:center">
-    	<p style="color:#000; font-size:15px; text-align:left; margin:0px;">Customer :  <b>${billHeaderRes.custName}</b></p> 
+     <td width="30%" colspan="3" style="border-left:1px solid #313131;border-bottom:1px solid #313131;  padding:10px;color:#000; font-size:15px; text-align:center">
+    <p style="color:#000; font-size:15px; text-align:left; margin:0px;">Customer :  <b>${billHeaderRes.custName}</b></p> 
        <p style="color:#000; font-size:12px; text-align:left; margin:0px;"> GSTIN/UIN : ${billHeaderRes.custGstn}</p>
         <p style="color:#000; font-size:12px; text-align:left; margin:0px;">State :  Maharashtra, Code: 27</p>
             <p style="color:#000; font-size:12px; text-align:left; margin:0px;">Contact : ${billHeaderRes.custPhone}</p> 
   
  </td>
-    <td colspan="3" width="25%" style="border-left:1px solid #313131;border-bottom:1px solid #313131;  padding:10px;color:#FFF; font-size:15px;">
+    <%-- <td colspan="3" width="25%" style="border-left:1px solid #313131;border-bottom:1px solid #313131;  padding:10px;color:#FFF; font-size:15px;">
    <p style="color:#000; font-size:11px; text-align:left;margin:0px;"> </p> <br>
       	<p style="color:#000; font-size:11px; text-align:left;margin:0px;">Sale Type : <b>${billHeaderRes.saleType }</b></p> 
  		<p style="color:#000; font-size:11px; text-align:left;margin:0px;"></p>
-    </td>
+    </td> --%>
     </tr>
   <tr>
     <td width="50%"  rowspan="4" colspan="6" style="padding:8px;color:#FFF; font-size:14px;">
@@ -57,12 +67,12 @@
     </td>
 
     
-    <td width="25%" colspan="3" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:10px;color:#000; font-size:15px; text-align:center">
+    <td width="25%" colspan="3" style="border-left:1px solid #313131;border-bottom:1px solid #313131;  padding:10px;color:#000; font-size:15px; text-align:center">
     	<p style="color:#000; font-size:11px; text-align:left;margin:0px;">Vehicle No. : <b>${billHeaderRes.custVehNo}</b></p> 
       	<p style="color:#000; font-size:11px; text-align:left;margin:0px;"></p> 
  
  </td>
-    <td colspan="3" width="25%" style="border-left:1px solid #313131; border-bottom:1px solid #313131; padding:10px;color:#FFF; font-size:15px;">
+    <td colspan="3" width="25%" style="border-left:1px solid #313131; border-top: 1px solid #313131; border-bottom:1px solid #313131; padding:10px;color:#FFF; font-size:15px;">
    <p style="color:#000; font-size:11px; text-align:left;margin:0px;">Payment : <b>${billHeaderRes.exVar1 } </b></p> 
       	<p style="color:#000; font-size:11px; text-align:left;margin:0px;"> </p> 
     </td>
@@ -122,7 +132,7 @@
    <c:forEach items="${billHeaderRes.getBillDetail}" var="billDetails" varStatus="count">
      <tr>
     <td  style="border-left:1px solid #313131; padding:3px 5px;color:#000; font-size:10px;">${count.index+1}</td>
-    <td style="border-left:1px solid #313131;  padding:3px 5px;color:#000; font-size:10px;">${billDetails.partName}</td>
+    <td style="border-left:1px solid #313131;  padding:3px 5px;color:#000; font-size:10px;">${billDetails.partName} - ${billDetails.exVar2}</td>
     <td align="left" style="border-left:1px solid #313131;  padding:3px 5px;color:#000; font-size:10px;">${billDetails.hsnCode}</td>
         <td align="left" style="border-left:1px solid #313131;  padding:3px 5px;color:#000; font-size:10px;">${billDetails.uomName}</td>
    
