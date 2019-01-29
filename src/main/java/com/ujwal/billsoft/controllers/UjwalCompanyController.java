@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -28,6 +29,8 @@ import com.ujwal.billsoft.models.Info;
 import com.ujwal.billsoft.models.MCompany;
 
 @Controller
+@Scope("session")
+
 public class UjwalCompanyController {
 
 	RestTemplate restTamplate = null;

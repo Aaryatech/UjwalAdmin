@@ -18,6 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ujwal.billsoft.commons.ExportToExcel;
 
 @Controller
+@Scope("session")
+
 public class ExportExcelController {
 
 	/*

@@ -492,7 +492,7 @@
 							
 
 								<table id="billTable"
-									class="table table-striped table-bordered" >
+									class="table table-striped table-bordered" data-page-length='-1'>
 									<thead>
 										<tr>
 										<!-- <th class="check" style="text-align: center; width: 5%;"><input

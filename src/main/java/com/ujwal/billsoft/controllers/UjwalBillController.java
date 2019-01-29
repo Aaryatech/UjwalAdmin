@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -51,6 +52,8 @@ import com.ujwal.billsoft.models.Document;
 import com.ujwal.billsoft.models.GetBillHeader;
 import com.ujwal.billsoft.models.Info;
 @Controller
+@Scope("session")
+
 public class UjwalBillController {
 
 	RestTemplate rest=new RestTemplate();

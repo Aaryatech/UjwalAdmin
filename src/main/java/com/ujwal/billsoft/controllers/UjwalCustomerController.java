@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,6 +26,8 @@ import com.ujwal.billsoft.models.MModelBean;
 import com.ujwal.billsoft.models.MUser;
 
 @Controller
+@Scope("session")
+
 public class UjwalCustomerController {
 	RestTemplate restTamplate = null;
 	
