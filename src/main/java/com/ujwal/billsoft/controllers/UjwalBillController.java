@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -48,6 +50,7 @@ import com.ujwal.billsoft.models.MGetPart;
 import com.ujwal.billsoft.models.MModelBean;
 import com.ujwal.billsoft.models.MPart;
 import com.ujwal.billsoft.models.MUser;
+import com.ujwal.billsoft.models.TaxBillBean;
 import com.ujwal.billsoft.models.Document;
 import com.ujwal.billsoft.models.GetBillHeader;
 import com.ujwal.billsoft.models.Info;
@@ -771,6 +774,392 @@ public ModelAndView showBillsPdf(@PathVariable("billHeadId") String[] billTempId
 	return model;
 }
 
+/*@RequestMapping(value = "/files", method = RequestMethod.GET)
+@ResponseBody public FileSystemResource getFile(HttpServletResponse response) {
+    response.setContentType("application/xml");
+    return new FileSystemResource(new File("/home/ats-12/Desktop/UB.xml")); //Or path to your file 
+}*/
+@RequestMapping(value = "/showBillsXml/{billHeadId}", method = RequestMethod.GET)
+public ModelAndView showBillsXml(@PathVariable("billHeadId") String[] billTempIds, HttpServletRequest request,
+		HttpServletResponse response) {
+
+	ModelAndView model = new ModelAndView("bill/billxml");
+
+	try {
+		RestTemplate rest = new RestTemplate();
+		String strBillTempIds = new String();
+		for (int i = 0; i < billTempIds.length; i++) {
+			strBillTempIds = strBillTempIds + "," + billTempIds[i];
+		}
+		strBillTempIds = strBillTempIds.substring(1);
+		
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("billTempIds", strBillTempIds);
+		GetBillHeader[] billHeaderRes = rest.postForObject(Constants.url + "/findBillsByHeaderId", map,
+				GetBillHeader[].class);
+		ArrayList<GetBillHeader> billHeaders = new ArrayList<GetBillHeader>(Arrays.asList(billHeaderRes));
+        System.err.println(billHeaders.toString());
+		Document doc=null;
+		try {
+			 map = new LinkedMultiValueMap<String, Object>();
+			 map.add("docCode", 1);
+			 map.add("locationId", billHeaders.get(0).getLocId());
+			 System.err.println(map.toString());
+			  doc = rest.postForObject(Constants.url + "getDocument", map, Document.class);
+	  		}
+	  		catch(Exception e)
+	  		{
+	  			
+	  		}
+		  String xmlData ="<ENVELOPE>\r\n" + 
+		  		"<HEADER><TALLYREQUEST>Import Data</TALLYREQUEST>\r\n" + 
+		  		"</HEADER>\r\n" + 
+		  		"<BODY>\r\n" + 
+		  		"<IMPORTDATA>\r\n" + 
+		  		"<REQUESTDESC>\r\n" + 
+		  		"<REPORTNAME>All Masters</REPORTNAME>\r\n" + 
+		  		"<STATICVARIABLES>\r\n" + 
+		  		"<SVCURRENTCOMPANY>"+doc.getExVar1()+"</SVCURRENTCOMPANY>\r\n" + 
+		  		"</STATICVARIABLES>\r\n" + 
+		  		"</REQUESTDESC><REQUESTDATA>";
+		  	for(GetBillHeader billHeader:billHeaders) {
+		  		
+		  		RestTemplate restTemplate = new RestTemplate();
+
+		  		map = new LinkedMultiValueMap<>();
+				map.add("billTempIds", billHeader.getBillHeaderId());
+				
+				TaxBillBean[] taxList = restTemplate.postForObject(Constants.url + "/ujwal/findXmlBillsByHeaderId", map, TaxBillBean[].class);
+				List<TaxBillBean>	billSlabList = new ArrayList<TaxBillBean>(Arrays.asList(taxList));
+		  		
+		  		  String billHId = String.format("%08d", billHeader.getBillHeaderId());
+                  DateFormat df = new SimpleDateFormat("dd-MM-yyyy"); 
+                  DateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy"); 
+                  DateFormat df2 = new SimpleDateFormat("yyyyMMdd"); 
+
+                  Date bDate = df.parse(billHeader.getBillDate());
+                  
+                  String strDate = df1.format(bDate);
+                  
+		  xmlData=xmlData+"<TALLYMESSAGE xmlns:UDF=\"TallyUDF\">\r\n" + 
+		  		"<VOUCHER REMOTEID=\"6349f483-99ea-478f-b458-7c6e64adf71a-"+billHId+"\" VCHKEY=\"6349f483-99ea-478f-b458-7c6e64adf71a-"+billHId+":"+billHId+"\" VCHTYPE=\"Sales\" ACTION=\"Create\" OBJVIEW=\"Accounting Voucher View\">\r\n" + 
+		  		"<OLDAUDITENTRYIDS.LIST TYPE=\"Number\">...</OLDAUDITENTRYIDS.LIST>\r\n" + 
+		  		"<DATE>"+df2.format(bDate)+"</DATE>\r\n" + 
+		  		"<GUID>6349f483-99ea-478f-b458-7c6e64adf71a-"+billHId+"</GUID>\r\n" + 
+		  		"<STATENAME>Maharashtra</STATENAME>\r\n" + 
+		  		"<NARRATION/>\r\n" +    //narration closed(MC1E4DBA5JP032728 D67012864)
+		  		"<COUNTRYOFRESIDENCE>India</COUNTRYOFRESIDENCE>\r\n" + 
+		  		"<VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>\r\n" + 
+		  		"<REFERENCE>"+billHeader.getInvoiceNo()+"</REFERENCE>\r\n" + 
+		  		"<VOUCHERNUMBER>"+billHeader.getInvoiceNo()+"</VOUCHERNUMBER>\r\n" + 
+		  		"<PARTYLEDGERNAME>"+billHeader.getCustName()+"</PARTYLEDGERNAME>\r\n" + 
+		  		"<BASICBASEPARTYNAME>"+billHeader.getCustName()+"</BASICBASEPARTYNAME>\r\n" + 
+		  		"<CSTFORMISSUETYPE/>\r\n" + 
+		  		"<CSTFORMRECVTYPE/>\r\n" + 
+		  		"<FBTPAYMENTTYPE>Default</FBTPAYMENTTYPE>\r\n" + 
+		  		"<PERSISTEDVIEW>Accounting Voucher View</PERSISTEDVIEW>\r\n" + 
+		  		"<PLACEOFSUPPLY>Maharashtra</PLACEOFSUPPLY>\r\n" + 
+		  		"<BASICBUYERNAME>"+billHeader.getCustName()+"</BASICBUYERNAME>\r\n" + 
+		  		"<BASICDATETIMEOFINVOICE>"+strDate+" at 00:00 </BASICDATETIMEOFINVOICE>\r\n" + 
+		  		"<BASICDATETIMEOFREMOVAL>"+strDate+" at 00:00 </BASICDATETIMEOFREMOVAL>\r\n" + 
+		  		"<VCHGSTCLASS/>\r\n" + 
+		  		"<CONSIGNEESTATENAME>Maharashtra</CONSIGNEESTATENAME>\r\n" + 
+		  		"<DIFFACTUALQTY>No</DIFFACTUALQTY>\r\n" + 
+		  		"<ISMSTFROMSYNC>No</ISMSTFROMSYNC>\r\n" + 
+		  		"<ASORIGINAL>No</ASORIGINAL>\r\n" + 
+		  		"<AUDITED>No</AUDITED>\r\n" + 
+		  		"<FORJOBCOSTING>No</FORJOBCOSTING>\r\n" + 
+		  		"<ISOPTIONAL>No</ISOPTIONAL>\r\n" + 
+		  		"<EFFECTIVEDATE>"+df2.format(bDate)+"</EFFECTIVEDATE>\r\n" + 
+		  		"<USEFOREXCISE>No</USEFOREXCISE>\r\n" + 
+		  		"<ISFORJOBWORKIN>No</ISFORJOBWORKIN>\r\n" + 
+		  		"<ALLOWCONSUMPTION>No</ALLOWCONSUMPTION>\r\n" + 
+		  		"<USEFORINTEREST>No</USEFORINTEREST>\r\n" + 
+		  		"<USEFORGAINLOSS>No</USEFORGAINLOSS>\r\n" + 
+		  		"<USEFORGODOWNTRANSFER>No</USEFORGODOWNTRANSFER>\r\n" + 
+		  		"<USEFORCOMPOUND>No</USEFORCOMPOUND>\r\n" + 
+		  		"<USEFORSERVICETAX>No</USEFORSERVICETAX>\r\n" + 
+		  		"<ISEXCISEVOUCHER>No</ISEXCISEVOUCHER>\r\n" + 
+		  		"<EXCISETAXOVERRIDE>No</EXCISETAXOVERRIDE>\r\n" + 
+		  		"<USEFORTAXUNITTRANSFER>No</USEFORTAXUNITTRANSFER>\r\n" + 
+		  		"<EXCISEOPENING>No</EXCISEOPENING>\r\n" + 
+		  		"<USEFORFINALPRODUCTION>No</USEFORFINALPRODUCTION>\r\n" + 
+		  		"<ISTDSOVERRIDDEN>No</ISTDSOVERRIDDEN>\r\n" + 
+		  		"<ISTCSOVERRIDDEN>No</ISTCSOVERRIDDEN>\r\n" + 
+		  		"<ISTDSTCSCASHVCH>No</ISTDSTCSCASHVCH>\r\n" + 
+		  		"<INCLUDEADVPYMTVCH>No</INCLUDEADVPYMTVCH>\r\n" + 
+		  		"<ISSUBWORKSCONTRACT>No</ISSUBWORKSCONTRACT>\r\n" + 
+		  		"<ISVATOVERRIDDEN>No</ISVATOVERRIDDEN>\r\n" + 
+		  		"<IGNOREORIGVCHDATE>No</IGNOREORIGVCHDATE>\r\n" + 
+		  		"<ISSERVICETAXOVERRIDDEN>No</ISSERVICETAXOVERRIDDEN>\r\n" + 
+		  		"<ISISDVOUCHER>No</ISISDVOUCHER>\r\n" + 
+		  		"<ISEXCISEOVERRIDDEN>No</ISEXCISEOVERRIDDEN>\r\n" + 
+		  		"<ISEXCISESUPPLYVCH>No</ISEXCISESUPPLYVCH>\r\n" + 
+		  		"<ISGSTOVERRIDDEN>No</ISGSTOVERRIDDEN>\r\n" + 
+		  		"<GSTNOTEXPORTED>No</GSTNOTEXPORTED>\r\n" + 
+		  		"<ISVATPRINCIPALACCOUNT>No</ISVATPRINCIPALACCOUNT>\r\n" + 
+		  		"<ISSHIPPINGWITHINSTATE>No</ISSHIPPINGWITHINSTATE>\r\n" + 
+		  		"<ISCANCELLED>No</ISCANCELLED>\r\n" + 
+		  		"<HASCASHFLOW>No</HASCASHFLOW>\r\n" + 
+		  		"<ISPOSTDATED>No</ISPOSTDATED>\r\n" + 
+		  		"<USETRACKINGNUMBER>No</USETRACKINGNUMBER>\r\n" + 
+		  		"<ISINVOICE>No</ISINVOICE>\r\n" + 
+		  		"<MFGJOURNAL>No</MFGJOURNAL>\r\n" + 
+		  		"<HASDISCOUNTS>No</HASDISCOUNTS>\r\n" + 
+		  		"<ASPAYSLIP>No</ASPAYSLIP>\r\n" + 
+		  		"<ISCOSTCENTRE>No</ISCOSTCENTRE>\r\n" + 
+		  		"<ISSTXNONREALIZEDVCH>No</ISSTXNONREALIZEDVCH>\r\n" + 
+		  		"<ISEXCISEMANUFACTURERON>No</ISEXCISEMANUFACTURERON>\r\n" + 
+		  		"<ISBLANKCHEQUE>No</ISBLANKCHEQUE>\r\n" + 
+		  		"<ISVOID>No</ISVOID>\r\n" + 
+		  		"<ISONHOLD>No</ISONHOLD>\r\n" + 
+		  		"<ORDERLINESTATUS>No</ORDERLINESTATUS>\r\n" + 
+		  		"<VATISAGNSTCANCSALES>No</VATISAGNSTCANCSALES>\r\n" + 
+		  		"<VATISPURCEXEMPTED>No</VATISPURCEXEMPTED>\r\n" + 
+		  		"<ISVATRESTAXINVOICE>No</ISVATRESTAXINVOICE>\r\n" + 
+		  		"<VATISASSESABLECALCVCH>No</VATISASSESABLECALCVCH>\r\n" + 
+		  		"<ISVATDUTYPAID>Yes</ISVATDUTYPAID>\r\n" + 
+		  		"<ISDELIVERYSAMEASCONSIGNEE>No</ISDELIVERYSAMEASCONSIGNEE>\r\n" + 
+		  		"<ISDISPATCHSAMEASCONSIGNOR>No</ISDISPATCHSAMEASCONSIGNOR>\r\n" + 
+		  		"<ISDELETED>No</ISDELETED>\r\n" + 
+		  		"<CHANGEVCHMODE>No</CHANGEVCHMODE>\r\n" + 
+		  		"<ALTERID> 78807</ALTERID>\r\n" + 
+		  		"<MASTERID> 61494</MASTERID>\r\n" + 
+		  		"<VOUCHERKEY>185503932481688</VOUCHERKEY>\r\n" + 
+		  		"<EXCLUDEDTAXATIONS.LIST> </EXCLUDEDTAXATIONS.LIST>\r\n" + 
+		  		"<OLDAUDITENTRIES.LIST> </OLDAUDITENTRIES.LIST>\r\n" + 
+		  		"<ACCOUNTAUDITENTRIES.LIST> </ACCOUNTAUDITENTRIES.LIST>\r\n" + 
+		  		"<AUDITENTRIES.LIST> </AUDITENTRIES.LIST>\r\n" + 
+		  		"<DUTYHEADDETAILS.LIST> </DUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<SUPPLEMENTARYDUTYHEADDETAILS.LIST> </SUPPLEMENTARYDUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<INVOICEDELNOTES.LIST> </INVOICEDELNOTES.LIST>\r\n" + 
+		  		"<INVOICEORDERLIST.LIST> </INVOICEORDERLIST.LIST>\r\n" + 
+		  		"<INVOICEINDENTLIST.LIST> </INVOICEINDENTLIST.LIST>\r\n" + 
+		  		"<ATTENDANCEENTRIES.LIST> </ATTENDANCEENTRIES.LIST>\r\n" + 
+		  		"<ORIGINVOICEDETAILS.LIST> </ORIGINVOICEDETAILS.LIST>\r\n" + 
+		  		"<INVOICEEXPORTLIST.LIST> </INVOICEEXPORTLIST.LIST>";
+		
+		  xmlData=xmlData+"<ALLLEDGERENTRIES.LIST>\r\n" + 
+		  		"<OLDAUDITENTRYIDS.LIST TYPE=\"Number\">\r\n" + 
+		  		"<OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>\r\n" + 
+		  		"</OLDAUDITENTRYIDS.LIST>\r\n" + 
+		  		"<LEDGERNAME>"+billHeader.getCustName()+"</LEDGERNAME>\r\n" + 
+		  		"<GSTCLASS/>\r\n" + 
+		  		"<ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>\r\n" + 
+		  		"<LEDGERFROMITEM>No</LEDGERFROMITEM>\r\n" + 
+		  		"<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\r\n" + 
+		  		"<ISPARTYLEDGER>Yes</ISPARTYLEDGER>\r\n" + 
+		  		"<ISLASTDEEMEDPOSITIVE>Yes</ISLASTDEEMEDPOSITIVE>\r\n" + 
+		  		"<AMOUNT>-"+billHeader.getGrandTotal()+"</AMOUNT>\r\n" + 
+		  		"<VATEXPAMOUNT>-"+billHeader.getGrandTotal()+"</VATEXPAMOUNT>\r\n" + 
+		  		"<SERVICETAXDETAILS.LIST> </SERVICETAXDETAILS.LIST>\r\n" + 
+		  		"<BANKALLOCATIONS.LIST> </BANKALLOCATIONS.LIST>\r\n" + 
+		  		"<BILLALLOCATIONS.LIST> </BILLALLOCATIONS.LIST>\r\n" + 
+		  		"<INTERESTCOLLECTION.LIST> </INTERESTCOLLECTION.LIST>\r\n" + 
+		  		"<OLDAUDITENTRIES.LIST> </OLDAUDITENTRIES.LIST>\r\n" + 
+		  		"<ACCOUNTAUDITENTRIES.LIST> </ACCOUNTAUDITENTRIES.LIST>\r\n" + 
+		  		"<AUDITENTRIES.LIST> </AUDITENTRIES.LIST>\r\n" + 
+		  		"<INPUTCRALLOCS.LIST> </INPUTCRALLOCS.LIST>\r\n" + 
+		  		"<DUTYHEADDETAILS.LIST> </DUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<EXCISEDUTYHEADDETAILS.LIST> </EXCISEDUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<RATEDETAILS.LIST> </RATEDETAILS.LIST>\r\n" + 
+		  		"<SUMMARYALLOCS.LIST> </SUMMARYALLOCS.LIST>\r\n" + 
+		  		"<STPYMTDETAILS.LIST> </STPYMTDETAILS.LIST>\r\n" + 
+		  		"<EXCISEPAYMENTALLOCATIONS.LIST> </EXCISEPAYMENTALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXBILLALLOCATIONS.LIST> </TAXBILLALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXOBJECTALLOCATIONS.LIST> </TAXOBJECTALLOCATIONS.LIST>\r\n" + 
+		  		"<TDSEXPENSEALLOCATIONS.LIST> </TDSEXPENSEALLOCATIONS.LIST>\r\n" + 
+		  		"<VATSTATUTORYDETAILS.LIST> </VATSTATUTORYDETAILS.LIST>\r\n" + 
+		  		"<COSTTRACKALLOCATIONS.LIST> </COSTTRACKALLOCATIONS.LIST>\r\n" + 
+		  		"<REFVOUCHERDETAILS.LIST> </REFVOUCHERDETAILS.LIST>\r\n" + 
+		  		"<INVOICEWISEDETAILS.LIST> </INVOICEWISEDETAILS.LIST>\r\n" + 
+		  		"<VATITCDETAILS.LIST> </VATITCDETAILS.LIST>\r\n" + 
+		  		"<ADVANCETAXDETAILS.LIST> </ADVANCETAXDETAILS.LIST>\r\n" + 
+		  		"</ALLLEDGERENTRIES.LIST>";
+		  for(int j=0;j<billSlabList.size();j++)
+		  {
+		  xmlData=xmlData+"<ALLLEDGERENTRIES.LIST>\r\n" + 
+		  		"<OLDAUDITENTRYIDS.LIST TYPE=\"Number\">\r\n" + 
+		  		"<OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>\r\n" + 
+		  		"</OLDAUDITENTRYIDS.LIST>\r\n" + 
+		  		"<LEDGERNAME>SALE: </LEDGERNAME>\r\n" + //"+billHeader.getCustModelNo()+"
+		  		"<GSTCLASS/>\r\n" + 
+		  		"<ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>\r\n" + 
+		  		"<LEDGERFROMITEM>No</LEDGERFROMITEM>\r\n" + 
+		  		"<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\r\n" + 
+		  		"<ISPARTYLEDGER>No</ISPARTYLEDGER>\r\n" + 
+		  		"<ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>\r\n" + 
+		  		"<AMOUNT>"+billSlabList.get(j).getTaxableAmt()+"</AMOUNT>\r\n" + 
+		  		"<VATEXPAMOUNT>"+billSlabList.get(j).getTaxableAmt()+"</VATEXPAMOUNT>\r\n" + 
+		  		"<SERVICETAXDETAILS.LIST> </SERVICETAXDETAILS.LIST>\r\n" + 
+		  		"<BANKALLOCATIONS.LIST> </BANKALLOCATIONS.LIST>\r\n" + 
+		  		"<BILLALLOCATIONS.LIST> </BILLALLOCATIONS.LIST>\r\n" + 
+		  		"<INTERESTCOLLECTION.LIST> </INTERESTCOLLECTION.LIST>\r\n" + 
+		  		"<OLDAUDITENTRIES.LIST> </OLDAUDITENTRIES.LIST>\r\n" + 
+		  		"<ACCOUNTAUDITENTRIES.LIST> </ACCOUNTAUDITENTRIES.LIST>\r\n" + 
+		  		"<AUDITENTRIES.LIST> </AUDITENTRIES.LIST>\r\n" + 
+		  		"<INPUTCRALLOCS.LIST> </INPUTCRALLOCS.LIST>\r\n" + 
+		  		"<DUTYHEADDETAILS.LIST> </DUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<EXCISEDUTYHEADDETAILS.LIST> </EXCISEDUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<RATEDETAILS.LIST> </RATEDETAILS.LIST>\r\n" + 
+		  		"<SUMMARYALLOCS.LIST> </SUMMARYALLOCS.LIST>\r\n" + 
+		  		"<STPYMTDETAILS.LIST> </STPYMTDETAILS.LIST>\r\n" + 
+		  		"<EXCISEPAYMENTALLOCATIONS.LIST> </EXCISEPAYMENTALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXBILLALLOCATIONS.LIST> </TAXBILLALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXOBJECTALLOCATIONS.LIST> </TAXOBJECTALLOCATIONS.LIST>\r\n" + 
+		  		"<TDSEXPENSEALLOCATIONS.LIST> </TDSEXPENSEALLOCATIONS.LIST>\r\n" + 
+		  		"<VATSTATUTORYDETAILS.LIST> </VATSTATUTORYDETAILS.LIST>\r\n" + 
+		  		"<COSTTRACKALLOCATIONS.LIST> </COSTTRACKALLOCATIONS.LIST>\r\n" + 
+		  		"<REFVOUCHERDETAILS.LIST> </REFVOUCHERDETAILS.LIST>\r\n" + 
+		  		"<INVOICEWISEDETAILS.LIST> </INVOICEWISEDETAILS.LIST>\r\n" + 
+		  		"<VATITCDETAILS.LIST> </VATITCDETAILS.LIST>\r\n" + 
+		  		"<ADVANCETAXDETAILS.LIST> </ADVANCETAXDETAILS.LIST>\r\n" + 
+		  		"</ALLLEDGERENTRIES.LIST>";
+		  
+		  xmlData=xmlData+"<ALLLEDGERENTRIES.LIST>\r\n" + 
+		  		"<OLDAUDITENTRYIDS.LIST TYPE=\"Number\">\r\n" + 
+		  		"<OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>\r\n" + 
+		  		"</OLDAUDITENTRYIDS.LIST>\r\n" + 
+		  		"<LEDGERNAME>GST SALES:->CGST "+(billSlabList.get(j).getTaxPer()/2)+"% </LEDGERNAME>\r\n" + 
+		  		"<GSTCLASS/>\r\n" + 
+		  		"<ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>\r\n" + 
+		  		"<LEDGERFROMITEM>No</LEDGERFROMITEM>\r\n" + 
+		  		"<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\r\n" + 
+		  		"<ISPARTYLEDGER>No</ISPARTYLEDGER>\r\n" + 
+		  		"<ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>\r\n" + 
+		  		"<AMOUNT>"+billSlabList.get(j).getCgstAmt()+"</AMOUNT>\r\n" + 
+		  		"<VATEXPAMOUNT>"+billSlabList.get(j).getCgstAmt()+"</VATEXPAMOUNT>\r\n" + 
+		  		"<SERVICETAXDETAILS.LIST> </SERVICETAXDETAILS.LIST>\r\n" + 
+		  		"<BANKALLOCATIONS.LIST> </BANKALLOCATIONS.LIST>\r\n" + 
+		  		"<BILLALLOCATIONS.LIST> </BILLALLOCATIONS.LIST>\r\n" + 
+		  		"<INTERESTCOLLECTION.LIST> </INTERESTCOLLECTION.LIST>\r\n" + 
+		  		"<OLDAUDITENTRIES.LIST> </OLDAUDITENTRIES.LIST>\r\n" + 
+		  		"<ACCOUNTAUDITENTRIES.LIST> </ACCOUNTAUDITENTRIES.LIST>\r\n" + 
+		  		"<AUDITENTRIES.LIST> </AUDITENTRIES.LIST>\r\n" + 
+		  		"<INPUTCRALLOCS.LIST> </INPUTCRALLOCS.LIST>\r\n" + 
+		  		"<DUTYHEADDETAILS.LIST> </DUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<EXCISEDUTYHEADDETAILS.LIST> </EXCISEDUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<RATEDETAILS.LIST> </RATEDETAILS.LIST>\r\n" + 
+		  		"<SUMMARYALLOCS.LIST> </SUMMARYALLOCS.LIST>\r\n" + 
+		  		"<STPYMTDETAILS.LIST> </STPYMTDETAILS.LIST>\r\n" + 
+		  		"<EXCISEPAYMENTALLOCATIONS.LIST> </EXCISEPAYMENTALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXBILLALLOCATIONS.LIST> </TAXBILLALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXOBJECTALLOCATIONS.LIST> </TAXOBJECTALLOCATIONS.LIST>\r\n" + 
+		  		"<TDSEXPENSEALLOCATIONS.LIST> </TDSEXPENSEALLOCATIONS.LIST>\r\n" + 
+		  		"<VATSTATUTORYDETAILS.LIST> </VATSTATUTORYDETAILS.LIST>\r\n" + 
+		  		"<COSTTRACKALLOCATIONS.LIST> </COSTTRACKALLOCATIONS.LIST>\r\n" + 
+		  		"<REFVOUCHERDETAILS.LIST> </REFVOUCHERDETAILS.LIST>\r\n" + 
+		  		"<INVOICEWISEDETAILS.LIST> </INVOICEWISEDETAILS.LIST>\r\n" + 
+		  		"<VATITCDETAILS.LIST> </VATITCDETAILS.LIST>\r\n" + 
+		  		"<ADVANCETAXDETAILS.LIST> </ADVANCETAXDETAILS.LIST>\r\n" + 
+		  		"</ALLLEDGERENTRIES.LIST>";
+		  
+		  xmlData=xmlData+"<ALLLEDGERENTRIES.LIST>\r\n" + 
+		  		"<OLDAUDITENTRYIDS.LIST TYPE=\"Number\">\r\n" + 
+		  		"<OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>\r\n" + 
+		  		"</OLDAUDITENTRYIDS.LIST>\r\n" + 
+		  		"<LEDGERNAME>GST SALES:->SGST "+(billSlabList.get(j).getTaxPer()/2)+"% </LEDGERNAME>\r\n" + 
+		  		"<GSTCLASS/>\r\n" + 
+		  		"<ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>\r\n" + 
+		  		"<LEDGERFROMITEM>No</LEDGERFROMITEM>\r\n" + 
+		  		"<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\r\n" + 
+		  		"<ISPARTYLEDGER>No</ISPARTYLEDGER>\r\n" + 
+		  		"<ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>\r\n" + 
+		  		"<AMOUNT>"+billSlabList.get(j).getSgstAmt()+"</AMOUNT>\r\n" + 
+		  		"<VATEXPAMOUNT>"+billSlabList.get(j).getSgstAmt()+"</VATEXPAMOUNT>\r\n" + 
+		  		"<SERVICETAXDETAILS.LIST> </SERVICETAXDETAILS.LIST>\r\n" + 
+		  		"<BANKALLOCATIONS.LIST> </BANKALLOCATIONS.LIST>\r\n" + 
+		  		"<BILLALLOCATIONS.LIST> </BILLALLOCATIONS.LIST>\r\n" + 
+		  		"<INTERESTCOLLECTION.LIST> </INTERESTCOLLECTION.LIST>\r\n" + 
+		  		"<OLDAUDITENTRIES.LIST> </OLDAUDITENTRIES.LIST>\r\n" + 
+		  		"<ACCOUNTAUDITENTRIES.LIST> </ACCOUNTAUDITENTRIES.LIST>\r\n" + 
+		  		"<AUDITENTRIES.LIST> </AUDITENTRIES.LIST>\r\n" + 
+		  		"<INPUTCRALLOCS.LIST> </INPUTCRALLOCS.LIST>\r\n" + 
+		  		"<DUTYHEADDETAILS.LIST> </DUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<EXCISEDUTYHEADDETAILS.LIST> </EXCISEDUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<RATEDETAILS.LIST> </RATEDETAILS.LIST>\r\n" + 
+		  		"<SUMMARYALLOCS.LIST> </SUMMARYALLOCS.LIST>\r\n" + 
+		  		"<STPYMTDETAILS.LIST> </STPYMTDETAILS.LIST>\r\n" + 
+		  		"<EXCISEPAYMENTALLOCATIONS.LIST> </EXCISEPAYMENTALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXBILLALLOCATIONS.LIST> </TAXBILLALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXOBJECTALLOCATIONS.LIST> </TAXOBJECTALLOCATIONS.LIST>\r\n" + 
+		  		"<TDSEXPENSEALLOCATIONS.LIST> </TDSEXPENSEALLOCATIONS.LIST>\r\n" + 
+		  		"<VATSTATUTORYDETAILS.LIST> </VATSTATUTORYDETAILS.LIST>\r\n" + 
+		  		"<COSTTRACKALLOCATIONS.LIST> </COSTTRACKALLOCATIONS.LIST>\r\n" + 
+		  		"<REFVOUCHERDETAILS.LIST> </REFVOUCHERDETAILS.LIST>\r\n" + 
+		  		"<INVOICEWISEDETAILS.LIST> </INVOICEWISEDETAILS.LIST>\r\n" + 
+		  		"<VATITCDETAILS.LIST> </VATITCDETAILS.LIST>\r\n" + 
+		  		"<ADVANCETAXDETAILS.LIST> </ADVANCETAXDETAILS.LIST>\r\n" + 
+		  		"</ALLLEDGERENTRIES.LIST>";
+		      }
+		 /* //extra TCS optional
+		  xmlData=xmlData+"<ALLLEDGERENTRIES.LIST>\r\n" + 
+		  		"<OLDAUDITENTRYIDS.LIST TYPE=\"Number\">\r\n" + 
+		  		"<OLDAUDITENTRYIDS>-1</OLDAUDITENTRYIDS>\r\n" + 
+		  		"</OLDAUDITENTRYIDS.LIST>\r\n" + 
+		  		"<LEDGERNAME>SALES:->TCS 1%(GST)</LEDGERNAME>\r\n" + 
+		  		"<GSTCLASS/>\r\n" + 
+		  		"<ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>\r\n" + 
+		  		"<LEDGERFROMITEM>No</LEDGERFROMITEM>\r\n" + 
+		  		"<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\r\n" + 
+		  		"<ISPARTYLEDGER>No</ISPARTYLEDGER>\r\n" + 
+		  		"<ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>\r\n" + 
+		  		"<AMOUNT>10698.00</AMOUNT>\r\n" + 
+		  		"<VATEXPAMOUNT>10698.00</VATEXPAMOUNT>\r\n" + 
+		  		"<SERVICETAXDETAILS.LIST> </SERVICETAXDETAILS.LIST>\r\n" + 
+		  		"<BANKALLOCATIONS.LIST> </BANKALLOCATIONS.LIST>\r\n" + 
+		  		"<BILLALLOCATIONS.LIST> </BILLALLOCATIONS.LIST>\r\n" + 
+		  		"<INTERESTCOLLECTION.LIST> </INTERESTCOLLECTION.LIST>\r\n" + 
+		  		"<OLDAUDITENTRIES.LIST> </OLDAUDITENTRIES.LIST>\r\n" + 
+		  		"<ACCOUNTAUDITENTRIES.LIST> </ACCOUNTAUDITENTRIES.LIST>\r\n" + 
+		  		"<AUDITENTRIES.LIST> </AUDITENTRIES.LIST>\r\n" + 
+		  		"<INPUTCRALLOCS.LIST> </INPUTCRALLOCS.LIST>\r\n" + 
+		  		"<DUTYHEADDETAILS.LIST> </DUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<EXCISEDUTYHEADDETAILS.LIST> </EXCISEDUTYHEADDETAILS.LIST>\r\n" + 
+		  		"<RATEDETAILS.LIST> </RATEDETAILS.LIST>\r\n" + 
+		  		"<SUMMARYALLOCS.LIST> </SUMMARYALLOCS.LIST>\r\n" + 
+		  		"<STPYMTDETAILS.LIST> </STPYMTDETAILS.LIST>\r\n" + 
+		  		"<EXCISEPAYMENTALLOCATIONS.LIST> </EXCISEPAYMENTALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXBILLALLOCATIONS.LIST> </TAXBILLALLOCATIONS.LIST>\r\n" + 
+		  		"<TAXOBJECTALLOCATIONS.LIST> </TAXOBJECTALLOCATIONS.LIST>\r\n" + 
+		  		"<TDSEXPENSEALLOCATIONS.LIST> </TDSEXPENSEALLOCATIONS.LIST>\r\n" + 
+		  		"<VATSTATUTORYDETAILS.LIST> </VATSTATUTORYDETAILS.LIST>\r\n" + 
+		  		"<COSTTRACKALLOCATIONS.LIST> </COSTTRACKALLOCATIONS.LIST>\r\n" + 
+		  		"<REFVOUCHERDETAILS.LIST> </REFVOUCHERDETAILS.LIST>\r\n" + 
+		  		"<INVOICEWISEDETAILS.LIST> </INVOICEWISEDETAILS.LIST>\r\n" + 
+		  		"<VATITCDETAILS.LIST> </VATITCDETAILS.LIST>\r\n" + 
+		  		"<ADVANCETAXDETAILS.LIST> </ADVANCETAXDETAILS.LIST>\r\n" + 
+		  		"</ALLLEDGERENTRIES.LIST>";*/
+		  
+		  xmlData=xmlData+"<PAYROLLMODEOFPAYMENT.LIST> </PAYROLLMODEOFPAYMENT.LIST>\r\n" + 
+		  		"<ATTDRECORDS.LIST> </ATTDRECORDS.LIST>\r\n" + 
+		  		"<TEMPGSTRATEDETAILS.LIST> </TEMPGSTRATEDETAILS.LIST>\r\n" + 
+		  		"</VOUCHER>\r\n" + 
+		  		"</TALLYMESSAGE>";
+		  	}
+		  xmlData=xmlData+"</REQUESTDATA>\r\n" + 
+		  		"</IMPORTDATA>\r\n" + 
+		  		"</BODY>\r\n" + 
+		  		"</ENVELOPE>";
+		model.addObject("xmlData", xmlData);
+		 // System.out.println("XML :"+xmlData.toString());
+		/*  try {
+	            File newTextFile = new File("/home/ats-12/Desktop/UB.xml");
+
+	            FileWriter fw = new FileWriter(newTextFile);
+	            fw.write(xmlData);
+	            fw.close();
+
+	        } catch (IOException iox) {
+	            //do stuff with exception
+	            iox.printStackTrace();
+	        }*/
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return model;
+}
 private Dimension format = PD4Constants.A4;
 private boolean landscapeValue = false;
 private int topValue = 8;

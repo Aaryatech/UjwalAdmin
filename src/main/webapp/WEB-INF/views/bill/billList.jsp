@@ -320,7 +320,9 @@
 												 &nbsp;&nbsp; 
 												 <a	href="#" onclick="singleBillPdf(${bill.billHeaderId})"><i
 														class="fa fa-file-pdf-o" title="pdf"></i></a>
-												 														
+												  &nbsp;&nbsp; 
+												 <a	href="#" onclick="singleBillXml(${bill.billHeaderId})"><i
+														class="fa fa fa-file-text" title="XML"></i></a>														
 												</td>
 											</tr>
 										</c:forEach>
@@ -331,7 +333,10 @@
 				<center>
 										<input type="button" margin-right: 5px;" id="btn_submit"
 											class="btn btn-primary" onclick="billPdf()" 
-											value="Bill Pdf" />
+											value="Bill Pdf" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<input type="button" margin-right: 5px;" id="btn_submit"
+											class="btn btn-primary" onclick="billXml()" 
+											value="XML" />
 							</center>
 								
 
@@ -616,12 +621,13 @@
 var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v.billHeaderId+' class="chk"  value='+v.billHeaderId+' >'
 //var ordQty = '<input  type="text"  class="form-control"  id="ordQty'+v.itemId+'" name="ordQty'+v.itemId+'" onchange="calTotal('+v.itemId+','+v.poRate+','+v.poDetailId+','+v.poRemainingQty+')"/>'
 //var itemTotal = '<input  type="text" readonly  class="form-control"  id="itemTotal'+v.itemId+'" name='+v.itemId+'/>'
-										 var acButton = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callEdit('
+										 var acButton = '&nbsp;&nbsp;<a href="#" class="action_btn" onclick="callEdit('
 														+ v.billHeaderId
 														+ ','
 														+ i
 														+ ')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#" class="action_btn" onclick="singleBillPdf('
-															+ v.billHeaderId+ ')"><i class="fa fa-file-pdf-o"></i></a>';
+															+ v.billHeaderId+ ')"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#" class="action_btn" onclick="singleBillXml('
+															+ v.billHeaderId+ ')"><i class="fa fa-file-text"></i></a>';
  
 												dataTable.row
 														.add(
@@ -653,6 +659,11 @@ var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v
 		  window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillsPdf/'+id);
 		
 	}
+	function singleBillXml(id)
+	{
+		  window.open('${pageContext.request.contextPath}/showBillsXml/'+id);
+
+	}
 	</script>
 		
 <script type="text/javascript">
@@ -674,6 +685,27 @@ else
 	   window.open('${pageContext.request.contextPath}/pdf?url=pdf/showBillsPdf/'+str2);
 	}
 }
+</script>
+<script>
+function billXml()
+{
+	var checkedVals = $('input:checkbox:checked').map(function() {
+	    return this.value;
+	}).get();
+//checkedVals=checkedVals.slice(0,- 1);alert(checkedVals);
+checkedVals=checkedVals.join(",");
+var str2 = checkedVals.replace('/',"");
+	
+if(checkedVals=="")
+	{
+	alert("Please Select Bill For Tally XML")
+	}
+else
+	{
+	   window.open('${pageContext.request.contextPath}/showBillsXml/'+str2);
+	}
+}
+
 </script>
 <script type="text/javascript">
 $('#selectAll').click(function (e) {
