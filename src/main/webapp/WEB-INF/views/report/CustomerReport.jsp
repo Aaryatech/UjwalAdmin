@@ -60,7 +60,7 @@
 </style>
 
 </head>
-<body>
+<body onload="getCompId(${compId})">
 
 
 	<!-- Left Panel -->
@@ -96,15 +96,35 @@
 							<div class="row">
 							
 							<div class="col-md-2">Company Name</div>
-										<div class="col-md-4">
+									
+									<div class="col-md-4">
 											<select name="compId" id="compId" class="standardSelect" tabindex="6" 
-											onchange="getCompId()" required>
+											onchange="getCompId(0)" required>
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+											<c:choose>
+											<c:when test="${makeList.compId==compId}">
+												<option value="${makeList.compId}" selected><c:out value="${makeList.compName}"></c:out> </option>
+											
+											</c:when>
+											<c:otherwise>
+												<option value="${makeList.compId}" disabled="disabled"><c:out value="${makeList.compName}"></c:out> </option>
+											
+											</c:otherwise>
+											</c:choose>
+											 </c:forEach>
+										</select> 
+									</div>
+									
+										<%-- <div class="col-md-4">
+											<select name="compId" id="compId" class="standardSelect" tabindex="6" 
+											onchange="getCompId(0)" required>
 											<option value="">Select Company</option>
 											<c:forEach items="${compList}" var="makeList"> 
 												<option value="${makeList.compId}"><c:out value="${makeList.compName}"></c:out> </option>
 											 </c:forEach>
 										</select> 
-									</div>
+									</div> --%>
 
 								<div class="col-md-2">Select Customer</div>
 
@@ -169,7 +189,7 @@
 											<th style="text-align: center">Customer GST No.</th>
 											<th style="text-align: center">CGST Amt</th>
 											<th style="text-align: center">SGST Amount</th>
-											<th style="text-align: center">IGST Amount</th>
+											<!-- <th style="text-align: center">IGST Amount</th> -->
 											<th style="text-align: center">Tax Amount</th>
 											<th style="text-align: center">Taxable Amount</th>
 											<th style="text-align: center">Grand Total </th>
@@ -178,6 +198,36 @@
 									</thead>
 
 								</table>
+								
+																<div class="row">
+				
+								<div class="col-md-1">Taxable Amt</div>
+									<div class="col-lg-2">
+										<input type="text" id="ttlTaxable" readonly  value="00"
+											style="width: 70%;" class="form-control" autocomplete="off"/> 
+								</div>
+									
+									<div class="col-md-1">CGST</div>
+									<div class="col-lg-2">
+										<input type="text" id="ttlCGST" readonly  value="00"
+											style="width: 70%;" class="form-control" autocomplete="off"/> 
+								</div>
+								
+								<div class="col-md-1">SGST</div>
+									<div class="col-lg-2">
+										<input type="text" id="ttlSGST" readonly  value="00"
+											style="width: 70%;" class="form-control" autocomplete="off"/> 
+								</div>
+								
+															
+								<div class="col-md-1" style="font-size:bold">Grand Total</div>
+								<div class="col-lg-2">
+									<input type="text" id="totalAmt" readonly  value="00" 
+											style="width: 70%;" class="form-control"/> 
+								</div>
+								
+								</div>
+								
 								<div class="col-md-2"></div>
 
 								<div class="col-md-3">
@@ -270,7 +320,7 @@
 
 
 	<script type="text/javascript">
-			function getCompId() { 
+			function getCompId(compId) { 
 		
 			var compId = document.getElementById("compId").value;
 			var valid = true;
@@ -395,11 +445,28 @@
 									var dataTable = $('#bootstrap-data-table')
 											.DataTable();
 									dataTable.clear().draw();
+									var cgstamt=0;
+									var sgstamt=0;
+									var taxable=0;
+									var total=0;
 
 									$
 											.each(
 													data,
 													function(i, v) {
+														
+														var ttlCgst=parseFloat(v.cgstAmt);
+														cgstamt= cgstamt+ttlCgst;
+														
+														var ttlSgst=parseFloat(v.sgstAmt);
+														sgstamt= sgstamt+ttlSgst;
+														
+														var ttlTaxable=parseFloat(v.taxableAmt);
+														taxable= taxable+ttlTaxable;
+														
+														var grndTtl=parseFloat( v.grandTotal);
+														total= total+grndTtl;
+
 
 														var acButton = '<a href="#" class="action_btn" onclick="callEdit('
 																+ v.custId
@@ -417,7 +484,7 @@
 																				v.custGstn,
 																				v.cgstAmt,
 																				v.sgstAmt,
-																				v.igstAmt,
+																				///v.igstAmt,
 																				v.totaTax,
 																				v.taxableAmt,
 																				v.grandTotal
@@ -426,6 +493,11 @@
 																		])
 																.draw();
 													});
+									document.getElementById('ttlCGST').value = cgstamt.toFixed(2);
+						            document.getElementById('ttlSGST').value = sgstamt.toFixed(2);
+						            document.getElementById('ttlTaxable').value = taxable.toFixed(2);
+						            document.getElementById('totalAmt').value = total.toFixed(2);
+									
 
 								});
 
@@ -475,9 +547,9 @@
 			//alert("hiii");
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
-
+			var custId = document.getElementById("cust_id").value;
 			window.open('${pageContext.request.contextPath}/showCustwisePdf/'
-					+ fromDate + '/' + toDate);
+					+ fromDate + '/' + toDate+ '/'+custId);
 			document.getElementById("expExcel").disabled = true;
 
 		}

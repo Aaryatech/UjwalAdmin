@@ -52,6 +52,7 @@ import com.ujwal.billsoft.commons.ExportToExcel;
 import com.ujwal.billsoft.models.CompReport;
 import com.ujwal.billsoft.models.CustReport;
 import com.ujwal.billsoft.models.MCompany;
+import com.ujwal.billsoft.models.MUser;
 import com.ujwal.billsoft.models.TaxBillBean;
 
 @Controller
@@ -64,13 +65,18 @@ public class BillTaxReportController {
 	List<TaxBillBean> getList = new ArrayList<>();
 
 	@RequestMapping(value="/billTaxreport", method=RequestMethod.GET)
-	public ModelAndView addShowCompanyForm() {
+	public ModelAndView addShowCompanyForm(HttpServletRequest request ) {
 		
 		ModelAndView mav = new ModelAndView("report/BillTax");
 		try {
 		restTamplate = new RestTemplate();
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
 		mav.addObject("compList", compList);
+		
+		HttpSession session = request.getSession();
+		MUser userResponse = (MUser) session.getAttribute("userBean");
+	 
+		mav.addObject("compId", userResponse.getCompanyId());
 		mav.addObject("title", "Bill Tax Report");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -83,16 +89,22 @@ public class BillTaxReportController {
 	
 	public @ResponseBody List<TaxBillBean> getTaxwiseBillReport(HttpServletRequest req, HttpServletResponse resp) {
 		
+
+		HttpSession session = req.getSession();
+		//int compId = (int)session.getAttribute("conpanyId");
+		int locationId = (int)session.getAttribute("locationId");
+		
 		String fromDate = req.getParameter("fromDate");
 		String toDate = req.getParameter("toDate");
 		int comp_id = Integer.parseInt(req.getParameter("comp_id"));
 		
-		System.out.println(fromDate+" "+toDate+" "+comp_id);
+		System.out.println(fromDate+" "+toDate+" "+comp_id+" "+locationId);
 		
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 		map.add("toDate", DateConvertor.convertToYMD(toDate));
 		map.add("comp_id", comp_id);
+		map.add("locationId", locationId);
 		
 		TaxBillBean[] taxList = restTamplate.postForObject(Constants.url + "/ujwal/getBillTaxReport", map, TaxBillBean[].class);
 		getList = new ArrayList<TaxBillBean>(Arrays.asList(taxList));
@@ -144,10 +156,10 @@ public class BillTaxReportController {
 
 		}
 
-	/*	HttpSession session = request.getSession();
+		//HttpSession session = req.getSession();
 		session.setAttribute("exportExcelList", exportToExcelList);
 		session.setAttribute("excelName", "GetMatIssueHeader");
-*/
+
 		return getList;
 		
 	}
@@ -176,11 +188,11 @@ public class BillTaxReportController {
 			e.printStackTrace();
 		}
 
-		PdfPTable table = new PdfPTable(10);
+		PdfPTable table = new PdfPTable(11);
 		try {
 			System.out.println("Inside PDF Table try");
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] {2.4f,2.4f, 3.4f, 4.2f, 3.2f, 3.2f, 3.2f});
+			table.setWidths(new float[] {2.2f,4.4f,4.4f, 4.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f});
 			Font headFont = new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
 			Font headFont1 = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 			headFont1.setColor(BaseColor.WHITE);
@@ -190,7 +202,12 @@ public class BillTaxReportController {
 			hcell.setBackgroundColor(BaseColor.PINK);
 
 			hcell.setPadding(3);
-			hcell = new PdfPCell(new Phrase("Sr.No.", headFont1));
+			hcell = new PdfPCell(new Phrase("Sr No.", headFont1));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.PINK);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Invoice No.", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
 
@@ -206,6 +223,7 @@ public class BillTaxReportController {
 			hcell = new PdfPCell(new Phrase("Cust Name", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.PINK);
+			
 			table.addCell(hcell);
 			hcell = new PdfPCell(new Phrase("Cust GST", headFont1));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);

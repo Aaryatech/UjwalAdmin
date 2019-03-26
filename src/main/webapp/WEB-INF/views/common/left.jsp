@@ -221,11 +221,23 @@ html {
 						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/billTaxreport">Bill
 								Tax Report</a></li> 
-							
+															
 						<li class="active"><i class="fa fa-plus"></i><a
 								href="${pageContext.request.contextPath}/showBillwiseReport">Bill Wise Report</a></li>
+								
+						<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/modelWiseSalesreport">Model Sales
+								Report</a></li> 
+								
+						<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/focSalesReport">FOC Sales
+								Report</a></li> 
 							
-
+						<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showBillExcelReport">Export Bill For Tally</a></li>
+						
+						<li class="active"><i class="fa fa-plus"></i><a
+								href="${pageContext.request.contextPath}/showCustomerExcelReport">Export Customer For Tally</a></li>
 						</ul></li>
 
 					<%-- 	<li class="menu-item-has-children dropdown"><a href="#"

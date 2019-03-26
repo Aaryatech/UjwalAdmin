@@ -131,36 +131,36 @@
       <c:set var = "totalDisc" value = "0"/>
    <c:forEach items="${billHeaderRes.getBillDetail}" var="billDetails" varStatus="count">
      <tr>
-    <td  style="border-left:1px solid #313131; padding:3px 5px;color:#000; font-size:10px;">${count.index+1}</td>
-    <td style="border-left:1px solid #313131;  padding:3px 5px;color:#000; font-size:10px;">${billDetails.partName} - ${billDetails.exVar2}</td>
-    <td align="left" style="border-left:1px solid #313131;  padding:3px 5px;color:#000; font-size:10px;">${billDetails.hsnCode}</td>
-        <td align="left" style="border-left:1px solid #313131;  padding:3px 5px;color:#000; font-size:10px;">${billDetails.uomName}</td>
+    <td  style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000; font-size:10px;">${count.index+1}</td>
+    <td style="border-left:1px solid #313131;  padding:3px 5px 10px;color:#000; font-size:10px;">${billDetails.partName} - ${billDetails.exVar2}</td>
+    <td align="left" style="border-left:1px solid #313131;  padding:3px 5px 10px;;color:#000; font-size:10px;">${billDetails.hsnCode}</td>
+    <td align="left" style="border-left:1px solid #313131;  padding:3px 5px 10px;color:#000; font-size:10px;">${billDetails.uomName}</td>
    
     
-    <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
+    <td align="right" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.qty}"/></td>
 			  <c:set var = "totalQty" value = "${totalQty+billDetails.qty}"/>			
-    <td align="center" style="border-left:1px solid #313131; padding:3px 5px;color:#000; font-size:10px;">${billDetails.mrp}</td>
+    <td align="center" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000; font-size:10px;">${billDetails.mrp}</td>
    	
    
-    <td align="right" style="border-left:1px solid #313131; padding:3px 4px;color:#000; font-size:10px;"><fmt:formatNumber type="number"
+    <td align="right" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000; font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.taxableAmount}"/></td>
-    <td align="right" style="border-left:1px solid #313131; padding:3px 4px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
+    <td align="right" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.cgstPer}"/></td>
 								 <c:set var = "taxableAmt" value = "${taxableAmt+billDetails.taxableAmount}"/>
 								   <c:set var = "totalAmt" value = "${totalAmt+billDetails.grandTotal}"/>
-    <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000; font-size:10px;"><fmt:formatNumber type="number"
+    <td align="right" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000; font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.cgstRs}"/></td>
-    <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000; font-size:10px;"><fmt:formatNumber type="number"
+    <td align="right" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000; font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.sgstPer}"/></td>
 								  <c:set var = "totalCgst" value = "${totalCgst+billDetails.cgstRs}"/> 
-    <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
+    <td align="right" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.sgstRs}"/></td>
-    <td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
+    <td align="right" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.discPer}"/></td>
-	<td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
+	<td align="right" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.discRs}"/></td>
-	<td align="right" style="border-left:1px solid #313131; padding:3px 5px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
+	<td align="right" style="border-left:1px solid #313131; padding:3px 5px 10px;color:#000;font-size:10px;"><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${billDetails.grandTotal}"/></td>							
 						 <c:set var = "totalSgst" value = "${totalSgst+billDetails.sgstRs}"/> 
 						  <c:set var = "totalDisc" value = "${totalDisc+billDetails.discRs}"/>  
@@ -230,10 +230,37 @@
 	<td align="right" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;"><b><fmt:formatNumber type="number"
 								maxFractionDigits="2" minFractionDigits="2" value="${totalDisc}"/></b></td>
    
-	<td align="right" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;"><b><fmt:formatNumber type="number"
-								maxFractionDigits="2" minFractionDigits="2" value="${totalAmt}" var="wtotal"/> ${wtotal}</b></td>
+  
+  
+    
+  
+ <c:set var="totalabc" value="${Math.round(totalAmt)}" />
+ <c:set var="roundoff" value="${totalabc-totalAmt}" />
+ 
+
+   
+   
+	<td align="right" style="border-top:1px solid #313131;border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;">
+
+	<b><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${totalAmt}" var="wtotal"/> ${wtotal}</b></td>
 	  				
-  </tr>  
+  </tr> 
+  
+  <!-- //*********************************************************************************************/ -->
+  
+   <tr>
+   
+    <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
+        <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
+           <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
+           <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
+       <td align="center" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
+     <td style="border-bottom:1px solid #313131; font-size:0px;">-</td>  <td style="border-bottom:1px solid #313131; font-size:0px;">-</td>
+    <td style="border-bottom:1px solid #313131; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;padding:4px;color:#000; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;padding:4px;color:#000; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:12px;"><b>Round Off	:</b></td>
+    <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;"><b> <fmt:formatNumber value="${roundoff}" maxFractionDigits="2" minFractionDigits="2"/> </b></td>
+  </tr>
+  
+   <!-- ********************************************************************************************** -->
    <tr>
    
     <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
@@ -243,9 +270,14 @@
        <td align="center" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:0px;">-</td>
      <td style="border-bottom:1px solid #313131; font-size:0px;">-</td>  <td style="border-bottom:1px solid #313131; font-size:0px;">-</td>
     <td style="border-bottom:1px solid #313131; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;padding:4px;color:#000; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;padding:4px;color:#000; font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:0px;">-</td><td style="border-bottom:1px solid #313131;font-size:12px;"><b>Total:</b></td>
-    <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;"><b><fmt:formatNumber type="number"
-								maxFractionDigits="2" minFractionDigits="2" value="${totalAmt}"/></b></td>
+    <td align="right" style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:12px;">
+    <b><fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${totalabc}"/></b></td>
   </tr>
+  <tr>
+    <td colspan="15" width="100%"  style="border-left:1px solid #313131;border-bottom:1px solid #313131; padding:4px;color:#000; font-size:13px;">&nbsp;
+		In Words  : ${Currency.convertToIndianCurrency(totalabc)}
+</td>
+</tr>
 </table>
 
     
@@ -304,7 +336,7 @@ Declaration: We declare that this invoice shows actual price of goods described 
 </table>
 
 <p>-----------------------------------------------------------------------------------------------------------------------------------------</p>
- <table width="100%" border="0"  cellpadding="0" cellspacing="0" style="border-right:1px solid #313131;border-left:1px solid #313131;">
+ <table width="100%" border="0"  cellpadding="0" cellspacing="0" style="border-right:1px solid #313131;border-left:1px solid #313131; margin-top: -10%;">
   
  
     
@@ -324,37 +356,23 @@ Declaration: We declare that this invoice shows actual price of goods described 
       <td colspan="4" width="25%"  style="text-align:center; border-top:1px solid #313131; padding:8px;color:#000; font-size:12px;"></td>
          </tr> -->
    
-<%--     
-  <tr>
-    <td colspan="8" width="60%"  style="border-top:1px solid #313131; padding:8px;color:#000; font-size:13px;">
-Company's VAT TIN: <br />
-Company's CST No:<br />
-Company's PAN: ${billHeaderRes.compPanNo}
-</td>
-    <td colspan="4" width="60%" style="border-top:1px solid #313131;border-left:1px solid #313131;  padding:8px;color:#000;font-size:15px;">     
-    <p style="color:#000; font-size:13px; text-align:left;margin:0px;">
-    Company's Bank Details:<br />
-Bank Name:  ${billHeaderRes.bankDetail.bankName}<br />
-A/C No:     ${billHeaderRes.bankDetail.accNo}<br />
-Branch & IFSC Code: ${billHeaderRes.bankDetail.bankAddress} ---- ${billHeaderRes.bankDetail.bankIfsc}
-    </p></td>
-  </tr>  --%>
+
   <tr>
     <td colspan="12" width="100%"  style="border-top:1px solid #313131; padding:8px;color:#000; font-size:13px;">&nbsp;
-		Grand Total : <b>${totalAmt}</b>
+		Grand Total : <b>${totalabc}</b>
 </td>
   </tr>
-   <!-- <tr>
+   <tr>
     <td colspan="12" width="100%"  style="border-top:1px solid #313131; padding:8px;color:#000; font-size:13px;">&nbsp;
-		Rupees  : 
+		In Words  : ${Currency.convertToIndianCurrency(totalabc)}
 </td>
-  </tr> -->
+  </tr>
   <tr>
     <td colspan="8"  width="60%" style="border-bottom:1px solid #313131;border-top:1px solid #313131; padding:10px;color:#000; font-size:11px;">
      <p style="color:#000; font-size:13px; margin:0px;">Invoice No. : <b>${billHeaderRes.invoiceNo}</b></p><br />
+   	<p style="color:#000; font-size:13px; margin:0px;">Vehicle No. : <b>${billHeaderRes.custVehNo}</b></p><br />
      <p style="color:#000; font-size:13px; margin:0px;">Customer Name : <b>${billHeaderRes.custName}</b></p><br />
-     
-</td>
+   </td>
     <td  align="center" colspan="4" width="40%" style="border-bottom:1px solid #313131;border-top:1px solid #313131;border-left:none; padding:10px;color:#000;font-size:12px;">
   <p style="color:#000; font-size:13px; margin:0px;">Date : <b>${billHeaderRes.billDate}</b></p><br />
   <p style="color:#000; font-size:13px; margin:0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sale Type : <b>${billHeaderRes.saleType }</b></p><br />
@@ -367,6 +385,7 @@ Branch & IFSC Code: ${billHeaderRes.bankDetail.bankAddress} ---- ${billHeaderRes
 
 <div style="page-break-after: always;"></div>
  </c:forEach> 
+
 
 </body>
 </html> 

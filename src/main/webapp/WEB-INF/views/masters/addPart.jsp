@@ -374,6 +374,7 @@
 	function getCompId(modelno) { 
 
 	var companyId = document.getElementById("compId").value;
+	
 	var valid = true;
 	if (compId == null || compId == "") {
 		valid = false;

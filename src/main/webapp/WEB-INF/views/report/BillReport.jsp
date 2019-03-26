@@ -120,7 +120,26 @@
 
 								<div class="col-md-2">Select Company</div>
 
-								<div class="col-md-4">
+ 								<div class="col-md-4">
+											<select name="compId" id="compId" class="standardSelect" tabindex="6" 
+											required>
+											<option value="">Select Company</option>
+											<c:forEach items="${compList}" var="makeList"> 
+											<c:choose>
+											<c:when test="${makeList.compId==compId}">
+												<option value="${makeList.compId}" selected><c:out value="${makeList.compName}"></c:out> </option>
+											
+											</c:when>
+											<c:otherwise>
+												<option value="${makeList.compId}" disabled="disabled"><c:out value="${makeList.compName}"></c:out> </option>
+											
+											</c:otherwise>
+											</c:choose>
+											 </c:forEach>
+										</select> 
+									</div> 
+								
+								<%-- <div class="col-md-4">
 									<select id="compId" name="compId" class="standardSelect"
 									tabindex="1" required
 										oninvalid="setCustomValidity('Please select company')"
@@ -131,7 +150,7 @@
 											<option value="${comp.compId}">${comp.compName}</option>
 										</c:forEach>
 									</select>
-								</div>
+								</div>  --%>
 							</div>
 						
 
@@ -195,6 +214,36 @@
 								</thead>
 
 							</table>
+							
+							<div class="row">
+				
+								<div class="col-md-1">Taxable Amt</div>
+									<div class="col-lg-2">
+										<input type="text" id="ttlTaxable" readonly  value="00"
+											style="width: 70%;" class="form-control" autocomplete="off"/> 
+								</div>
+									
+									<div class="col-md-1">CGST</div>
+									<div class="col-lg-2">
+										<input type="text" id="ttlCGST" readonly  value="00"
+											style="width: 70%;" class="form-control" autocomplete="off"/> 
+								</div>
+								
+								<div class="col-md-1">SGST</div>
+									<div class="col-lg-2">
+										<input type="text" id="ttlSGST" readonly  value="00"
+											style="width: 70%;" class="form-control" autocomplete="off"/> 
+								</div>
+								
+															
+								<div class="col-md-1" style="font-size:bold">Grand Total</div>
+								<div class="col-lg-2">
+									<input type="text" id="totalAmt" readonly  value="00" 
+											style="width: 70%;" class="form-control"/> 
+								</div>
+								
+								</div>
+							
 							<div class="col-md-2"></div>
 
 							<div class="col-md-3">
@@ -367,11 +416,26 @@
 									var dataTable = $('#bootstrap-data-table')
 											.DataTable();
 									dataTable.clear().draw();
-
+										
+									var cgstamt=0;
+									var sgstamt=0;
+									var taxable=0;
+									var total=0;
 									$
 											.each(
 													data,
 													function(i, v) {
+														var ttlCgst=parseFloat(v.cgstAmt);
+														cgstamt= cgstamt+ttlCgst;
+														
+														var ttlSgst=parseFloat(v.sgstAmt);
+														sgstamt= sgstamt+ttlSgst;
+														
+														var ttlTaxable=parseFloat(v.taxableAmt);
+														taxable= taxable+ttlTaxable;
+														
+														var grndTtl=parseFloat( v.grandTotal);
+														total= total+grndTtl;
 
 													/* 	var acButton = '<a href="#" class="action_btn" onclick="callEdit('
 																+ v.matHeaderId
@@ -398,6 +462,11 @@
 																				 ])
 																.draw();
 													});
+									 	document.getElementById('ttlCGST').value = cgstamt.toFixed(2);
+							            document.getElementById('ttlSGST').value = sgstamt.toFixed(2);
+							            document.getElementById('ttlTaxable').value = taxable.toFixed(2);
+							            document.getElementById('totalAmt').value = total.toFixed(2);
+										
 
 								});
 

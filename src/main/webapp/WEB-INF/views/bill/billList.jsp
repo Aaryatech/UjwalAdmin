@@ -194,11 +194,11 @@
 											<c:forEach items="${compList}" var="makeList"> 
 											<c:choose>
 											<c:when test="${makeList.compId==compId}">
-					<option value="${makeList.compId}" selected><c:out value="${makeList.compName}"></c:out> </option>
+												<option value="${makeList.compId}" selected><c:out value="${makeList.compName}"></c:out> </option>
 											
 											</c:when>
 											<c:otherwise>
-		<option value="${makeList.compId}" disabled="disabled"><c:out value="${makeList.compName}"></c:out> </option>
+												<option value="${makeList.compId}" disabled="disabled"><c:out value="${makeList.compName}"></c:out> </option>
 											
 											</c:otherwise>
 											</c:choose>
@@ -321,8 +321,8 @@
 												 <a	href="#" onclick="singleBillPdf(${bill.billHeaderId})"><i
 														class="fa fa-file-pdf-o" title="pdf"></i></a>
 												  &nbsp;&nbsp; 
-												 <a	href="#" onclick="singleBillXml(${bill.billHeaderId})"><i
-														class="fa fa fa-file-text" title="XML"></i></a>														
+												<%--  <a	href="#" onclick="singleBillXml(${bill.billHeaderId})"><i
+														class="fa fa fa-file-text" title="XML"></i></a>			 --%>											
 												</td>
 											</tr>
 										</c:forEach>
@@ -415,7 +415,7 @@
 				function(data) {
 					
 					var len = data.length;
-					//alert("data " +JSON.stringify(data));
+					alert("data " +JSON.stringify(data));
 					var html='<option value=""> Select</option>';
 
 					for (var i = 0; i < len; i++) {
@@ -626,9 +626,9 @@ var checkB = '<input  type="checkbox" name=select_to_print id=select_to_print'+v
 														+ ','
 														+ i
 														+ ')"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#" class="action_btn" onclick="singleBillPdf('
-															+ v.billHeaderId+ ')"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#" class="action_btn" onclick="singleBillXml('
-															+ v.billHeaderId+ ')"><i class="fa fa-file-text"></i></a>';
- 
+															+ v.billHeaderId+ ')"><i class="fa fa-file-pdf-o"></i>';
+ 															//</a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#" class="action_btn" onclick="singleBillXml('
+															//+ v.billHeaderId+ ')"><i class="fa fa-file-text"></i></a>
 												dataTable.row
 														.add(
 																[

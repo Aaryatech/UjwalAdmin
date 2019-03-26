@@ -11,8 +11,8 @@
 
 
 <c:url var="getItemListBetweenDate" value="/getItemListBetweenDate" />
-<c:url var="getBillListBetweenDate" value="/getBillListBetweenDate" />
-
+<c:url var="getModelSaleBetweenDate" value="/getModelSaleBetweenDate" />
+<c:url var="getModelNo" value="/getModelNo" />
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -97,20 +97,41 @@
 							<div class="form-group"></div>
 
 							<div class="row">
+							<div class="col-md-2">Company Name*</div>
+									<div class="col-md-4">
+									 <select name="compId" id="compId" class="standardSelect" tabindex="6" required
+									 oninvalid="setCustomValidity('Please select company')" onchange="getCompId()"> 
+									 <option value="">Select Company</option>
+										<option value="${compId}">${companyName}</option>
+											<c:forEach items="${compList}" var="makeList"> 
+											<c:choose>
+											<c:when test="${makeList.compId == partList.compId}">
+											<option value="${makeList.compId}" selected="selected">${makeList.compName}</option>
+											</c:when>
+											<c:otherwise><option value="${makeList.compId}" disabled="disabled">${makeList.compName}</option></c:otherwise>
+											</c:choose>
+											 </c:forEach>
+										</select>
+									</div>
 
-
-								<div class="col-md-2">Item Name</div>
-								<div class="col-md-4">
-									<select id="item_id" name="item_id" class="standardSelect"
-										tabindex="1" required
-										oninvalid="setCustomValidity('Please select item')">
-										<option value="0">All</option>
-										<c:forEach items="${partList}" var="item">
-											<option value="${item.partId}">${item.partName}</option>
-										</c:forEach>
-
-									</select>
-								</div>
+								<div class="col-md-2">Model Name*</div>
+										<div class="col-md-4">
+										
+											<select name="cust_model_no" id="cust_model_no" class="standardSelect" tabindex="6" required>
+											<option value="">Select Model</option>
+											<%-- <c:forEach items="${modBean}" var="modelList">
+											<c:choose>
+											<c:when test="${modelList.modelId ==partList.partRoNo}">
+												<option value="${modelList.partRoNo}" selected>${modelList.modelName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${modelList.partRoNo}">${modelList.modelName}</option>
+											</c:otherwise>
+											</c:choose>
+											 </c:forEach> --%>
+										</select>  <span
+											class="error" aria-live="polite"></span>
+									</div>	
 
 							</div>
 
@@ -156,16 +177,18 @@
 										<tr>	
 											<th style="text-align: center; width: 5%;">Sr No</th>
 											<!-- <th style="text-align: center">Invoice No.</th> -->
-											<th style="text-align: center">Item Name</th>
-											<th style="text-align: center">HSN Code</th>
-											<th style="text-align: center">Tax Rate</th>
-											<th style="text-align: center">Qty.</th>
+											<th style="text-align: center">Invoice No</th>
+											<th style="text-align: center">Date</th>
+											<th style="text-align: center">Customer Name</th>
+											<th style="text-align: center">Model</th>
 											<th style="text-align: center">Taxble Amount</th>
-											<th style="text-align: center">CGST</th>
-											<th style="text-align: center">SGST</th>
-											<th style="text-align: center">IGST</th>
+											<th style="text-align: center">CGST% </th>
+											<th style="text-align: center">SGST%</th>
+											<!-- <th style="text-align: center">IGST%</th> -->
+											<th style="text-align: center">CGST Amt</th>
+											<th style="text-align: center">SGST Amt</th>
 											<th style="text-align: center">Total Tax</th>
-											<th style="text-align: center">Total Amount</th>
+											<th style="text-align: center">Invoice Amount</th>
 										
 										</tr>
 									</thead>
@@ -177,33 +200,26 @@
 								<div class="col-md-1">Taxable Amt</div>
 									<div class="col-lg-2">
 										<input type="text" id="ttlTaxable" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
-								</div>
-								
-								<div class="col-md-1" style="margin-left: -6%;">Qty</div>
-									<div class="col-lg-2">
-										<input type="text" id="ttlQty" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
+											style="width: 70%;" class="form-control" autocomplete="off"/> 
 								</div>
 									
-									<div class="col-md-1" style="margin-left: -6%;">CGST</div>
+									<div class="col-md-1">CGST</div>
 									<div class="col-lg-2">
 										<input type="text" id="ttlCGST" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
+											style="width: 70%;" class="form-control" autocomplete="off"/> 
 								</div>
 								
-								<div class="col-md-1" style="margin-left: -6%;">SGST</div>
+								<div class="col-md-1">SGST</div>
 									<div class="col-lg-2">
-									
 										<input type="text" id="ttlSGST" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
+											style="width: 70%;" class="form-control" autocomplete="off"/> 
 								</div>
 								
 															
-								<div class="col-md-1" style="font-size:bold; margin-left: -7%;" >Grand Total</div>
+								<div class="col-md-1" style="font-size:bold">Grand Total</div>
 								<div class="col-lg-2">
 									<input type="text" id="totalAmt" readonly  value="00" 
-											style="width: 60%;" class="form-control"/> 
+											style="width: 70%;" class="form-control"/> 
 								</div>
 								
 								</div>
@@ -227,6 +243,8 @@
 										PDF</button>
 								</div>
 								&nbsp;
+								
+								
 
 							</div>
 
@@ -315,6 +333,47 @@
 		});
 	</script>
 
+<script type="text/javascript">
+	function getCompId() { 
+	
+	var companyId = document.getElementById("compId").value;
+	//alert("he:"+companyId);
+	var valid = true;
+	if (compId == null || compId == "") {
+		valid = false;
+		alert("Please select Model Name");
+	}
+
+	if (valid == true) {
+		//alert(companyId);
+		$.getJSON('${getModelNo}', {
+			companyId : companyId,
+			ajax : 'true',
+		},
+
+		function(data) {
+			
+			var len = data.length;
+			//alert("data " +JSON.stringify(data));
+			var html='<option value="">Select Model</option>';
+
+			for (var i = 0; i < len; i++) {
+
+				
+				html += '<option value="' + data[i].modelId + '" selected>'
+						+data[i].modelName+ '</option>';
+				
+
+			}
+			html += '</option>';
+			$('#cust_model_no').html(html);
+			$("#cust_model_no").trigger("chosen:updated");
+		
+		});
+	}//end of if
+ 
+}
+</script>
 
 
 
@@ -324,24 +383,26 @@
 		function showItemReport() {
 
 			//alert("Hi View Orders  ");
-
-			var itemId = document.getElementById("item_id").value;
+			var modelId = document.getElementById("cust_model_no").value;
+			var compId = document.getElementById("compId").value;
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
-			//alert(compId);
+			//alert(modelId+" "+compId+" "+fromDate+" "+toDate);
 
 			var valid = true;
-
-			if (itemId == null || itemId == "") {
+		
+			if (compId == null || compId == "") {
 				valid = false;
-				alert("Please select item");
+				alert("Please select Company");
+			}
+			
+			else if (modelId == null || modelId == "") {
+				valid = false;
+				alert("Please select Model");
 			}
 
 		
-			//alert("plantId" + plantId);
-		
-
 			else if (fromDate == null || fromDate == "") {
 				valid = false;
 				alert("Please select from date");
@@ -358,9 +419,9 @@
 			}
 			if (valid == true) {
 
-				$.getJSON('${getItemListBetweenDate}', {
-					itemId : itemId,
-				
+				$.getJSON('${getModelSaleBetweenDate}', {
+					compId : compId,
+					modelId:modelId,
 					fromDate : fromDate,
 					toDate : toDate,
 					ajax : 'true',
@@ -381,46 +442,36 @@
 
 					var dataTable = $('#bootstrap-data-table').DataTable();
 					dataTable.clear().draw();
-
 					var cgstamt=0;
 					var sgstamt=0;
 					var taxable=0;
 					var total=0;
-					var ttlqty=0;
 					$.each(data, function(i, v) {
-							var igst = 0;
-							var taxRate=v.cgstPer+v.sgstPer; 
-  							var totaltax=v.cgst+v.sgst;
-  							var totalAmt=v.taxableAmount+totaltax; 
-  							
-  							var ttlCgst=parseFloat(v.cgst);
-  							cgstamt= cgstamt+ttlCgst;
-  							
-  							var ttlSgst=parseFloat(v.sgst);
-  							sgstamt= sgstamt+ttlSgst;
-  							
-  							var ttlTaxable=parseFloat(v.taxableAmount);
-  							taxable= taxable+ttlTaxable;
-  							
-  							var grndTtl=parseFloat(totalAmt);
-  							total= total+grndTtl;
-  							
-  							var totalQty=v.qty;
-  							ttlqty=ttlqty+totalQty;
-  							
-							//alert("total="+totalAmt);
+						
+						var ttlCgst=parseFloat(v.cgstAmt);
+						cgstamt= cgstamt+ttlCgst;
+						
+						var ttlSgst=parseFloat(v.sgstAmt);
+						sgstamt= sgstamt+ttlSgst;
+						
+						var ttlTaxable=parseFloat(v.taxableAmt);
+						taxable= taxable+ttlTaxable;
+						
+						var grndTtl=parseFloat( v.invoiceAmt);
+						total= total+grndTtl;
+						
 						dataTable.row.add(
-								[ i + 1, v.partName, v.hsnCode, taxRate, v.qty, v.taxableAmount,
-										 v.cgst, v.sgst, igst, totaltax, totalAmt
-
+								[ i + 1, v.invoiceNo, v.billDate, v.custName, v.modelName, v.taxableAmt,
+									 v.cgstPer, v.sgstPer, v.cgstAmt, v.sgstAmt,
+									 v.totalTax, v.invoiceAmt
+									 //, v.igstPer
+									 
 								]).draw();
 					});
-					
-					document.getElementById('ttlCGST').value = cgstamt.toFixed(2);
+		            document.getElementById('ttlCGST').value = cgstamt.toFixed(2);
 		            document.getElementById('ttlSGST').value = sgstamt.toFixed(2);
 		            document.getElementById('ttlTaxable').value = taxable.toFixed(2);
 		            document.getElementById('totalAmt').value = total.toFixed(2);
-		            document.getElementById('ttlQty').value = ttlqty;
 					
 
 				});
@@ -515,12 +566,13 @@
 	<script type="text/javascript">
 		function genPdf() {
 			//alert("hiii");
-			var itemId = document.getElementById("item_id").value;
+			var modelId = document.getElementById("cust_model_no").value;
+			var compId = document.getElementById("compId").value;
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
-			window.open('${pageContext.request.contextPath}/showItemWisePdf/'
-					+ fromDate + '/' + toDate+ '/' + itemId);
+			window.open('${pageContext.request.contextPath}/showModelSalesPdf/'
+					+ fromDate + '/' + toDate+ '/' + compId);
 			document.getElementById("expExcel").disabled = true;
 
 		}

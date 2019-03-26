@@ -48,7 +48,8 @@ public class UjwalPartController {
 			System.out.println("Session Data = "+compId+" "+companyName);
 			
 		restTamplate = new RestTemplate();
-		
+		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
+		map.add("compId", compId);
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
 		mav.addObject("compList", compList);
 		
@@ -62,7 +63,7 @@ public class UjwalPartController {
 		List<MGetPart> getpartList = restTamplate.getForObject(Constants.url + "/getAllPartList", List.class);
 		mav.addObject("getList", getpartList);
 		
-		List<MPart> partList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
+		List<MPart> partList = restTamplate.postForObject(Constants.url + "/ujwal/getAllPart",map, List.class);
 		mav.addObject("pList", partList);
 		
 		mav.addObject("compid", compId);
@@ -131,12 +132,17 @@ public class UjwalPartController {
 	
 @RequestMapping(value="/editPart/{partId}", method=RequestMethod.GET)
 	
-	public ModelAndView editCompany(@PathVariable("partId") int id) {
+	public ModelAndView editCompany(@PathVariable("partId") int id, HttpServletRequest req) {
 		
 		ModelAndView mav = new ModelAndView("masters/addPart");
 		try {
+			
+		HttpSession session = req.getSession();
+		int compId = (int) session.getAttribute("conpanyId");
+		
 		restTamplate = new RestTemplate();
 		MultiValueMap< String, Object> map = new LinkedMultiValueMap<>();
+
 		map.add("id", id);
 		
 		List<MCompany> compList = restTamplate.getForObject(Constants.url + "/ujwal/getAllCompanies", List.class);
@@ -146,16 +152,19 @@ public class UjwalPartController {
 		mav.addObject("modBean", modBean);
 		
 		MPart partList = restTamplate.postForObject(Constants.url + "/ujwal/getPartById", map, MPart.class);
+		System.out.println("Edit Part="+partList);
 		mav.addObject("partList", partList);
 		mav.addObject("partRoNo", partList.getPartRoNo());
 		
 		List<MUom> muom = restTamplate.getForObject(Constants.url + "/ujwal/getAllMUom", List.class);
 		mav.addObject("muomList", muom);
 		
-		List<MPart> pList = restTamplate.getForObject(Constants.url + "/ujwal/getAllPart", List.class);
+		map.add("compId",compId);
+		List<MPart> pList = restTamplate.postForObject(Constants.url + "/ujwal/getAllPart", map, List.class);
 		mav.addObject("pList", pList);
 		
 		List<MTax> taxList = restTamplate.getForObject(Constants.url + "/ujwal/getAllTaxes", List.class);
+		System.out.println("Edit Tax="+taxList);
 		mav.addObject("tList", taxList);
 		
 		mav.addObject("title", "Update Part");

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,9 +42,12 @@ import org.zefer.pd4ml.PD4PageMark;
 import com.ujwal.billsoft.commons.Constants;
 import com.ujwal.billsoft.commons.Currency;
 import com.ujwal.billsoft.commons.DateConvertor;
+import com.ujwal.billsoft.commons.ExportToExcel;
 import com.ujwal.billsoft.models.BillDetails;
+import com.ujwal.billsoft.models.BillExcell;
 import com.ujwal.billsoft.models.BillHeader;
 import com.ujwal.billsoft.models.BillReport;
+import com.ujwal.billsoft.models.CompReport;
 import com.ujwal.billsoft.models.MCompany;
 import com.ujwal.billsoft.models.MCustomer;
 import com.ujwal.billsoft.models.MGetPart;
@@ -312,10 +316,10 @@ public @ResponseBody String findModelId(HttpServletRequest request,HttpServletRe
 					System.out.println("Base Rate without tax: "+mrpBaseRate);
 			}else {
 			mrpBaseRate=(partMrp*100)/(100+parttax.getCgstPer()+parttax.getSgstPer());
-			mrpBaseRate=roundUp(mrpBaseRate);
+			//mrpBaseRate=roundUp(mrpBaseRate);
 			System.out.println("Base Rate with tax: "+mrpBaseRate);
 			}
-			mrpBaseRate=roundUp(mrpBaseRate);
+			//mrpBaseRate=roundUp(mrpBaseRate);
 			System.out.println("Base Rate: "+mrpBaseRate);
 			
 			float taxableAmt =  mrpBaseRate * qty;	
@@ -337,8 +341,7 @@ public @ResponseBody String findModelId(HttpServletRequest request,HttpServletRe
 			
 			float igstRs = (taxableAmt * parttax.getIgstPer()) / 100;		
 			igstRs=roundUp(igstRs);
-			
-			System.out.println("igstRs: "+igstRs);
+			//System.out.println("igstRs: "+igstRs);
 			
 			float cessRs = (taxableAmt * parttax.getCessPer()) / 100;		
 			cessRs=roundUp(cessRs);
@@ -347,13 +350,22 @@ public @ResponseBody String findModelId(HttpServletRequest request,HttpServletRe
 			float totalTax = sgstRs + cgstRs;
 			System.out.println("totalTax: "+totalTax);		
 			
+		
+			
+			//discAmt=roundUp(discAmt);
+			System.out.println("discAmt: "+discAmt);	
+			
+			taxableAmt=roundUp(taxableAmt);	
+			System.out.println("taxableAmt: "+taxableAmt);	
+			
 			float grandTotal = totalTax + taxableAmt;		
 			System.out.println("grandTotal: "+grandTotal);	
 			
-			discAmt=roundUp(discAmt);	System.out.println("discAmt: "+discAmt);	
-			taxableAmt=roundUp(taxableAmt);	System.out.println("taxableAmt: "+taxableAmt);	
-			grandTotal=roundUp(grandTotal);	System.out.println("grandTotal: "+grandTotal);	
-			grandTotal=(float) Math.ceil((double)grandTotal);
+			//grandTotal=roundUp(grandTotal);
+			System.out.println("grandTotal: "+grandTotal);	
+				
+			//grandTotal=(float) Math.ceil((double)grandTotal);
+			System.out.println("grandTotal2: "+grandTotal);	
 			if(isEdit==1)
 			{/*  
 				detailList.get(index).setBillDetailId(0);
@@ -449,9 +461,7 @@ public @ResponseBody String findModelId(HttpServletRequest request,HttpServletRe
 
 }
 
-public static float roundUp(float d) {					
-	return BigDecimal.valueOf(d).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();				
-}					
+					
 @RequestMapping(value = "/getItemForEdit", method = RequestMethod.GET)
 public @ResponseBody BillDetails getItemForEdit(HttpServletRequest request, HttpServletResponse response) {
 
@@ -761,11 +771,10 @@ public ModelAndView showBillsPdf(@PathVariable("billHeadId") String[] billTempId
 		GetBillHeader[] billHeaderRes = rest.postForObject(Constants.url + "/findBillsByHeaderId", map,
 				GetBillHeader[].class);
 		ArrayList<GetBillHeader> billHeaders = new ArrayList<GetBillHeader>(Arrays.asList(billHeaderRes));
-
-		System.err.println(billHeaders.toString());
-	
+		
 		HttpSession httpSession = request.getSession();
 		httpSession.setAttribute("Currency", new Currency());
+				
 		model.addObject("billHeaderList", billHeaders);
 		model.addObject("imgUrl", Constants.SHOW_IMG);
 	} catch (Exception e) {
@@ -773,6 +782,7 @@ public ModelAndView showBillsPdf(@PathVariable("billHeadId") String[] billTempId
 	}
 	return model;
 }
+
 
 /*@RequestMapping(value = "/files", method = RequestMethod.GET)
 @ResponseBody public FileSystemResource getFile(HttpServletResponse response) {
@@ -1179,7 +1189,7 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 	String url = request.getParameter("url");
 	System.out.println("URL " + url);
 	
-	//File f = new File("E:/AARYATech/bill.pdf");
+//	File f = new File("/home/maddy/ats-12/bill.pdf");
 	File f = new File("/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf");
 	
 
@@ -1197,7 +1207,8 @@ public void showPDF(HttpServletRequest request, HttpServletResponse response) {
 	ServletContext context = request.getSession().getServletContext();
 	String appPath = context.getRealPath("");
 	String filename = "ordermemo221.pdf";
-	//String filePath = "E://AARYATech/bill.pdf";
+	
+//	String filePath = "/home/maddy/ats-12/bill.pdf";
 	String filePath = "/home/aaryate1/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/ujwal/bill.pdf";
 			
 	String fullPath = appPath + filePath;
@@ -1257,6 +1268,7 @@ private void runConverter(String urlstring, File output, HttpServletRequest requ
 		java.io.FileOutputStream fos = new java.io.FileOutputStream(output);
 
 		PD4ML pd4ml = new PD4ML();
+		//pd4ml.enableSmartTableBreaks(true);
 
 		try {
 
@@ -1290,5 +1302,9 @@ private void runConverter(String urlstring, File output, HttpServletRequest requ
 		pd4ml.render(urlstring, fos);
 
 	}
+}
+
+public static float roundUp(float d) {					
+	return BigDecimal.valueOf(d).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();				
 }
 }

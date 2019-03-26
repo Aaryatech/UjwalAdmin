@@ -10,7 +10,7 @@
 <title>Ujjwal Billing Software</title>
 
 
-<c:url var="getItemListBetweenDate" value="/getItemListBetweenDate" />
+<c:url var="listfocItemSales" value="/listfocItemSales" />
 <c:url var="getBillListBetweenDate" value="/getBillListBetweenDate" />
 
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
@@ -156,17 +156,12 @@
 										<tr>	
 											<th style="text-align: center; width: 5%;">Sr No</th>
 											<!-- <th style="text-align: center">Invoice No.</th> -->
+											<th style="text-align: center">Invoice No.</th>
+											<th style="text-align: center">Invoice Date</th>
 											<th style="text-align: center">Item Name</th>
-											<th style="text-align: center">HSN Code</th>
-											<th style="text-align: center">Tax Rate</th>
+											<th style="text-align: center">Unit Of Measure</th>
+											<th style="text-align: center">MRP</th>
 											<th style="text-align: center">Qty.</th>
-											<th style="text-align: center">Taxble Amount</th>
-											<th style="text-align: center">CGST</th>
-											<th style="text-align: center">SGST</th>
-											<th style="text-align: center">IGST</th>
-											<th style="text-align: center">Total Tax</th>
-											<th style="text-align: center">Total Amount</th>
-										
 										</tr>
 									</thead>
 
@@ -174,37 +169,15 @@
 								
 								<div class="row">
 				
-								<div class="col-md-1">Taxable Amt</div>
-									<div class="col-lg-2">
-										<input type="text" id="ttlTaxable" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
-								</div>
 								
-								<div class="col-md-1" style="margin-left: -6%;">Qty</div>
+								
+								<div class="col-md-1" style="float: right: ;">MRP</div>
 									<div class="col-lg-2">
-										<input type="text" id="ttlQty" readonly  value="00"
+										<input type="text" id="ttlmrp" readonly  value="00"
 											style="width: 60%;" class="form-control" autocomplete="off"/> 
 								</div>
 									
-									<div class="col-md-1" style="margin-left: -6%;">CGST</div>
-									<div class="col-lg-2">
-										<input type="text" id="ttlCGST" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
-								</div>
 								
-								<div class="col-md-1" style="margin-left: -6%;">SGST</div>
-									<div class="col-lg-2">
-									
-										<input type="text" id="ttlSGST" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
-								</div>
-								
-															
-								<div class="col-md-1" style="font-size:bold; margin-left: -7%;" >Grand Total</div>
-								<div class="col-lg-2">
-									<input type="text" id="totalAmt" readonly  value="00" 
-											style="width: 60%;" class="form-control"/> 
-								</div>
 								
 								</div>
 								
@@ -358,7 +331,7 @@
 			}
 			if (valid == true) {
 
-				$.getJSON('${getItemListBetweenDate}', {
+				$.getJSON('${listfocItemSales}', {
 					itemId : itemId,
 				
 					fromDate : fromDate,
@@ -382,45 +355,23 @@
 					var dataTable = $('#bootstrap-data-table').DataTable();
 					dataTable.clear().draw();
 
-					var cgstamt=0;
-					var sgstamt=0;
-					var taxable=0;
-					var total=0;
-					var ttlqty=0;
+					
+					var ttlmrp=0;
 					$.each(data, function(i, v) {
-							var igst = 0;
-							var taxRate=v.cgstPer+v.sgstPer; 
-  							var totaltax=v.cgst+v.sgst;
-  							var totalAmt=v.taxableAmount+totaltax; 
+							
+  							var mrp=parseFloat(v.mrp);
+  							ttlmrp= ttlmrp+mrp;
   							
-  							var ttlCgst=parseFloat(v.cgst);
-  							cgstamt= cgstamt+ttlCgst;
-  							
-  							var ttlSgst=parseFloat(v.sgst);
-  							sgstamt= sgstamt+ttlSgst;
-  							
-  							var ttlTaxable=parseFloat(v.taxableAmount);
-  							taxable= taxable+ttlTaxable;
-  							
-  							var grndTtl=parseFloat(totalAmt);
-  							total= total+grndTtl;
-  							
-  							var totalQty=v.qty;
-  							ttlqty=ttlqty+totalQty;
-  							
-							//alert("total="+totalAmt);
+  							//alert("total="+totalAmt);
 						dataTable.row.add(
-								[ i + 1, v.partName, v.hsnCode, taxRate, v.qty, v.taxableAmount,
-										 v.cgst, v.sgst, igst, totaltax, totalAmt
+								[ i + 1, v.invoiceNo, v.billDate, v.partName, v.uomName, v.mrp,
+										 v.qty
 
 								]).draw();
 					});
 					
-					document.getElementById('ttlCGST').value = cgstamt.toFixed(2);
-		            document.getElementById('ttlSGST').value = sgstamt.toFixed(2);
-		            document.getElementById('ttlTaxable').value = taxable.toFixed(2);
-		            document.getElementById('totalAmt').value = total.toFixed(2);
-		            document.getElementById('ttlQty').value = ttlqty;
+					
+		            document.getElementById('ttlmrp').value = ttlmrp;
 					
 
 				});
@@ -519,7 +470,7 @@
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
-			window.open('${pageContext.request.contextPath}/showItemWisePdf/'
+			window.open('${pageContext.request.contextPath}/showFocItemSalesPdf/'
 					+ fromDate + '/' + toDate+ '/' + itemId);
 			document.getElementById("expExcel").disabled = true;
 

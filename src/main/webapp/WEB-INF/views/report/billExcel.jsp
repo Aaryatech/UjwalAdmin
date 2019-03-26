@@ -11,7 +11,7 @@
 
 
 <c:url var="getItemListBetweenDate" value="/getItemListBetweenDate" />
-<c:url var="getBillListBetweenDate" value="/getBillListBetweenDate" />
+<c:url var="billtoExcel" value="/billtoExcel" />
 
 <meta name="description" content="Sufee Admin - HTML5 Admin Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -96,7 +96,7 @@
 
 							<div class="form-group"></div>
 
-							<div class="row">
+							<%-- <div class="row">
 
 
 								<div class="col-md-2">Item Name</div>
@@ -112,7 +112,7 @@
 									</select>
 								</div>
 
-							</div>
+							</div> --%>
 
 
 							<div class="form-group"></div>
@@ -156,58 +156,81 @@
 										<tr>	
 											<th style="text-align: center; width: 5%;">Sr No</th>
 											<!-- <th style="text-align: center">Invoice No.</th> -->
-											<th style="text-align: center">Item Name</th>
-											<th style="text-align: center">HSN Code</th>
-											<th style="text-align: center">Tax Rate</th>
-											<th style="text-align: center">Qty.</th>
+											<th style="text-align: center">Invoice No</th>
+											<th style="text-align: center">Date</th>
+											<th style="text-align: center">Customer Name</th>
+											<th style="text-align: center">Model</th>
 											<th style="text-align: center">Taxble Amount</th>
-											<th style="text-align: center">CGST</th>
-											<th style="text-align: center">SGST</th>
-											<th style="text-align: center">IGST</th>
+											<th style="text-align: center">CGST% </th>
+											<th style="text-align: center">SGST%</th>
+											<!-- <th style="text-align: center">IGST%</th> -->
+											<th style="text-align: center">CGST Amt</th>
+											<th style="text-align: center">SGST Amt</th>
 											<th style="text-align: center">Total Tax</th>
-											<th style="text-align: center">Total Amount</th>
+											<th style="text-align: center">Invoice Amount</th>
 										
 										</tr>
 									</thead>
+								<%-- 	<tbody>
+										<c:forEach items="${pList}" var="pList" varStatus="count">
+										<tr>
+												<td><input type="checkbox" class="chk"
+													name="partIds" id="partIds${count.index+1}"
+													value="${pList.partId}" /></td>
+												<td style="text-align: center">${count.index+1}</td>
 
+
+												<td style="text-align: left"><c:out
+														value="${pList.invoiceNo}" /></td>
+
+												<td style="text-align: left"><c:out
+														value="${pList.billDate}" /></td>
+
+												<td style="text-align: left"><c:out
+														value="${pList.partRegisterNo}" /></td>
+														
+												<td style="text-align: left"><c:out
+														value="${pList.custName}" /></td> 
+														
+												<td style="text-align: left"><c:out
+														value="${pList.modelName}" /></td>
+																												
+												<td style="text-align: left"><c:out
+														value="${pList.taxableAmt}" /></td>
+													
+												<td style="text-align: left"><c:out
+														value="${pList.cgstPer}" /></td>
+													
+												<td style="text-align: left"><c:out
+														value="${pList.sgstPer}" /></td>
+																						
+												<td style="text-align: left"><c:out
+														value="${pList.igstPer}" /></td>
+														
+												<td style="text-align: left"><c:out
+														value="${pList.cgstAmt}" /></td>
+														
+												<td style="text-align: left"><c:out
+														value="${pList.sgstAmt}" /></td>
+														
+												<td style="text-align: left"><c:out
+														value="${pList.totalTax}" /></td>
+														
+												<td style="text-align: left"><c:out
+														value="${pList.invoiceAmt}" /></td>	
+																				
+												<td style="text-align: center"><a
+													href="${pageContext.request.contextPath}/editPart/${pList.partId}"><i
+														class="fa fa-edit" title="Edit"></i> <span class="text-muted"></span></a>
+													&nbsp; <a
+													href="${pageContext.request.contextPath}/deletePart/${pList.partId}"
+													onClick="return confirm('Are you sure want to delete this record');"><i
+														class="fa fa-trash-o" title="Delete"></i></a></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+ --%>									
 								</table>
-								
-								<div class="row">
-				
-								<div class="col-md-1">Taxable Amt</div>
-									<div class="col-lg-2">
-										<input type="text" id="ttlTaxable" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
-								</div>
-								
-								<div class="col-md-1" style="margin-left: -6%;">Qty</div>
-									<div class="col-lg-2">
-										<input type="text" id="ttlQty" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
-								</div>
-									
-									<div class="col-md-1" style="margin-left: -6%;">CGST</div>
-									<div class="col-lg-2">
-										<input type="text" id="ttlCGST" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
-								</div>
-								
-								<div class="col-md-1" style="margin-left: -6%;">SGST</div>
-									<div class="col-lg-2">
-									
-										<input type="text" id="ttlSGST" readonly  value="00"
-											style="width: 60%;" class="form-control" autocomplete="off"/> 
-								</div>
-								
-															
-								<div class="col-md-1" style="font-size:bold; margin-left: -7%;" >Grand Total</div>
-								<div class="col-lg-2">
-									<input type="text" id="totalAmt" readonly  value="00" 
-											style="width: 60%;" class="form-control"/> 
-								</div>
-								
-								</div>
-								
 								<div class="col-md-2"></div>
 
 								<div class="col-md-3">
@@ -219,13 +242,13 @@
 								</div>
 
 
-								<div class="col-md-3">
+								 <div class="col-md-3">
 
 									<button type="button" class="btn btn-primary"
 										onclick="genPdf()" disabled="disabled" id="PDFButton"
-										style="align-content: center; width: 100px; margin-left: 80px; background-color: #272c33;">
+										style="align-content: center; width: 100px; margin-left: 80px;color:white; border-color:white; background-color: white;">
 										PDF</button>
-								</div>
+								</div> 
 								&nbsp;
 
 							</div>
@@ -322,10 +345,7 @@
 	<script type="text/javascript">
 		// onclick of submit to search order 
 		function showItemReport() {
-
-			//alert("Hi View Orders  ");
-
-			var itemId = document.getElementById("item_id").value;
+			
 			var fromDate = document.getElementById("from_date").value;
 			var toDate = document.getElementById("to_date").value;
 
@@ -333,16 +353,7 @@
 
 			var valid = true;
 
-			if (itemId == null || itemId == "") {
-				valid = false;
-				alert("Please select item");
-			}
-
-		
-			//alert("plantId" + plantId);
-		
-
-			else if (fromDate == null || fromDate == "") {
+			if (fromDate == null || fromDate == "") {
 				valid = false;
 				alert("Please select from date");
 			}
@@ -358,9 +369,8 @@
 			}
 			if (valid == true) {
 
-				$.getJSON('${getItemListBetweenDate}', {
-					itemId : itemId,
-				
+				$.getJSON('${billtoExcel}', {
+									
 					fromDate : fromDate,
 					toDate : toDate,
 					ajax : 'true',
@@ -382,46 +392,20 @@
 					var dataTable = $('#bootstrap-data-table').DataTable();
 					dataTable.clear().draw();
 
-					var cgstamt=0;
-					var sgstamt=0;
-					var taxable=0;
-					var total=0;
-					var ttlqty=0;
 					$.each(data, function(i, v) {
-							var igst = 0;
-							var taxRate=v.cgstPer+v.sgstPer; 
-  							var totaltax=v.cgst+v.sgst;
-  							var totalAmt=v.taxableAmount+totaltax; 
-  							
-  							var ttlCgst=parseFloat(v.cgst);
-  							cgstamt= cgstamt+ttlCgst;
-  							
-  							var ttlSgst=parseFloat(v.sgst);
-  							sgstamt= sgstamt+ttlSgst;
-  							
-  							var ttlTaxable=parseFloat(v.taxableAmount);
-  							taxable= taxable+ttlTaxable;
-  							
-  							var grndTtl=parseFloat(totalAmt);
-  							total= total+grndTtl;
-  							
-  							var totalQty=v.qty;
-  							ttlqty=ttlqty+totalQty;
-  							
+							//var igst = 0;
+							//var taxRate=v.cgstPer+v.sgstPer; 
+  							//var totaltax=v.cgst+v.sgst;
+  							//var totalAmt=v.taxableAmount+totaltax; 
 							//alert("total="+totalAmt);
 						dataTable.row.add(
-								[ i + 1, v.partName, v.hsnCode, taxRate, v.qty, v.taxableAmount,
-										 v.cgst, v.sgst, igst, totaltax, totalAmt
+								[ i + 1, v.invoiceNo, v.billDate, v.custName, v.modelName, v.taxableAmt,
+										 v.cgstPer, v.sgstPer, v.cgstAmt, v.sgstAmt,
+										 v.totalTax, v.invoiceAmt
+										 //, v.igstPer
 
 								]).draw();
 					});
-					
-					document.getElementById('ttlCGST').value = cgstamt.toFixed(2);
-		            document.getElementById('ttlSGST').value = sgstamt.toFixed(2);
-		            document.getElementById('ttlTaxable').value = taxable.toFixed(2);
-		            document.getElementById('totalAmt').value = total.toFixed(2);
-		            document.getElementById('ttlQty').value = ttlqty;
-					
 
 				});
 
@@ -506,13 +490,13 @@
 
 	<script type="text/javascript">
 		function exportToExcel() {
-
+			
 			window.open("${pageContext.request.contextPath}/exportToExcel");
 			document.getElementById("expExcel").disabled = true;
 		}
 	</script>
 
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		function genPdf() {
 			//alert("hiii");
 			var itemId = document.getElementById("item_id").value;
@@ -524,7 +508,7 @@
 			document.getElementById("expExcel").disabled = true;
 
 		}
-	</script>
+	</script> -->
 
 
 </body>
